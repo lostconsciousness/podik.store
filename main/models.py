@@ -65,6 +65,12 @@ class NovaPost(models.Model):
     area = models.CharField(max_length=255)
     isAreaCenter = models.BooleanField(default=False)
 
+class PaymentMethod(models.Model):
+    name = models.CharField(max_length=255)
+    fee=models.IntegerField(verbose_name="Відсоток коміссії", validators=[
+            MaxValueValidator(100),
+            MinValueValidator(0)
+        ], default=5)
 
 class Offers(models.Model):
     username = models.CharField(max_length=255, verbose_name="Ім'я користувача")

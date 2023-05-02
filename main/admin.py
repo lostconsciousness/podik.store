@@ -6,7 +6,8 @@ from django import forms
 from .models import *
 from bs4 import BeautifulSoup
 from utils import DBManager
-from django.http import HttpResponseRedirect
+from django.http import HttpResponse
+import csv
 from django.contrib import messages
 from decimal import Decimal, InvalidOperation
 from django.template.response import TemplateResponse
@@ -34,6 +35,16 @@ class CashbackAdmin(admin.ModelAdmin):
         return False
 
 class UsersAdmin(admin.ModelAdmin):
+    @admin.action(description='Download')
+    def download_users_with_referral_count_gt_one(self, request, queryset):
+        users = Users.objects.filter(referral_count__gt=1)
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="users_with_referral_count_gt_one.csv"'
+        writer = csv.writer(response)
+        writer.writerow(['username', 'email', 'referral_count'])
+        for user in users:
+            writer.writerow([user.username, user.email, user.referral_count])
+        return response
     @admin.action(description='Масово надіслати повідомлення')
     def send_message_to_telegram(self, request, queryset):
         loop = asyncio.new_event_loop()
@@ -58,7 +69,8 @@ class UsersAdmin(admin.ModelAdmin):
     list_display_links = ('username','phone_number', 'name', 'referral_count', 'cashback_amount')
     readonly_fields = ('username','phone_number', 'name', 'referral_count', 'cashback_amount')
     exclude = ('message_text',)
-    actions = [update_message]
+    actions = [update_message, download_users_with_referral_count_gt_one]
+
 class XmlImportForm(forms.Form):
     xml_upload = forms.FileField()
 
@@ -171,9 +183,11 @@ class PodikAdmin(admin.ModelAdmin):
         return render(request, "admin/xml_upload.html", data)
 # 
 
+class PaymentAdmin(admin.ModelAdmin):
+    list_display=('name','fee')
 
 
-
+admin.site.register(PaymentMethod, PaymentAdmin)
 admin.site.register(Podik, PodikAdmin)
 admin.site.register(Offers, OffersAdmin)
 admin.site.register(Users, UsersAdmin)

@@ -280,7 +280,7 @@ async def spec(message:types.Message):
         to_sales_drive()
         print(offer.call)
 
-        await message.answer(text =json.loads(message.web_app_data.data)['message'])
+        await message.answer(text ="Номер замовлення: "+str(offer.id)+"\n"+json.loads(message.web_app_data.data)['message'])
         await message.answer(text =str(int(user_info['amount'].split(' ')[0])+cost))
         if user_info['payment_method'] == "Карткою онлайн":
             productName = []
