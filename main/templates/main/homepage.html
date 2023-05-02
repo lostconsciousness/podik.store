@@ -1,0 +1,2448 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    
+    {% load static %}
+    {% comment %} <link rel="stylesheet" href="{% static 'css/main.css' %}"> {% endcomment %}
+    <style>
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background-color: #E1D7C6;
+        }
+        
+        .grid {
+            grid-gap: 1vh;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            justify-content: center;
+            margin-left: 7%;
+            margin-right: 7%;
+            
+        }
+        
+        .img_container {
+            margin-top: 1vh;
+            width: 100%;
+            text-align: center;
+        }
+        
+        .menu {
+            display: inline-grid;
+            background-color: #e1d7d2;
+            width: 40vw;
+            justify-content: center;
+            align-items: center;
+            border: 3px solid rgb(255 255 255 / 60%);
+            border-radius: 15px;
+            cursor: pointer;
+        }
+        
+        .catalog {
+            display: inline-grid;
+            background-color: #e1d7d2;
+            width: 40vw;
+            justify-content: center;
+            align-items: center;
+            border: 3px solid rgb(255 255 255 / 60%);
+            border-radius: 14%;
+        }
+        
+        .ctg {
+            display: inline-grid;
+            width: 100%;
+            height: 100%;
+            justify-content: center;
+            align-items: center;
+            grid-column: span 2;
+            font-weight: bold;
+            color: rgb(0, 0, 0);
+            margin-bottom: 2vh;
+            font-size: 3vh;
+        }
+        
+        .menutext {
+            font-weight: bold;
+            font-size: 100%;
+            color: rgb(0, 0, 0);
+            width: 100%;
+            text-align: center;
+            padding-bottom: 1vh;
+        }
+        
+        #menu {
+            margin-left: 4vh;
+            margin-right: 4vh;
+        }
+        
+        .tovar {
+            width: 100%;
+            height: 7vh;
+            font-size: 3vh;
+            color: white;
+            justify-content: center;
+            text-align: center;
+            background-color: rgb(41, 42, 71);
+            border: 1px solid rgba(3, 1, 20, 0.932);
+            margin-top: 2vh;
+            font-weight: bold;
+            display: grid;
+            align-content: space-around;
+        }
+        
+        .img_menu {
+            margin-top: 0vh;
+            width: 11vh;
+            height: 11vh;
+            margin-bottom: 1vh;
+        
+        }
+        
+        .tovar_button {
+            display: inline-grid;
+            background-color: #e1d7d2;
+            width: 84vw;
+            height: 100%;
+            justify-content: center;
+            align-items: center;
+            border: 3px solid rgb(255 255 255 / 60%);
+            border-radius: 15px;
+            grid-column: span 2;
+            margin: auto;
+            font-weight: bold;
+            font-size: 100%;
+            color: rgb(0, 0, 0);
+            text-align: center;
+            margin-bottom: 2vh;
+        }
+        
+        .button_card{
+            width: 80%;
+            border: 0px solid #edbe4e;
+            color: black;
+            background: #ef9c1e;
+            height: 4vh;
+            border-radius: 10px;
+            font-size: 100%;
+            cursor: pointer;
+        }
+        
+        .div_btn{
+            justify-content: center;
+            display: flex;
+            height: 6vh;
+            width: 40vw;
+        }
+        
+        .back_to_menu{
+            width: 60%;
+            font-weight: bold;
+            color: rgb(0, 0, 0);
+            margin-bottom: 2vh;
+            font-size: 100%;
+            margin-left: 7%;
+            display: inline-block;
+            top: 2vh;
+            position: absolute;
+            cursor: pointer;
+        
+        }
+        
+        .header{
+            position: fixed;
+            width: 100%;
+            height: 8%;
+            background: #E1D7C6;
+            z-index: 11;
+            top: 0px;
+        }
+        
+        .page{
+            position: relative;
+            top: 8vh;
+            margin-bottom: 20vh;
+        }
+        
+        .arrow{
+            width: 1vh;
+            height: 2vh;
+            display: inline-block;
+            vertical-align: middle;
+            
+        }
+        
+        .btn_plus{
+            font-size: 3vh;
+            width: 35%;
+            height: 70%;
+            border: aquamarine;
+            background-color: #ef9c1e;
+            border-radius: 5px;
+            margin-left: 0.5vh;
+            cursor: pointer;
+        }
+        
+        .btn_minus{
+            font-size: 3vh;
+            width: 35%;
+            height: 70%;
+            border: aquamarine;
+            background-color: #d95050;
+            border-radius: 5px;
+            margin-right: 0.5vh;
+            cursor: pointer;
+        }
+
+        .count_cart{
+            font-size: 2vh;
+            font-weight: bold;
+            width: 3vh;
+            height: 3vh;
+            background: #fff600;
+            border-radius: 100%;
+            text-align: center;
+            margin-left: 91%;
+            top: 5%;
+            position: absolute;
+        }
+        
+        .images{
+            width: 1vh;
+            height: 2vh;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        
+        .visible{
+            display: block;
+        }
+        .invisible{
+            display: none;
+        }
+        .count{
+            font-size: 2.5vh;
+            font-weight: bold;
+            width: 3vh;
+            height: 3vh;
+            background: #fef978;
+            border-radius: 100%;
+            text-align: center;
+            margin-left: 85%;
+            border: none;
+        }
+        .cart{
+            width: 4vh;
+            height: 4vh;
+            top: 2vh;
+            position: relative;
+            margin-left: 85%;
+            
+        }
+        .btn_loadmore{
+            margin: auto;
+            left: 7%;
+            position: relative;
+            top: 1vh;
+            bottom: 2vh;
+            width: 85%;
+            border: 0px solid #edbe4e;
+            color: black;
+            background: #ef9c1e94;
+            height: 4vh;
+            border-radius: 10px;
+            font-size: 100%;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .filter_img{
+            width: 4vh;
+            height: 4vh;
+            position: absolute;
+            margin-left: 85%;
+            top: 2vh;
+        }
+        #filter-form{
+            margin-left: 5%;
+            margin-right: 5%;
+        }
+        .catId_input{
+            color: #333;
+            padding: 0.7vh;
+            border-style: none;
+            border: 0;
+            outline: none;
+            background: none;
+            width: 80%;
+            font-size: 2.5vh;
+            border-color: #E1D7C6;
+            border-left: solid 1px #E1D7C6;
+            border-right: solid 1px #E1D7C6;
+            border-top: solid 1px #E1D7C6;
+            
+        }
+
+        .btn_filter_submit{
+            background-color: mediumSeaGreen;
+            color: white;
+            font-weight: 600;
+            font-size: 18px;
+            line-height: 33px;
+            padding: 14px 10px 16px;
+            transition: all 0.6s ease;
+            border: none;
+            cursor: pointer;
+            opacity: 1;
+            position: fixed;
+            width: 100%;
+            z-index: 11;
+            bottom: 0px;
+            margin-left: -5%;
+            display: block;
+        }
+        #id_price_0{
+            background: none;
+            border: solid 0px;
+            border-bottom: solid 1px;
+            width: 20%;
+            margin-right: 10%; 
+            font-size: 2vh;
+            color: black;
+            height: 3vh;
+        }
+        #id_price_1{
+            background: none;
+            border: solid 0px;
+            border-bottom: solid 1px;
+            width: 20%;
+            margin-left: 10%; 
+            font-size: 2vh;
+            color: black;
+            height: 3vh;
+        }
+        input:focus {
+            background-color: none;
+        }
+        label{
+            display: flex;
+        }
+
+        .label_phone{
+            font-weight: 400;
+            font-size: 15px;
+            line-height: 19px;
+            color: black;
+            margin: 1vh 0 4px 0;
+        }
+
+        .label_cart{
+            font-weight: 400;
+            font-size: 12px;
+            line-height: 15px;
+            color: black;
+            margin: 1vh 0 4px 0;
+        }
+
+        #id_nicotine_strength,#id_max_power, #id_puffs_number, #id_atomizer_volume, #id_power, #id_battery_capacity, #id_fluid_volume,#id_resistance{
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 10px;
+            
+        }
+
+        input[type="checkbox"] {
+            
+            appearance: none;
+            background-color: var(--form-background);
+            font: inherit;
+            color: currentColor;
+            width: 1.15em;
+            height: 1.15em;
+            border: 0.15em solid currentColor;
+            border-radius: 1.15em;
+            transform: translateY(-0.075em);
+            display: grid;
+            place-content: center;
+            margin-right: 1vh;
+          }
+          
+          input[type="checkbox"]::before {
+            content: "";
+            width: 0.65em;
+            height: 0.65em;
+            clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+            transform: scale(0);
+            transform-origin: bottom left;
+            transition: 120ms transform ease-in-out;
+            background-color: green;
+          }
+          
+          input[type="checkbox"]:checked::before {
+            transform: scale(1);
+          }
+
+          #cities, #towns, #towns1, #mailboxes #warehouses{
+            color: #333;
+            padding: 0.7vh;
+            border-style: none;
+            border: 0;
+            outline: none;
+            background: none;
+            width: 90vw;
+            display: block;
+            font-size: 16px;
+            border-color: #E1D7C6;
+            border-left: solid 1px #E1D7C6;
+            border-right: solid 1px #E1D7C6;
+            border-top: solid 1px #E1D7C6;
+            grid-column: span 2;
+          }
+          .nvp_text{
+            text-align: center;
+            font-size: 2.5vh;
+            font-weight: 500;
+            grid-column: span 2;
+            margin: auto;
+          }
+
+          summary{
+            margin-top: 2vh;
+            margin-bottom: 2vh;
+          }
+
+          .img_cart_card{
+            margin: 1.5vh;
+            margin-top: 0vh;
+            width: 11vh;
+            height: 11vh;
+            margin-bottom: 1vh;
+          }
+          
+          .cart_card{
+            display: flex;
+            width: 88%;
+            margin: auto;
+            margin-bottom: 2vh;
+            padding: 2vh;
+            background: rgb(210 200 192);
+            border-radius: 10px;
+          }
+
+          .name_cart_card{
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2vh;
+            font-weight: 700;
+
+          }
+
+        .counter__value{
+            width: 38px;
+            height: 30px;
+            background-color: transparent;
+            border: 2px solid var(--darkGray);
+            outline: none; 
+            color: var(--white);
+            text-align: center;
+            font-size: 18px;
+        }
+
+        .counter__button{
+            font-size: 24px;
+            border: none;
+            background-color: transparent;
+            color: var(--white);
+            cursor: pointer;
+        }
+
+        .price{
+            color: var(--white);
+            font-weight: 600;
+            font-size: 18px;
+            line-height: 22px;
+            text-align: end;
+            margin: 8px 0;
+        }
+
+        .close__button{
+            margin-left: auto;
+            display: block;
+            border: none;
+            background-color: transparent;
+            cursor: pointer;
+        }
+        .contact_title{
+            font-weight: 600;
+            font-size: 2vh;
+            color: black;
+            grid-column: span 2;
+        }
+        .input_cart{
+            margin: 5px;
+            border: none;
+            border-bottom: 1px solid black;
+            background-color: #E1D7C6;
+            width: 80%;
+            outline: none;
+            color: black;
+            padding: 0 10px 4px 16px;
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 20px;
+            grid-column: span 2;
+        }
+        .input_cart::before {
+            background-color: #E1D7C6;
+        }
+        #towns_warehouses{
+            grid-column: span 2;
+        }
+
+
+        .input_comment{
+            border: none;
+            border-bottom: 1px solid black;
+            background-color: #E1D7C6;
+            width: 90%;
+            outline: none;
+            color: black;
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 20px;
+            grid-column: span 2;
+        }
+        .btn_to_cart{
+            background-color: mediumSeaGreen;
+            color: white;
+            font-weight: 600;
+            font-size: 18px;
+            line-height: 33px;
+            padding: 14px 10px 16px;
+            border: none;
+            cursor: pointer;
+            opacity: 1;
+            position: fixed;
+            width: 100%;
+            z-index: 11;
+            bottom: 0px;
+        }
+
+
+        #details{
+            margin-left: 3vh;
+        }
+        .delivery_method,.payment_method{
+            color: #333;
+            padding: 0.7vh;
+            border-style: none;
+            border: 0;
+            outline: none;
+            background: none;
+            display: block;
+            font-size: 16px;
+            border-color: #E1D7C6;
+            border-left: solid 1px #E1D7C6;
+            border-right: solid 1px #E1D7C6;
+            border-top: solid 1px #E1D7C6;
+        }
+        .cash{
+            display: flex;
+            line-height: 18px;
+        }
+        .available{
+            background: #919191;
+            pointer-events: none;
+        }
+        .img_menu_catalog {
+            width: 10vh;
+            height: 10vh;
+            margin: 1vh 1vh 1vh 1vh;
+        }
+
+        .menutext_catalog,.menutext_catalog_complect{
+            font-weight: bold;
+            font-size: 100%;
+            color: rgb(0, 0, 0);
+            text-align: center;
+           
+        }
+        .menutext_catalog{
+             margin: 1vh;
+        }
+
+        .img_container_catalog{
+            display: flex;
+            justify-items: center;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .menutext_catalog_complect{
+            margin: 1vh;
+        }
+        .loader {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: inline-block;
+            position: relative;
+            border: 10px solid;
+            border-color: rgba(255, 128, 0, 0.15) rgba(255, 128, 0, 0.25) rgba(255, 128, 0, 0.35) rgba(255, 128, 0, 0.5);
+            box-sizing: border-box;
+            animation: rotation 1s linear infinite;
+            margin-top: 5%;
+            margin-left: 45%;
+          }
+          
+          @keyframes rotation {
+            0% {
+              transform: rotate(0deg);
+            }
+            100% {
+              transform: rotate(360deg);
+            }
+          } 
+          .centred_grid{
+            grid-column: span 2;
+            margin: auto;
+            width: 84vw;
+          }
+          .povidom{
+            position: absolute;
+            z-index: 1;
+            border-radius: 10px;
+            line-height: 2vh;
+            text-align: center;
+            font-size: 12px;
+            background: bisque;
+            margin-top: 20%;
+          }
+          .nayav{
+            pointer-events: all;
+            width: 85%;
+            border: 0px solid #edbe4e;
+            color: black;
+            background: #d5a255;
+            height: 5vh;
+            border-radius: 10px;
+            font-size: 100%;
+            cursor: pointer;
+            
+          }
+
+    </style>
+</head>
+
+<body> 
+    <div class = "header"> </div>
+
+    <div id="page" class="page">
+
+    <div class="AddedToCart"></div>
+       
+        <div class ="filter"></div>
+        <div id = "details" class='menu invisible'></div>
+        
+        <div class="grid" >
+
+            <div class="ctg">Категорії товарів</div>
+
+            
+            <div class='menu' id = "button_card_0" style="grid-column: span 2;margin: auto; width: 83vw" onclick="to_catalog({{pod_system}}, 'pods', 'pod_system')">
+                <div class='img_container'>
+                    <img src="{% static 'images/pod.png' %}" class='img_menu' alt="" />
+                </div>
+                <div class='menutext'>POD системи</div>
+            </div>
+
+            
+            <div class='menu' id = "button_card_1" onclick="to_catalog({{devices}}, 'devices', 'devices')">
+                <div class='img_container'>
+                    <img src="{% static 'images/vaping.png' %}" class='img_menu' alt="" />
+                </div>
+                <div class='menutext'>Пристрої</div>
+            </div>
+
+            
+            <div class='menu' onclick = "to_disposable()">
+                <div class='img_container'>
+                    <img src="{% static 'images/podik.png' %}" class='img_menu' alt="" />
+                </div>
+                <div class='menutext'>Одноразові</div>
+            </div>
+
+            <div class='menu' onclick="to_catalog({{cartridges}}, 'cartridges', 'cartridges')">
+                <div class='img_container'>
+                    <img src="{% static 'images/cartrid.png' %}" class='img_menu' alt="" />
+                </div>
+                <div class='menutext'>Картриджи</div>
+            </div>
+
+            <div class='menu' onclick="to_liquds()"> 
+                <div class='img_container'>
+                    <img src="{% static 'images/liquid.png' %}" class='img_menu' alt="" />
+                </div>
+                <div class='menutext'>Рідини для POD систем</div>
+            </div>
+            <div class="tovar_button" onclick = "to_filters({{pod}}, 'pod', '', {{filter_visibility}})"> Підібрати товар</div>
+        </div>
+        <div id="btn_container">
+            
+        </div>
+    </div>
+    
+    <button type = "submit" class = "btn_to_cart invisible" onclick = "to_cart({{novapost}}, {{fill}}, {{areas_and_costs}}, {{users}})"/>
+
+</body>
+<script src="https://unpkg.com/imask"></script>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script>
+    console.log(window.location.href.substring(window.location.href.lastIndexOf('/') + 1))
+    let generalCart = 1;
+    window.addEventListener("beforeunload", function() {
+        localStorage.clear();
+    });
+    let itemsNamesInCart = [];
+    let itemsNamesInCartJson = JSON.stringify(itemsNamesInCart)
+    localStorage.setItem('itemsNamesInCart', itemsNamesInCartJson);
+
+    let itemsNamesCountInCart = [{name: "", picture: "", price: "", currencyId: "", id:"", count: 0}];
+    let itemsNamesCountInCartJson = JSON.stringify(itemsNamesCountInCart)
+    localStorage.setItem('itemsNamesCountInCart', itemsNamesCountInCartJson);
+
+    function to_filters(data,name, categId, filter_visibility){
+        let details = document.querySelector('#details');
+        details.innerHTML = '';
+        console.log("data" + data)
+        console.log("name" + name)
+        const content = document.querySelector('.grid') 
+        const filter = document.querySelector('.filter') 
+        const btn_container = document.querySelector('#btn_container') 
+        const main_button = document.querySelector('.btn_to_cart')
+        const header = document.querySelector('.header') 
+        
+        btn_container.innerHTML = '';
+        content.innerHTML = '';
+
+        header.innerHTML = `
+        <div class="back_to_menu" onclick = "to_menu()"> 
+            <img src="{% static "images/left-arrow.png" %}" class ="arrow"; alt="" />  До каталогу</div>
+            <div onclick = "to_filters({{pod}}, 'pod', '', {{filter_visibility}})">
+                <img src="{% static "images/filter.png" %}"; class="filter_img" >
+            </div>
+          `;
+          filter.innerHTML = `
+            <form id="filter-form">
+                {{ filter.form.as_p }}
+                    <p>Оберіть категорію</p>
+                    {{filter.categoryId}}
+                <div class = "price_input invisible">
+                    <p>Оберіть діапазон ціни</p>
+                    <div style="display:flex">{{filter.price}}</div>
+                </div>
+                <div id = "select_container" class = "invisible">
+                    <p>Оберіть смак</p>
+                    {{filter.param}}
+                </div>
+
+                <details class = "nicotine_strength invisible">
+                    <summary>Оберіть міцність нікотину</summary>
+                    {{filter.nicotine_strength}}
+                </details>
+
+                <details class = "fluid_volume invisible">
+                    <summary>Оберіть об'єм рідини</summary>
+                    {{filter.fluid_volume}}
+                </details>
+
+                <details class = "battery_capacity invisible">
+                    <summary>Оберіть ємність аккумулятору</summary>
+                    {{filter.battery_capacity}}
+                </details>
+
+                <details class = "resistance invisible">
+                    <summary>Оберіть опір</summary>
+                    {{filter.resistance}}
+                </details>
+                
+                <details class = "power invisible">
+                    <summary>Оберіть потужність</summary>
+                    {{filter.power}}
+                </details>
+
+                <details class = "atomizer_volume invisible">
+                    <summary>Оберіть ємність атомайзеру</summary>
+                    {{filter.atomizer_volume}}
+                </details>
+
+                <details class = "max_power invisible">
+                    <summary>Оберіть максимальну потужність</summary>
+                    {{filter.max_power}}
+                </details>
+
+                <details class = "puffs_number invisible">
+                    <summary>Оберіть кількість затяжок</summary>
+                    {{filter.puffs_number}}
+                </details>
+
+                <details class = "rechargeable invisible">
+                    <summary>Перезаряджаються</summary>
+                    {{filter.rechargeable}}
+                </details>
+                
+                <button type = "submit" class ="btn_filter_submit">Застосувати фільтри</button>
+            </form>
+        <div id = "my-div"></div>`
+        //menus = {'disposable':'to_disposable()', 'liquids':'to_liquds()', null:'to_menu()'}
+        let data_filter = "-----------"
+        let tg = window.Telegram.WebApp;
+        tg.expand()
+        $('#filter-form').submit(function() {
+            data_filter = $('#filter-form').serialize()
+            main_button.classList = "btn_to_cart visible"
+             this.style.display = 'none';
+            // остальной код обработки формы
+          });
+            tg.MainButton.hide();
+        $(document).ready(function() {
+
+            
+            main_button.classList = "btn_to_cart invisible"
+                var categoryId_input = $('.catId_input');
+                var categoryId_value = categoryId_input.val(categId);
+                let fluid_volume = $('.fluid_volume')
+                  // Get a reference to the filter1 input element
+                  var param_input = $('#select_container');
+                  let price_input = $('.price_input');
+                  let nicotine_strength_input = $('.nicotine_strength')
+                  let battery_capacity = $('.battery_capacity')
+                  let resistance = $('.resistance')
+                  let power = $('.power')
+                  let atomizer_volume = $('.atomizer_volume')
+                  let max_power = $('.max_power')
+                  let puffs_number = $('.puffs_number')
+                  let rechargeable = $('.rechargeable')
+                  categoryId_value = categoryId_input.val()
+                  console.log(categoryId_value)
+                if (categoryId_input.val() == '220') {
+                    param_input.attr('class', 'invisible')
+                    price_input.attr('class', 'price_input visible');
+                    nicotine_strength_input.attr('class', 'nicotine_strength invisible')
+                    fluid_volume.attr('class', 'fluid_volume visible')
+                    battery_capacity.attr('class', 'battery_capacity visible')
+                    resistance.attr('class', 'resistance invisible')
+                    power.attr('class', 'power visible')
+                    atomizer_volume.attr('class', 'atomizer_volume visible')
+                    max_power.attr('class', 'max_power visible')
+                    puffs_number.attr('class', 'puffs_number invisible')
+                    rechargeable.attr('class', 'rechargeable invisible')
+                  }
+                  else if(categoryId_value == '208'){
+                    param_input.attr('class', 'visible')
+                    nicotine_strength_input.attr('class', 'nicotine_strength visible')
+                    fluid_volume.attr('class', 'fluid_volume visible')
+                    battery_capacity.attr('class', 'battery_capacity visible')
+                    resistance.attr('class', 'resistance invisible')
+                    power.attr('class', 'power invisible')
+                    atomizer_volume.attr('class', 'atomizer_volume invisible')
+                    max_power.attr('class', 'max_power invisible')
+                    puffs_number.attr('class', 'puffs_number invisible')
+                    rechargeable.attr('class', 'rechargeable invisible')
+                  }
+                  else if(categoryId_value == '222'){
+                    param_input.attr('class', 'invisible')
+                    nicotine_strength_input.attr('class', 'nicotine_strength visible')
+                    fluid_volume.attr('class', 'fluid_volume visible')
+                    battery_capacity.attr('class', 'battery_capacity visible')
+                    resistance.attr('class', 'resistance visible')
+                    power.attr('class', 'power invisible')
+                    atomizer_volume.attr('class', 'atomizer_volume visible')
+                    max_power.attr('class', 'max_power visible')
+                    puffs_number.attr('class', 'puffs_number invisible')
+                    rechargeable.attr('class', 'rechargeable invisible')
+                  }
+                  else if(categoryId_value == '239'){
+                    nicotine_strength_input.attr('class', 'nicotine_strength visible')
+                    param_input.attr('class', 'visible')
+                    fluid_volume.attr('class', 'fluid_volume visible')
+                    battery_capacity.attr('class', 'battery_capacity visible')
+                    resistance.attr('class', 'resistance invisible')
+                    power.attr('class', 'power invisible')
+                    atomizer_volume.attr('class', 'atomizer_volume invisible')
+                    max_power.attr('class', 'max_power visible')
+                    puffs_number.attr('class', 'puffs_number visible')
+                    rechargeable.attr('class', 'rechargeable visible')
+                  }
+                  else if(categoryId_value == '236'){
+                    nicotine_strength_input.attr('class', 'nicotine_strength visible')
+                    param_input.attr('class', 'visible')
+                    fluid_volume.attr('class', 'fluid_volume visible')
+                    battery_capacity.attr('class', 'battery_capacity invisible')
+                    resistance.attr('class', 'resistance invisible')
+                    power.attr('class', 'power invisible')
+                    atomizer_volume.attr('class', 'atomizer_volume invisible')
+                    max_power.attr('class', 'max_power invisible')
+                    puffs_number.attr('class', 'puffs_number invisible')
+                    rechargeable.attr('class', 'rechargeable invisible')
+                  }
+                  else if(categoryId_value == '288'){
+                    nicotine_strength_input.attr('class', 'nicotine_strength visible')
+                    param_input.attr('class', 'visible')
+                    fluid_volume.attr('class', 'fluid_volume invisible')
+                    battery_capacity.attr('class', 'battery_capacity visible')
+                    resistance.attr('class', 'resistance invisible')
+                    power.attr('class', 'power invisible')
+                    atomizer_volume.attr('class', 'atomizer_volume invisible')
+                    max_power.attr('class', 'max_power visible')
+                    puffs_number.attr('class', 'puffs_number invisible')
+                    rechargeable.attr('class', 'rechargeable invisible')
+                  }
+                  else if(categoryId_value == '287'){
+                    nicotine_strength_input.attr('class', 'nicotine_strength visible')
+                    param_input.attr('class', 'visible')
+                    fluid_volume.attr('class', 'fluid_volume invisible')
+                    battery_capacity.attr('class', 'battery_capacity visible')
+                    resistance.attr('class', 'resistance invisible')
+                    power.attr('class', 'power invisible')
+                    atomizer_volume.attr('class', 'atomizer_volume invisible')
+                    max_power.attr('class', 'max_power invisible')
+                    puffs_number.attr('class', 'puffs_number invisible')
+                    rechargeable.attr('class', 'rechargeable invisible')
+                  }
+                  else if(categoryId_value == '221'){
+                    nicotine_strength_input.attr('class', 'nicotine_strength invisible')
+                    param_input.attr('class', 'invisible')
+                    fluid_volume.attr('class', 'fluid_volume invisible')
+                    battery_capacity.attr('class', 'battery_capacity visible')
+                    resistance.attr('class', 'resistance invisible')
+                    power.attr('class', 'power invisible')
+                    atomizer_volume.attr('class', 'atomizer_volume visible')
+                    max_power.attr('class', 'max_power invisible')
+                    puffs_number.attr('class', 'puffs_number invisible')
+                    rechargeable.attr('class', 'rechargeable invisible')
+                  }
+                  else if(categoryId_value == '237'){
+                    nicotine_strength_input.attr('class', 'nicotine_strength visible')
+                    param_input.attr('class', 'invisible');
+                    fluid_volume.attr('class', 'fluid_volume visible')
+                    battery_capacity.attr('class', 'battery_capacity invisible')
+                    resistance.attr('class', 'resistance invisible')
+                    power.attr('class', 'power invisible')
+                    atomizer_volume.attr('class', 'atomizer_volume invisible')
+                    max_power.attr('class', 'max_power invisible')
+                    puffs_number.attr('class', 'puffs_number invisible')
+                    rechargeable.attr('class', 'rechargeable invisible')
+                  }
+                filter_visibility.forEach(filter=>{
+                    if(filter["fields"]["visible"] != true){
+                        if(filter["fields"]["name"] == "Перезаряджаються"){
+                            rechargeable.attr('class', 'rechargeable invisible')
+                        }
+                        else if(filter["fields"]["name"] == 'Кількість затяжок'){
+                            puffs_number.attr('class', 'puffs_number invisible')
+                        }
+                        else if(filter["fields"]["name"] == 'Максимальна потужність'){
+                            max_power.attr('class', 'max_power invisible')
+                        }
+                        else if(filter["fields"]["name"] == 'Обсяг атомайзера'){
+                            atomizer_volume.attr('class', 'atomizer_volume invisible')
+                        }
+                        else if(filter["fields"]["name"] == 'Потужність'){
+                            power.attr('class', 'power invisible')
+                        }
+                        else if(filter["fields"]["name"] == 'Вибір опору'){
+                            resistance.attr('class', 'resistance invisible')
+                        }
+                        else if(filter["fields"]["name"] == "Об'єм картриджа"){
+                            battery_capacity.attr('class', 'battery_capacity invisible')
+                        }
+                        else if(filter["fields"]["name"] == 'Ємність акумулятора'){
+                            battery_capacity.attr('class', 'battery_capacity invisible')
+                        }
+                        else if(filter["fields"]["name"] == 'Обсяг рідини'){
+                            fluid_volume.attr('class', 'fluid_volume invisible')
+                        }
+                        else if(filter["fields"]["name"] == 'Міцність нікотину'){
+                            nicotine_strength_input.attr('class', 'nicotine_strength invisible')
+                        }
+                        else if(filter["fields"]["name"] == 'Вибір смаку'){
+                            param_input.attr('class', 'invisible')
+                        }
+                    }
+
+                })
+                // Listen for changes to the value of filter2
+                categoryId_input.change(function() {
+                  // Get the current value of filter2
+                  categoryId_value = categoryId_input.val()
+                  let fluid_volume = $('.fluid_volume')
+                  // Get a reference to the filter1 input element
+                  var param_input = $('#select_container');
+                  let price_input = $('.price_input');
+                  let nicotine_strength_input = $('.nicotine_strength')
+                  let battery_capacity = $('.battery_capacity')
+                  let resistance = $('.resistance')
+                  let power = $('.power')
+                  let atomizer_volume = $('.atomizer_volume')
+                  let max_power = $('.max_power')
+                  let puffs_number = $('.puffs_number')
+                  let rechargeable = $('.rechargeable')
+                  $('.param_input').select2();
+
+                  // If filter2Value is 'some_value', update the attributes of filter1
+                  if (categoryId_value == '220') {
+                    param_input.attr('class', 'invisible')
+                    price_input.attr('class', 'price_input visible');
+                    nicotine_strength_input.attr('class', 'nicotine_strength invisible')
+                    fluid_volume.attr('class', 'fluid_volume visible')
+                    battery_capacity.attr('class', 'battery_capacity visible')
+                    resistance.attr('class', 'resistance invisible')
+                    power.attr('class', 'power visible')
+                    atomizer_volume.attr('class', 'atomizer_volume visible')
+                    max_power.attr('class', 'max_power visible')
+                    puffs_number.attr('class', 'puffs_number invisible')
+                    rechargeable.attr('class', 'rechargeable invisible')
+                  }
+                  else if(categoryId_value == '208'){
+                    param_input.attr('class', 'visible')
+                    nicotine_strength_input.attr('class', 'nicotine_strength visible')
+                    fluid_volume.attr('class', 'fluid_volume visible')
+                    battery_capacity.attr('class', 'battery_capacity visible')
+                    resistance.attr('class', 'resistance invisible')
+                    power.attr('class', 'power invisible')
+                    atomizer_volume.attr('class', 'atomizer_volume invisible')
+                    max_power.attr('class', 'max_power invisible')
+                    puffs_number.attr('class', 'puffs_number invisible')
+                    rechargeable.attr('class', 'rechargeable invisible')
+                  }
+                  else if(categoryId_value == '222'){
+                    param_input.attr('class', 'invisible')
+                    nicotine_strength_input.attr('class', 'nicotine_strength visible')
+                    fluid_volume.attr('class', 'fluid_volume visible')
+                    battery_capacity.attr('class', 'battery_capacity visible')
+                    resistance.attr('class', 'resistance visible')
+                    power.attr('class', 'power invisible')
+                    atomizer_volume.attr('class', 'atomizer_volume visible')
+                    max_power.attr('class', 'max_power visible')
+                    puffs_number.attr('class', 'puffs_number invisible')
+                    rechargeable.attr('class', 'rechargeable invisible')
+                  }
+                  else if(categoryId_value == '239'){
+                    nicotine_strength_input.attr('class', 'nicotine_strength visible')
+                    param_input.attr('class', 'visible')
+                    fluid_volume.attr('class', 'fluid_volume visible')
+                    battery_capacity.attr('class', 'battery_capacity visible')
+                    resistance.attr('class', 'resistance invisible')
+                    power.attr('class', 'power invisible')
+                    atomizer_volume.attr('class', 'atomizer_volume invisible')
+                    max_power.attr('class', 'max_power visible')
+                    puffs_number.attr('class', 'puffs_number visible')
+                    rechargeable.attr('class', 'rechargeable visible')
+                  }
+                  else if(categoryId_value == '236'){
+                    nicotine_strength_input.attr('class', 'nicotine_strength visible')
+                    param_input.attr('class', 'visible')
+                    fluid_volume.attr('class', 'fluid_volume visible')
+                    battery_capacity.attr('class', 'battery_capacity invisible')
+                    resistance.attr('class', 'resistance invisible')
+                    power.attr('class', 'power invisible')
+                    atomizer_volume.attr('class', 'atomizer_volume invisible')
+                    max_power.attr('class', 'max_power invisible')
+                    puffs_number.attr('class', 'puffs_number invisible')
+                    rechargeable.attr('class', 'rechargeable invisible')
+                  }
+                  else if(categoryId_value == '288'){
+                    nicotine_strength_input.attr('class', 'nicotine_strength visible')
+                    param_input.attr('class', 'visible')
+                    fluid_volume.attr('class', 'fluid_volume invisible')
+                    battery_capacity.attr('class', 'battery_capacity visible')
+                    resistance.attr('class', 'resistance invisible')
+                    power.attr('class', 'power invisible')
+                    atomizer_volume.attr('class', 'atomizer_volume invisible')
+                    max_power.attr('class', 'max_power visible')
+                    puffs_number.attr('class', 'puffs_number invisible')
+                    rechargeable.attr('class', 'rechargeable invisible')
+                  }
+                  else if(categoryId_value == '287'){
+                    nicotine_strength_input.attr('class', 'nicotine_strength visible')
+                    param_input.attr('class', 'visible')
+                    fluid_volume.attr('class', 'fluid_volume invisible')
+                    battery_capacity.attr('class', 'battery_capacity visible')
+                    resistance.attr('class', 'resistance invisible')
+                    power.attr('class', 'power invisible')
+                    atomizer_volume.attr('class', 'atomizer_volume invisible')
+                    max_power.attr('class', 'max_power invisible')
+                    puffs_number.attr('class', 'puffs_number invisible')
+                    rechargeable.attr('class', 'rechargeable invisible')
+                  }
+                  else if(categoryId_value == '221'){
+                    nicotine_strength_input.attr('class', 'nicotine_strength invisible')
+                    param_input.attr('class', 'invisible')
+                    fluid_volume.attr('class', 'fluid_volume invisible')
+                    battery_capacity.attr('class', 'battery_capacity visible')
+                    resistance.attr('class', 'resistance invisible')
+                    power.attr('class', 'power invisible')
+                    atomizer_volume.attr('class', 'atomizer_volume visible')
+                    max_power.attr('class', 'max_power invisible')
+                    puffs_number.attr('class', 'puffs_number invisible')
+                    rechargeable.attr('class', 'rechargeable invisible')
+                  }
+                  else if(categoryId_value == '237'){
+                    nicotine_strength_input.attr('class', 'nicotine_strength visible')
+                    param_input.attr('class', 'invisible');
+                    fluid_volume.attr('class', 'fluid_volume visible')
+                    battery_capacity.attr('class', 'battery_capacity invisible')
+                    resistance.attr('class', 'resistance invisible')
+                    power.attr('class', 'power invisible')
+                    atomizer_volume.attr('class', 'atomizer_volume invisible')
+                    max_power.attr('class', 'max_power invisible')
+                    puffs_number.attr('class', 'puffs_number invisible')
+                    rechargeable.attr('class', 'rechargeable invisible')
+                  }
+                  filter_visibility.forEach(filter=>{
+                    if(filter["fields"]["visible"] != true){
+                        if(filter["fields"]["name"] == "Перезаряджаються"){
+                            rechargeable.attr('class', 'rechargeable invisible')
+                        }
+                        else if(filter["fields"]["name"] == 'Кількість затяжок'){
+                            puffs_number.attr('class', 'puffs_number invisible')
+                        }
+                        else if(filter["fields"]["name"] == 'Максимальна потужність'){
+                            max_power.attr('class', 'max_power invisible')
+                        }
+                        else if(filter["fields"]["name"] == 'Обсяг атомайзера'){
+                            atomizer_volume.attr('class', 'atomizer_volume invisible')
+                        }
+                        else if(filter["fields"]["name"] == 'Потужність'){
+                            power.attr('class', 'power invisible')
+                        }
+                        else if(filter["fields"]["name"] == 'Вибір опору'){
+                            resistance.attr('class', 'resistance invisible')
+                        }
+                        else if(filter["fields"]["name"] == "Об'єм картриджа"){
+                            battery_capacity.attr('class', 'battery_capacity invisible')
+                        }
+                        else if(filter["fields"]["name"] == 'Ємність акумулятора'){
+                            battery_capacity.attr('class', 'battery_capacity invisible')
+                        }
+                        else if(filter["fields"]["name"] == 'Обсяг рідини'){
+                            fluid_volume.attr('class', 'fluid_volume invisible')
+                        }
+                        else if(filter["fields"]["name"] == 'Міцність нікотину'){
+                            nicotine_strength_input.attr('class', 'nicotine_strength invisible')
+                        }
+                        else if(filter["fields"]["name"] == 'Вибір смаку'){
+                            param_input.attr('class', 'invisible')
+                        }
+                    }
+
+                })
+                });
+            $('#filter-form').submit(function(event) {
+                
+              event.preventDefault();
+              $.ajax({
+                url: '{% url "filter_data" %}',
+                data: $(this).serialize(),
+                dataType: 'json',
+                success: function(data) {
+                    main_button.classList = "btn_to_cart visible"
+                  // обновление таблицы с результатами
+                    var my_div = $('#my-div');
+                    my_div.empty();
+                    var html = '';
+                    let itemsNamesInCartJson = localStorage.getItem('itemsNamesInCart');
+                    let itemsNamesInCart = JSON.parse(itemsNamesInCartJson);
+                    try{
+                    for (var i = 0; i < 50; i++) {
+                            content.innerHTML += `<div class='catalog' id = "cart_number_${data.data[i].id}">
+                                <input type="text" value="0" data-item-id=${data.data[i].id} id="in_cart_${data.data[i].id}" class ="count invisible">
+                                <div class='img_container'>
+                                    <img src = ${data.data[i].picture} class='img_menu' alt=""/>
+                                </div>
+                            
+                                <div class='menutext' id = "name_${data.data[i].id}">${data.data[i].name}</div>
+                                <div class="div_btn" id = "btn_${data.data[i].id}">
+                                    <button class ="button_card visible" onclick ="AddToCard(this.id,'${data.data[i].id}')" id="button_card_${data.data[i].id}">${data.data[i].price} ${data.data[i].currencyId}</button> 
+                                    <button class="btn_minus invisible" id="btn_minus_${data.data[i].id}" onclick ="DeleteOne('${data.data[i].id}')">-</button>
+                                    <button class="btn_plus invisible" id="btn_plus_${data.data[i].id}" onclick ="AddOne('${data.data[i].id}')">+</button>
+                                </div>
+                            </div>`
+                            if (itemsNamesInCart.includes(data.data[i].name)) {
+                                CheckAmountInCart('button_card_'+data.data[i].id, data.data[i].id, data.data[i].name)
+                    }
+                        saveInfo();
+                        if(data.data[i].available != true){
+                            let cart = document.getElementById("cart_number_"+data.data[i].id)
+                            let btn = document.getElementById("btn_"+data.data[i].id)
+                            
+                            
+                            cart.classList +=" available";
+                            btn.innerHTML = ` 
+                            
+                                <button class ="nayav" onclick =""> Повідомити про наявність</button> 
+                                
+                            `;
+                            
+                        }
+                        }
+                    btn_container.innerHTML =`<button class ="btn_loadmore" id = "my-button" onclick = "load_more_filtered('${name}', '${data_filter}')">load more</button>
+                    ` 
+                    my_div.html(html);
+                }
+                catch(e){
+                    console.log(e)
+                    if(content.textContent.trim() === ''){
+                        content.innerHTML = `<div style = "display: flex;
+                        grid-column: span 2;
+                        font-weight: bold;
+                        color: rgb(0, 0, 0);
+                        margin-bottom: 2vh;
+                        font-size: 100%;">Нажаль, у нашому асортименті немає продукції за цими фільтрами </div>`
+                    }
+                }
+         
+                }
+              });
+            });
+          });
+    }
+
+    function saveInfo(){
+        let generalCart = parseInt(localStorage.getItem('generalCartCount')) || 0;
+        //let itemsNamesInCart = parseInt(localStorage.getItem('itemsNamesInCart')) || 0;
+        let itemsNamesInCartJson = localStorage.getItem('itemsNamesInCart');
+        let itemsNamesInCart = JSON.parse(itemsNamesInCartJson);
+        const main_button = document.querySelector('.btn_to_cart') 
+        const buttons = document.querySelectorAll('.btn_plus');
+        const buttons1 = document.querySelectorAll('.btn_minus');
+        const buttons2 = document.querySelectorAll('.button_card');
+
+        let itemsNamesCountInCartJson = localStorage.getItem('itemsNamesCountInCart')
+        let itemsNamesCountInCart = JSON.parse(itemsNamesCountInCartJson);
+
+        let tg = window.Telegram.WebApp;
+        tg.expand()
+        tg.MainButton.textColor = "#FFFFFF";
+        tg.MainButton.color = "#2cab37";
+        buttons.forEach((button) => {
+            button.addEventListener('click', function(){
+                if(!tg.MainButton.isVisible){
+                    generalCart++;
+        
+                    item = this.parentElement.parentElement.querySelector('.count').dataset.itemId;
+                    let img_src =  this.parentElement.parentElement.querySelector('.img_menu').src
+                    let price = this.parentElement.parentElement.querySelector('.button_card').innerHTML;
+                    let price_number = price.split(' ')[0];
+                    let currencyId = price.split(' ')[1];
+        
+                    let choose_div = document.getElementById('name_'+item)
+                    itemsNamesInCart.push(choose_div.innerHTML);
+        
+                    let count = document.getElementById('in_cart_'+item).value;
+                    let replacement = itemsNamesCountInCart.find(obj => obj.name === choose_div.innerHTML)
+                    if (replacement){
+                        replacement.count = count;
+                    }
+                    else{
+                        itemsNamesCountInCart.push({name: choose_div.innerHTML, picture: img_src, price: price_number, currencyId: currencyId, id: item,count: count})
+                        console.log('123')
+                        console.log({name: choose_div.innerHTML, picture: img_src, price: price_number, currencyId: currencyId, id: item,count: count})
+                    }
+                    //item_count1 = document.getElementById('in_cart').innerHTML;
+                    main_button.classList = 'btn_to_cart visible'
+                    main_button.innerHTML =`Переглянути замовлення (${generalCart})`
+                    //tg.MainButton.setText("Переглянути замовлення ("+generalCart+")");
+                }
+                else{
+                    generalCart++;
+                    item = this.parentElement.parentElement.querySelector('.count').dataset.itemId;
+        
+                    let img_src =  this.parentElement.parentElement.querySelector('.img_menu').src
+                    let price = this.parentElement.parentElement.querySelector('.button_card').innerHTML;
+                    let price_number = price.split(' ')[0];
+                    let currencyId = price.split(' ')[1];
+        
+                    let choose_div = document.getElementById('name_'+item)
+                    itemsNamesInCart.push(choose_div.innerHTML);
+                    let count = document.getElementById('in_cart_'+item).value;
+                    let replacement = itemsNamesCountInCart.find(obj => obj.name === choose_div.innerHTML)
+                    if (replacement){
+                        replacement.count = count;
+                    }
+                    else{
+                        itemsNamesCountInCart.push({name: choose_div.innerHTML, picture: img_src, price: price_number, currencyId: currencyId, id: item,count: count})
+                        console.log('123')
+                        console.log({name: choose_div.innerHTML, picture: img_src, price: price_number, currencyId: currencyId, id: item,count: count})
+                    }
+                    
+                    console.log(itemsNamesCountInCart)
+                    //item_count1 = document.getElementById('in_cart').innerHTML;
+        
+                    main_button.classList = 'btn_to_cart visible'
+                    main_button.innerHTML =`Переглянути замовлення (${generalCart})`
+                    //tg.MainButton.setText("Переглянути замовлення ("+generalCart+")");
+                }
+                localStorage.setItem('generalCartCount', generalCart);
+                itemsNamesInCartJson = JSON.stringify(itemsNamesInCart)
+                localStorage.setItem('itemsNamesInCart', itemsNamesInCartJson);
+                itemsNamesCountInCartJson = JSON.stringify(itemsNamesCountInCart)
+                localStorage.setItem('itemsNamesCountInCart', itemsNamesCountInCartJson);
+            });
+          });
+        buttons1.forEach((button) => {
+            button.addEventListener('click', function(){
+                if(!tg.MainButton.isVisible){
+                    generalCart--;
+                    item = this.parentElement.parentElement.querySelector('.count').dataset.itemId;
+                    let choose_div = document.getElementById('name_'+item)
+                    itemsNamesInCart.pop();
+                    let replacement = itemsNamesCountInCart.find(obj => obj.name === choose_div.innerHTML)
+                    if (replacement){
+                        replacement.count--;
+                    }
+                    //item_count1 = document.getElementById('in_cart').innerHTML;
+                    console.log("gencart" + generalCart)
+                    if(generalCart==0){
+                        main_button.classList = 'btn_to_cart invisible'
+                        main_button.innerHTML =`Переглянути замовлення (${generalCart})`
+                    }
+                    else{
+                        main_button.classList = 'btn_to_cart visible'
+                        main_button.innerHTML =`Переглянути замовлення (${generalCart})`
+                    }
+
+                }
+                else{
+                    generalCart--;
+                    item = this.parentElement.parentElement.querySelector('.count').dataset.itemId;
+                    let choose_div = document.getElementById('name_'+item)
+                    itemsNamesInCart.pop();
+                    let replacement = itemsNamesCountInCart.find(obj => obj.name === choose_div.innerHTML)
+                    if (replacement){
+                        replacement.count--;
+                    }
+                    //item_count1 = document.getElementById('in_cart').innerHTML;
+                    if(generalCart==0){
+                        main_button.classList = 'btn_to_cart invisible'
+                        main_button.innerHTML =`Переглянути замовлення (${generalCart})`
+                    }
+                    else{
+                        main_button.classList = 'btn_to_cart visible'
+                        main_button.innerHTML =`Переглянути замовлення (${generalCart})`
+                    }
+                    
+                }
+                localStorage.setItem('generalCartCount', generalCart);
+                itemsNamesInCartJson = JSON.stringify(itemsNamesInCart)
+                localStorage.setItem('itemsNamesInCart', itemsNamesInCartJson);
+                itemsNamesCountInCartJson = JSON.stringify(itemsNamesCountInCart)
+                localStorage.setItem('itemsNamesCountInCart', itemsNamesCountInCartJson);
+            });
+          });
+        buttons2.forEach((button) => {
+            button.addEventListener('click', function(){
+                if(!tg.MainButton.isVisible){
+                    generalCart++;
+                    item = this.parentElement.parentElement.querySelector('.count').dataset.itemId;
+        
+                    let img_src =  this.parentElement.parentElement.querySelector('.img_menu').src
+                    let price = this.parentElement.parentElement.querySelector('.button_card').innerHTML;
+                    let price_number = price.split(' ')[0];
+                    let currencyId = price.split(' ')[1];
+        
+                    let choose_div = document.getElementById('name_'+item)
+                    itemsNamesInCart.push(choose_div.innerHTML);
+                    let count = document.getElementById('in_cart_'+item).value;
+                    let replacement = itemsNamesCountInCart.find(obj => obj.name === choose_div.innerHTML)
+                    if (replacement){
+                        replacement.count = count;
+                    }
+                    else{
+                        itemsNamesCountInCart.push({name: choose_div.innerHTML, picture: img_src, price: price_number, currencyId: currencyId, id: item,count: count})
+                    }
+                    //item_count1 = document.getElementById('in_cart').innerHTML;
+                    main_button.classList = 'btn_to_cart visible'
+                    main_button.innerHTML =`Переглянути замовлення (${generalCart})`
+                }
+                else{
+                    generalCart++;
+                    item = this.parentElement.parentElement.querySelector('.count').dataset.itemId;
+        
+                    let img_src =  this.parentElement.parentElement.querySelector('.img_menu').src
+                    let price = this.parentElement.parentElement.querySelector('.button_card').innerHTML;
+                    let price_number = price.split(' ')[0];
+                    let currencyId = price.split(' ')[1];
+        
+                    let choose_div = document.getElementById('name_'+item)
+                    itemsNamesInCart.push(choose_div.innerHTML);
+                    let count = document.getElementById('in_cart_'+item).value;
+                    let replacement = itemsNamesCountInCart.find(obj => obj.name === choose_div.innerHTML)
+                    if (replacement){
+                        replacement.count = count;
+                    }
+                    else{
+                        itemsNamesCountInCart.push({name: choose_div.innerHTML, picture: img_src, price: price_number, currencyId: currencyId, id: item,count: count})
+                    }
+                    //item_count1 = document.getElementById('in_cart').innerHTML;
+                    main_button.classList = 'btn_to_cart visible'
+                    main_button.innerHTML =`Переглянути замовлення (${generalCart})`
+                }
+                localStorage.setItem('generalCartCount', generalCart);
+                itemsNamesInCartJson = JSON.stringify(itemsNamesInCart)
+                localStorage.setItem('itemsNamesInCart', itemsNamesInCartJson);
+                itemsNamesCountInCartJson = JSON.stringify(itemsNamesCountInCart)
+                localStorage.setItem('itemsNamesCountInCart', itemsNamesCountInCartJson);
+            });
+          });
+          
+
+        let item = "";
+        let res = [];
+        let item_count1 = "";
+        //const buttons = document.querySelectorAll('.btn_plus');
+        //const buttons1 = document.querySelectorAll('.btn_minus');
+        //const buttons2 = document.querySelectorAll('.button_card');
+        let item_count = 0;
+
+    }
+
+    function to_catalog(data, name, filters = null, subdirectory=null) {
+        let details = document.querySelector('#details');
+        details.innerHTML = '';
+        $(document).ready(function() {
+            saveInfo();
+            });
+
+        console.log("fdsfdsf  ==== "+filters)
+        let menus = {'disposable':'to_disposable()', 'liquids':'to_liquds()', null:'to_menu()'}
+        let filter_func = {'disposable':"to_filters({{pod}}, 'pod', '239', {{filter_visibility}})", 'liquids':"to_filters({{pod}}, 'pod', '208', {{filter_visibility}})", "pod_system":"to_filters({{pod}}, 'pod', '220', {{filter_visibility}})",
+        'devices':"to_filters({{pod}}, 'pod', '221', {{filter_visibility}})",'elf_bar':"to_filters({{pod}}, 'pod', '287', {{filter_visibility}})",
+        'hqd':"to_filters({{pod}}, 'pod', '288', {{filter_visibility}})",'cartridges':"to_filters({{pod}}, 'pod', '222', {{filter_visibility}})",
+        'ukrainian_salt':"to_filters({{pod}}, 'pod', '236', {{filter_visibility}})",'premium_salt':"to_filters({{pod}}, 'pod', '237', {{filter_visibility}})", 
+        null:"to_filters({{pod}}, 'pod', '', {{filter_visibility}})"}
+        const content = document.querySelector('.grid') 
+        
+        const btn_container = document.querySelector('#btn_container') 
+        const header = document.querySelector('.header') 
+
+        const filter = document.querySelector('.filter') 
+        filter.innerHTML = '';
+
+        //btn_container.innerHTML = '<button type="submit" class="btn_to_cart" onclick= "to_cart({{novaPost}})">Переглянути замовлення</button>';
+
+        
+
+        header.innerHTML = `
+        <div class="back_to_menu" onclick = "${menus[subdirectory]}" > 
+            <img src="{% static "images/left-arrow.png" %}" class ="arrow"; alt="" />  До каталогу</div>
+
+            <div onclick = "${filter_func[filters]}">
+                <img src="{% static "images/filter.png" %}"; class="filter_img" >
+            </div>
+          `;
+        content.innerHTML = '';
+        let itemsNamesInCartJson = localStorage.getItem('itemsNamesInCart');
+        let itemsNamesInCart = JSON.parse(itemsNamesInCartJson);
+        data.forEach(item => {
+            //src = "/image/?url=${fields['picture']}"
+            let fields = item['fields'];
+                content.innerHTML+=`
+                <div class='catalog' id = "cart_number_${item['pk']}">
+                    
+                    <input type="text" value="0" data-item-id=${item['pk']} id="in_cart_${item['pk']}" class ="count invisible">
+                    <div class='img_container'>
+                        <img crossorigin = "anonymous" src = "/image/?url=${fields['picture']}" class='img_menu' alt=""/>
+                    </div>
+                
+                    <div class='menutext' id="name_${item['pk']}">${fields['name']}</div>
+                    <div class="div_btn" id = "btn_${item['pk']}">
+                        <button class ="button_card visible" onclick ="AddToCard(this.id,'${item['pk']}')" id="button_card_${item['pk']}">${fields['price']} ${fields['currencyId']}</button> 
+                        <button class="btn_minus invisible" id="btn_minus_${item['pk']}" onclick ="DeleteOne('${item['pk']}')">-</button>
+                        <button class="btn_plus invisible" id="btn_plus_${item['pk']}" onclick ="AddOne('${item['pk']}')">+</button>
+                    </div>
+                </div>`
+                if (itemsNamesInCart.includes(fields['name'])) {
+                    CheckAmountInCart('button_card_'+item['pk'], item['pk'], fields['name'])
+                }
+                if(fields['available'] != true){
+                    let cart = document.getElementById("cart_number_"+item['pk'])
+                    let btn = document.getElementById("btn_"+item['pk'])
+                    
+                    
+                    cart.classList +=" available";
+                    btn.innerHTML = ` 
+                    
+                        <button class ="nayav" onclick =""> Повідомити про наявність</button> 
+                        
+                    `;
+                    
+                    
+                }
+        })
+
+        btn_container.innerHTML = `
+        <button class ="btn_loadmore" onclick = "load_more('${name}')">load more</button>` 
+    }
+
+    function CheckAmountInCart(id, i, name){
+
+        let itemsNamesCountInCartJson = localStorage.getItem('itemsNamesCountInCart')
+        let itemsNamesCountInCart = JSON.parse(itemsNamesCountInCartJson);
+
+        const mainbtn = document.getElementById(id);
+        const plus = document.getElementById("btn_plus_"+i);
+        const minus = document.getElementById("btn_minus_"+i);
+        const inCart = document.getElementById("in_cart_"+i);
+
+
+        const item = itemsNamesCountInCart.find(obj => obj.name === name);
+        if (item) {
+            if(item.count >= 1) {
+            plus.classList = "btn_plus visible"; 
+            minus.classList = "btn_minus visible"; 
+            mainbtn.classList = "button_card invisible"; 
+            inCart.classList = "count visible";
+        }
+        else{
+            plus.classList = "btn_plus invisible"; 
+            minus.classList = "btn_minus invisible"; 
+            mainbtn.classList = "button_card visible"; 
+            inCart.classList = "count invisible";
+        }
+            inCart.setAttribute('value', item.count);
+        }   
+
+
+        
+    }
+
+    function AddToCard(id,i){
+        const mainbtn = document.getElementById(id);
+        const plus = document.getElementById("btn_plus_"+i);
+        const minus = document.getElementById("btn_minus_"+i);
+        //const cart = document.getElementById("in_cart");
+        const inCart = document.getElementById("in_cart_"+i);
+        console.log("id = "+i)
+        
+
+        
+        //cart.classList = "count_cart visible";
+        inCart.classList = "count visible";
+        let number = +inCart.value;
+        //let number_cart = parseInt(cart.innerHTML);
+
+        inCart.value = number + 1;
+        //cart.innerHTML = number_cart + 1;
+
+        plus.classList = "btn_plus visible"; 
+        minus.classList = "btn_minus visible"; 
+        mainbtn.classList = "button_card invisible"; 
+    }
+    
+    function AddOne(i){
+        let generalCart = parseInt(localStorage.getItem('generalCartCount')) || 0;
+        let itemInCart = parseInt(localStorage.getItem('specialInCartCount')) || 0;
+        //const plus = document.getElementById(id);
+        const inCart = document.getElementById("in_cart_"+i);
+        //const cart = document.getElementById("in_cart");
+        let number = parseInt(inCart.value);
+
+        //let number_cart = parseInt(cart.innerHTML);
+        
+        inCart.value = number + 1;
+        //cart.innerHTML = number_cart + 1;
+
+    }
+
+    function DeleteOne(i){
+        let generalCart = parseInt(localStorage.getItem('generalCartCount')) || 0;
+        let itemInCart = parseInt(localStorage.getItem('specialInCartCount')) || 0;
+        const mainbtn = document.getElementById("button_card_"+i);
+        const plus = document.getElementById("btn_plus_"+i);
+        const minus = document.getElementById("btn_minus_"+i);
+        const inCart = document.getElementById("in_cart_"+i);
+        //const cart = document.getElementById("in_cart");
+
+        //let number_cart = parseInt(cart.innerHTML);
+
+        console.log(inCart.value)
+
+        if(parseInt(inCart.value) <= 1){
+            plus.classList = "btn_plus invisible"; 
+            minus.classList = "btn_minus invisible"; 
+            mainbtn.classList = "button_card visible"; 
+            inCart.classList = "count invisible";
+            inCart.value = 0;
+            //cart.innerHTML = number_cart - 1;
+        }
+        else{
+            let number = parseInt(inCart.value);
+            inCart.value = number - 1;
+            //cart.innerHTML = number_cart - 1;
+            
+        }  
+        if(parseInt(inCart.value)==0) 
+        {
+            //cart.classList="count_cart invisible";
+        } 
+
+    }
+    
+    function to_menu(){
+        let details = document.querySelector('#details');
+        details.innerHTML = '';
+
+        let generalCart = parseInt(localStorage.getItem('generalCartCount')) || 0;
+        let tg = window.Telegram.WebApp
+        tg.expand()
+        tg.MainButton.hide()
+        tg.MainButton.color = "#2cab37";
+        const btn_container = document.querySelector('#btn_container')
+        const main_button = document.querySelector('.btn_to_cart')
+        if(generalCart==0){
+            main_button.classList = 'btn_to_cart invisible'
+            main_button.innerHTML =`Переглянути замовлення (${generalCart})`
+        }
+        else{
+            main_button.classList = 'btn_to_cart visible'
+            main_button.innerHTML =`Переглянути замовлення (${generalCart})`
+        }
+        const content = document.querySelector('.grid')
+        const header = document.querySelector('.header') 
+        const filter = document.querySelector('.filter') 
+        const AddedToCart = document.querySelector('.AddedToCart')
+        AddedToCart.innerHTML ='';
+        filter.innerHTML = '';
+        btn_container.innerHTML = '';
+        header.innerHTML = '';
+        content.innerHTML=`
+        <div class="grid" >
+
+            <div class="ctg">Категорії товарів</div>
+
+            
+            <div class='menu' style="grid-column: span 2;margin: auto; width: 83vw" onclick="to_catalog({{pod_system}}, 'pods', 'pod_system')">
+                <div class='img_container'>
+                    <img src="{% static 'images/pod.png' %}" class='img_menu' alt="" />
+                </div>
+                <div class='menutext'>POD системи</div>
+            </div>
+
+            
+            <div class='menu' onclick="to_catalog({{devices}}, 'devices', 'devices')">
+                <div class='img_container'>
+                    <img src="{% static 'images/vaping.png' %}" class='img_menu' alt="" />
+                </div>
+                <div class='menutext'>Пристрої</div>
+            </div>
+
+            
+            <div class='menu' onclick = "to_disposable()">
+                <div class='img_container'>
+                    <img src="{% static 'images/podik.png' %}" class='img_menu' alt="" />
+                </div>
+                <div class='menutext'>Одноразові</div>
+            </div>
+
+            <div class='menu' onclick="to_catalog({{cartridges}}, 'cartridges', 'cartridges')">
+                <div class='img_container'>
+                    <img src="{% static 'images/cartrid.png' %}" class='img_menu' alt="" />
+                </div>
+                <div class='menutext'>Картриджи</div>
+            </div>
+
+            <div class='menu' onclick="to_liquds()"> 
+                <div class='img_container'>
+                    <img src="{% static 'images/liquid.png' %}" class='img_menu' alt="" />
+                </div>
+                <div class='menutext'>Рідини для POD систем</div>
+            </div>
+            <div class="tovar_button" onclick = "to_filters({{pod}}, 'pod', '', {{filter_visibility}})"> Підібрати товар</div>
+        </div>
+        `
+    }
+    
+    function load_more_filtered(name, data_filter){
+        let content = document.querySelector('.grid');
+        let generalCart = localStorage.getItem('generalCartCount');
+        let _current_item = $('.catalog').length;
+        console.log(_current_item);
+        const container = document.querySelector('.grid');
+        var btn = document.querySelector('.btn_loadmore');
+        
+        btn_container.innerHTML = `
+        <span class="loader" id = "loader"></span>
+        `
+        let data = data_filter + "&total_item=" + _current_item + "&name=" + name;
+        console.log(data_filter)
+        $.ajax({
+            url: '{%url "load_more"%}',
+            type: 'GET',
+            data: data,
+            beforeSend: function(){},
+            success: function (data){
+                var my_div = $('#my-div');
+                    //my_div.empty();
+                let itemsNamesInCartJson = localStorage.getItem('itemsNamesInCart');
+                let itemsNamesInCart = JSON.parse(itemsNamesInCartJson);
+                    for (var j = 0; j < 30; j++) {
+                        let i = j+_current_item
+                        content.innerHTML+=`
+                        <div class='catalog' id = "cart_number_${data.offer[j].id}">
+                            
+                            <input type="text" value="0" data-item-id=${data.offer[j].id} id="in_cart_${data.offer[j].id}" class ="count invisible">
+                            <div class='img_container'>
+                                <img src = ${data.offer[j].picture} class='img_menu' alt=""/>
+                            </div>
+                        
+                            <div class='menutext' id="name_${data.offer[j].id}">${data.offer[j].name}</div>
+                            <div class="div_btn" id = "btn_${data.offer[j].id}">
+                                <button class ="button_card visible" onclick ="AddToCard(this.id,'${data.offer[j].id}')" id="button_card_${data.offer[j].id}">${data.offer[j].price} ${data.offer[j].currencyId}</button> 
+                                <button class="btn_minus invisible" id="btn_minus_${data.offer[j].id}" onclick ="DeleteOne('${data.offer[j].id}')">-</button>
+                                <button class="btn_plus invisible" id="btn_plus_${data.offer[j].id}" onclick ="AddOne('${data.offer[j].id}')">+</button>
+                            </div>
+                        </div>`
+                        if (itemsNamesInCart.includes(data.offer[j].name)) {
+                            CheckAmountInCart('button_card_'+data.offer[j].id, data.offer[j].id, data.offer[j].name)
+                        }
+                        if(data.offer[j].available != true){
+                            let cart = document.getElementById("cart_number_"+data.offer[j].id)
+                            let btn = document.getElementById("btn_"+data.offer[j].id)
+                            
+                            
+                            cart.classList +=" available";
+                            btn.innerHTML = ` 
+                            
+                                <button class ="nayav" onclick =""> Повідомити про наявність</button> 
+                                
+                            `;
+                            
+                            
+                        }
+                    saveInfo();
+                }
+                    btn_container.innerHTML =`<button class ="btn_loadmore" id = "my-button" onclick = "load_more_filtered('${name}', '${data_filter}')">load more</button>`
+            },
+            error: function(err){
+                console.log(err);
+            }
+        })
+    }
+
+    function load_more(name){
+        let _current_item = $('.catalog').length;
+        console.log(_current_item);
+        const container = document.querySelector('.grid');
+        const btn = document.querySelector('.btn_loadmore');
+        const loader = document.querySelector('#loader');
+        var currentUrl = window.location.href;
+        var newUrl = currentUrl.split('?')[0];
+        console.log(currentUrl.split('?')[1]);
+        let data = "total_item=" + _current_item + "&name=" + name;
+
+        btn_container.innerHTML = `
+        <span class="loader" id = "loader"></span>
+        ` 
+        console.log("start")
+
+        fetch('{%url "load_more"%}' + '?' + new URLSearchParams(data))
+        .then(response => response.json())
+        .then(response => {
+            const data = response.offer;
+            let itemsNamesInCartJson = localStorage.getItem('itemsNamesInCart');
+            let itemsNamesInCart = JSON.parse(itemsNamesInCartJson);
+            for (let j = 0; j < data.length; j++) {
+
+                let i = j + _current_item
+                container.innerHTML += `
+                <div class='catalog'id = "cart_number_${data[j].id}" >
+                    <input type="text" value="0" data-item-id=${data[j].id} id="in_cart_${data[j].id}" class ="count invisible">
+                    <div class='img_container'>
+                        <img src = ${data[j].picture} class='img_menu' alt=""/>
+                    </div>
+
+                    <div class='menutext' id = "name_${data[j].id}">${data[j].name}</div>
+                    <div class="div_btn" id = "btn_${data[j].id}">
+                        <button class ="button_card visible" onclick ="AddToCard(this.id,'${data[j].id}')" id="button_card_${data[j].id}">${data[j].price} ${data[j].currencyId}</button> 
+                        <button class="btn_minus invisible" id="btn_minus_${data[j].id}" onclick ="DeleteOne('${data[j].id}')">-</button>
+                        <button class="btn_plus invisible" id="btn_plus_${data[j].id}" onclick ="AddOne('${data[j].id}')">+</button>
+                    </div>
+                </div>`
+                if (itemsNamesInCart.includes(data[j].name)) {
+                    CheckAmountInCart('button_card_'+data[j].id, data[j].id, data[j].name)
+                }
+                saveInfo();
+                if(data[j].available != true){
+                    let cart = document.getElementById("cart_number_"+data[j].id)
+                    let btn = document.getElementById("btn_"+data[j].id)
+                    
+                    
+                    cart.classList +=" available";
+                    btn.innerHTML = ` 
+                    
+                        <button class ="nayav" onclick =""> Повідомити про наявність</button> 
+                        
+                    `;
+                    
+                    
+                }
+            }
+            console.log("stop")
+
+            btn_container.innerHTML = `
+            <button class ="btn_loadmore" onclick = "load_more('${name}')">load more</button>
+            `
+            
+
+            })
+            .catch(err => console.log(err));
+            
+    }
+
+    function to_disposable(){
+        const content = document.querySelector('.grid') 
+        const header = document.querySelector('.header') 
+        const btn_container = document.querySelector('#btn_container')
+        const main_button = document.querySelector('.btn_to_cart') 
+
+
+        const AddedToCart = document.querySelector('.AddedToCart')
+        AddedToCart.innerHTML ='';
+
+        let generalCart = parseInt(localStorage.getItem('generalCartCount')) || 0;
+        main_button.innerHTML =`Переглянути замовлення (${generalCart})`
+        header.innerHTML = `
+        <div class="back_to_menu" onclick = "to_menu()" > 
+            <img src="{% static "images/left-arrow.png" %}" class ="arrow"; alt="" />  До каталогу</div>
+          `;
+        content.innerHTML=`
+        <div id="page" class="page">
+       
+            <div class="grid" >
+                <div class="ctg">Категорії товарів</div>
+    
+                
+                <div class='menu' style="grid-column: span 2;margin: auto; width: 83vw" onclick="to_catalog({{disposable}}, 'disposable', 'disposable')">
+                    <div class='img_container'>
+                        <img src="{% static 'images/pod.png' %}" class='img_menu' alt="" />
+                    </div>
+                    <div class='menutext'>POD системи</div>
+                </div>
+    
+                
+                <div class='menu' onclick="to_catalog({{elf_bar}}, 'elf_bar', 'elf_bar')">
+                    <div class='img_container'>
+                        <img src="{% static 'images/elfbar_logo.png' %}" class='img_menu' alt="" />
+                    </div>
+                    <div class='menutext'>ELF BAR</div>
+                </div>
+    
+                
+                <div class='menu' onclick = "to_catalog({{hqd}}, 'hqd', 'hqd')">
+                    <div class='img_container'>
+                        <img src="{% static 'images/hqd-logo.png' %}" class='img_menu' alt="" />
+                    </div>
+                    <div class='menutext'>HQD</div>
+                </div>
+
+                <div class="tovar_button" onclick = "to_filters({{pod}}, 'pod', {{filter_visibility}})"> Підібрати товар</div>
+            </div>
+        </div>`
+    
+    }
+
+    function to_liquds(){
+        const content = document.querySelector('.grid') 
+        const header = document.querySelector('.header') 
+        const btn_container = document.querySelector('#btn_container')
+        const main_button = document.querySelector('.btn_to_cart') 
+
+
+        const AddedToCart = document.querySelector('.AddedToCart')
+        AddedToCart.innerHTML ='';
+
+        let generalCart = parseInt(localStorage.getItem('generalCartCount')) || 0;
+        main_button.innerHTML =`Переглянути замовлення (${generalCart})`
+        header.innerHTML = `
+        <div class="back_to_menu" onclick = "to_menu()" > 
+            <img src="{% static "images/left-arrow.png" %}" class ="arrow"; alt="" />  До каталогу</div>
+          `;
+        content.innerHTML=`
+        <div id="page" class="page">
+       
+            <div class="grid" >
+                <div class="ctg">Категорії товарів</div>
+    
+                
+                <div class='menu' style="grid-column: span 2;margin: auto; width: 83vw" onclick="to_catalog({{liquids}}, 'liquids', 'liquids')">
+                    <div class='img_container'>
+                        <img src="{% static 'images/liquid.png' %}" class='img_menu' alt="" />
+                    </div>
+                    <div class='menutext'>Усі рідини</div>
+                </div>
+    
+                
+                <div class='menu' onclick="to_catalog({{ukrainian_salt}}, 'ukrainian_salt', 'ukrainian_salt')">
+                    <div class='img_container'>
+                        <img src="{% static 'images/ukraine.png' %}" class='img_menu' alt="" />
+                    </div>
+                    <div class='menutext'>Українські сольові</div>
+                </div>
+    
+                
+                <div class='menu' onclick = "to_catalog({{premium_salt}}, 'premium_salt', 'premium_salt')">
+                    <div class='img_container'>
+                        <img src="{% static 'images/premium.png' %}" class='img_menu' alt="" />
+                    </div>
+                    <div class='menutext'>Сольові преміум</div>
+                </div>
+
+                <div class="tovar_button" onclick = "to_filters({{pod}}, 'pod', {{filter_visibility}})"> Підібрати товар</div>
+            </div>
+        </div>`
+    
+    }
+
+    function cart_add(button, count){
+
+        let generalCart = parseInt(localStorage.getItem('generalCartCount')) || 0;
+        generalCart++;
+        localStorage.setItem('generalCartCount',generalCart)
+
+        let itemsNamesCountInCartJson = localStorage.getItem('itemsNamesCountInCart')
+        let itemsNamesCountInCart = JSON.parse(itemsNamesCountInCartJson);
+        let inCart = button.parentElement.querySelector('.counter__value');
+        let name = button.parentElement.parentElement.parentElement.querySelector('.name_cart_card').innerHTML;
+        console.log(name)
+        let item = itemsNamesCountInCart.find(obj => obj.name == name)
+        if(item){console.log('found')}
+        item.count++;
+        inCart.setAttribute('value', item.count);
+        itemsNamesCountInCartJson = JSON.stringify(itemsNamesCountInCart)
+        localStorage.setItem('itemsNamesCountInCart', itemsNamesCountInCartJson);
+    }
+
+    function cart_subtract(button,count){
+        let generalCart = parseInt(localStorage.getItem('generalCartCount')) || 0;
+        generalCart--;
+
+        localStorage.setItem('generalCartCount',generalCart)
+
+        let itemsNamesCountInCartJson = localStorage.getItem('itemsNamesCountInCart')
+        let itemsNamesCountInCart = JSON.parse(itemsNamesCountInCartJson);
+
+        itemsNamesCountInCart.forEach(item => {
+            console.log(item.count)
+        })
+        
+
+        let inCart = button.parentElement.querySelector('.counter__value');
+        let name = button.parentElement.parentElement.parentElement.querySelector('.name_cart_card').innerHTML;
+        console.log(name)
+        let item = itemsNamesCountInCart.find(obj => obj.name == name)
+        if(item){console.log('found')}
+        item.count--;
+        
+        if (item.count === 0){
+            button.parentElement.parentElement.parentElement.classList = 'invisible';
+        }
+        inCart.setAttribute('value', item.count);
+        itemsNamesCountInCartJson = JSON.stringify(itemsNamesCountInCart)
+        localStorage.setItem('itemsNamesCountInCart', itemsNamesCountInCartJson);
+        if(generalCart == 0){
+            to_menu()
+        }
+    }
+
+    function disappear(button){
+        let itemsNamesCountInCartJson = localStorage.getItem('itemsNamesCountInCart')
+        let itemsNamesCountInCart = JSON.parse(itemsNamesCountInCartJson);
+
+        let name = button.parentElement.parentElement.querySelector('.name_cart_card').innerHTML;
+        console.log(name)
+        let item = itemsNamesCountInCart.find(obj => obj.name == name)
+
+        let generalCart = parseInt(localStorage.getItem('generalCartCount')) || 0;
+        generalCart= generalCart - item.count;
+        
+        item.count = 0;
+        localStorage.setItem('generalCartCount',generalCart)
+        itemsNamesCountInCartJson = JSON.stringify(itemsNamesCountInCart)
+        localStorage.setItem('itemsNamesCountInCart', itemsNamesCountInCartJson);
+        button.parentElement.parentElement.classList = 'invisible'; 
+        if(generalCart == 0){
+            to_menu()
+        }
+    }
+
+    function to_cart(nvp, fill, areas_and_costs, users){
+        $(document).ready(function(){
+            let main_button = document.querySelector('.btn_to_cart')
+            main_button.classList = "btn_to_cart invisible"
+            let tg = window.Telegram.WebApp;
+            tg.expand()
+            tg.MainButton.textColor = "#FFFFFF";
+            tg.MainButton.color = "#2cab37";
+            tg.MainButton.setText("Підтвердити замовлення")
+            tg.MainButton.show()
+
+            
+           
+            main_btn_container.addEventListener('click', function() {
+                
+            })
+            
+            tg.onEvent("mainButtonClicked", function (){
+                try{
+                let itemsNamesCountInCartJson = localStorage.getItem('itemsNamesCountInCart')
+                let itemsNamesCountInCart = JSON.parse(itemsNamesCountInCartJson);
+                let phone_number = document.getElementById('phone_number').value
+                let nameInput = document.getElementById('name')
+                let name = nameInput.value;
+                
+                const areasSelect = document.getElementById('cities').value;
+                const citiesSelect = document.getElementById('towns').value;
+                const delivery_method = document.getElementById('delivery_method').value;
+                const payment_method = document.getElementById('payment_method').value;
+                const comment = document.getElementById('comment').value;
+                const whether_call = document.getElementById('feedback-cart').checked;
+                let call;
+                if(whether_call){
+                    call = false
+                }
+                else{
+                    call = true
+                }
+
+                let warehousesSelect = "";
+                if (delivery_method === "У відділення"){
+                     warehousesSelect = document.getElementById('warehouses').value;
+                }
+                else if(delivery_method === "В поштомат"){
+                     warehousesSelect = document.getElementById('mailboxes').value;
+                }
+                else{
+                     warehousesSelect = document.getElementById('adress').value;
+                }
+                let s = "";
+                let i = 0;
+                let cid = ""
+                let products = "";
+                itemsNamesCountInCart.forEach(item=>{
+                    if(item.count != 0){
+                        s=s+item.name+" - "+ item.count + " шт.\n";
+                        i = i + parseInt(item.price)*parseInt(item.count);
+                        cid = item.currencyId;
+
+                        products +=item.id + ":"+item.name +":"+item.price+":"+item.count+";";
+                    }
+            
+                })
+                let costs = areas_and_costs.map(area => {
+                    return area["fields"]
+                });
+                if(costs["area"].includes(areasSelect)){
+                    if(delivery_method == "У відділення"){
+                        i = i + parseInt(costs["cost_for_warehouse"]);
+                    }
+                    else if(delivery_method == "У відділення"){
+                        i = i + parseInt(costs["cost_for_post"]);
+                    }
+                    else{
+                        i = i + parseInt(costs["cost_for_adress"]);
+                    }
+                }
+                let res = s + "\n На суму "+ i + cid + "\nНомер телефону: "+phone_number+"\nТелефонувати: "+call+"\nПІБ: "+ name + "\nОбласть: "+ areasSelect + "\nМісто "+ citiesSelect + "\nСпосіб доставки: "+delivery_method+"\nСпосіб оплати: "+payment_method+"\nПункт видачі: "+ warehousesSelect+"\nКоментар: "+ comment;
+                let offer = s;
+                let price = i + " UAH";
+
+                let result = {'message': res, 'offer': offer, 'amount': price, 'phone_number': phone_number, 'call':call, 'name': name, 'area': areasSelect, 'city': citiesSelect, 'warehouse': warehousesSelect, 'products' : products, 'delivery_method': delivery_method, 'payment_method': payment_method, 'comment': comment }
+                const resultJSON = JSON.stringify(result);
+                tg.sendData(resultJSON);
+                localStorage.clear();
+            }
+            catch(e){
+                alert(e);
+            }
+            });
+
+        })
+        
+        let itemsNamesCountInCartJson = localStorage.getItem('itemsNamesCountInCart')
+        let itemsNamesCountInCart = JSON.parse(itemsNamesCountInCartJson);
+
+        const AddedToCart = document.querySelector('.AddedToCart')
+        const content = document.querySelector('.grid')
+        const header = document.querySelector('.header') 
+        const btn_container = document.querySelector('#btn_container')
+        const main_btn_container = document.querySelector('.btn_to_cart')
+        const filter = document.querySelector('.filter') 
+        let details = document.querySelector('#details');
+        details.classList = 'visible'
+        filter.innerHTML = '';
+        //const nvp = {{novaPost}}
+        main_btn_container.innerHTML = '';
+        btn_container.innerHTML = '';
+        AddedToCart.innerHTML = '';
+        content.innerHTML = '';
+        header.innerHTML = '<div class="back_to_menu" onclick = "to_menu()" > <img src="{% static "images/left-arrow.png" %}" class ="arrow"; alt="" />  До каталогу</div>';
+
+        itemsNamesCountInCart.forEach(item => {
+            if(item.count != 0){
+
+            console.log(item)
+            AddedToCart.innerHTML+=`
+            <div class= "cart_card">
+
+                
+
+                <div class = "img_cart_card">
+                    <img src=${item.picture} class="img_menu" alt>
+                </div>
+
+                
+
+                <div class = "name_cart_card">${item.name}</div>
+
+                
+                
+                <div class = "sum_cart_card">
+                
+                    <button class="close__button" onclick="disappear(this)">
+
+                        <svg width="10" height="10" viewBox="0 0 10 10" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <g clip-path="url(#clip0_23_612)">
+                                <path
+                                    d="M10 1.00714L8.99286 0L5 3.99286L1.00714 0L0 1.00714L3.99286 5L0 8.99286L1.00714 10L5 6.00714L8.99286 10L10 8.99286L6.00714 5L10 1.00714Z"
+                                    fill="#989696" />
+                            </g>
+                            <defs>
+                                <clipPath id="clip0_23_612">
+                                    <rect width="10" height="10" fill="white" />
+                                </clipPath>
+                            </defs>
+                        </svg>
+                    </button>
+
+                    <p class="price"> 
+
+                        ${item.price} ${item.currencyId}
+                        
+                    </p>
+                        
+                    <div class="cart__counter" style="display: flex">
+
+                        <button class="counter__button" onclick = "cart_subtract(this, '${item.count}')">-</button>
+
+                        <input type="text" value="${item.count}" class="counter__value">
+
+                        <button class="counter__button" onclick = "cart_add(this, '${item.count}')">+</button>
+
+                    </div>
+                </div>
+            </div> `
+        }
+        });
+        details.innerHTML+=`
+
+            <p class="contact_title">Реквізити для доставки</p>
+
+                <label for="name" id = "la" class="label_cart">ПІБ*</label>
+                <input type="text" id="name" class="input_cart" name="name" placeholder="Іванов Іван Іванович" >
+
+                <label for="phone_number" class="label_cart">Телефон*</label>
+                <input type="text" id="phone_number" class="input_cart" name="phone_number" placeholder="+380 000 0000">
+                <label for="phone_number" class="label_phone">Не телефонувати 
+                    <input type="checkbox" id="feedback-cart">
+                </label>
+
+                <label for="payment_method" class="label_cart">Оберіть спосіб оплати</label>
+                <select id="payment_method" name="payment_method" class = "payment_method" > 
+                    <option value="При отриманні">При отриманні </option>
+                    <option value="Карткою онлайн">Карткою онлайн</option>
+                    
+                </select>
+                <label for="cashback-cart" id = "cashback" class="label_cart"></label>
+                <div class="cash">
+                    Використати кешбек<input type="checkbox" id="cashback-cart">
+                </div>
+                <label for="delivery_method" class="label_cart">Оберіть спосіб доставки</label>
+                <select id="delivery_method" name="delivery_method" class = "delivery_method" onchange = "get_post_office()"> 
+                    <option value="Курʼєром Нової пошти">Курʼєром Нової пошти</option>
+                    <option value="У відділення">У відділення</option>
+                    <option value="В поштомат">В поштомат</option>
+                </select>
+         `
+
+        
+         console.log("start")
+                document.getElementById("cashback").innerHTML = "Ваш кешбек становить: "+ users[0]["fields"]["cashback_amount"]
+                details.innerHTML+=`
+                <div class = 'invisible' id = "post_office">
+                    <label for="cities" class="label_cart" id = "cities_label">Оберіть область</label>
+                    <select id="cities" name="cities" onchange='get_cities({{novapost}}, {{areas_and_costs}})'> 
+                        <option value="---------">---------</option>
+                    </select>
+                </div>`
+                const select = document.querySelector('#cities')
+                console.log(nvp.filter(item => item.fields.isAreaCenter === 1))
+                nvp.filter(item => item.fields.isAreaCenter).forEach(item => {
+                    console.log(nvp[0].fields.area)
+                            //select.innerHTML +=`<option value="${item.fields.area}">${item.fields.area}</option>`
+                            const option = document.createElement('option');
+                            option.textContent = item["fields"]["area"];
+                            option.value = item["fields"]["area"];
+                            console.log("dsfds"+item["fields"]["area"])
+                            select.appendChild(option);       
+                })
+                
+                
+                details.innerHTML+=`
+                <div class="invisible" id = "towns_warehouses">
+                    <div class="invisible" id = "warehouseList">
+                    <label for="towns" class="label_cart ">Оберіть місто</label>
+    
+                    <select id="towns" name="towns"  onchange='get_warehouses({{novapost}})' class=""><option value="---------">---------</option></select>
+                    
+                        <label for="warehouses" class="label_cart "">Оберіть відділення</label>
+        
+                        <select id="warehouses" name="warehouses " class="" ><option value="---------">---------</option></select> 
+                    </div>
+                    <div class="invisible" id = "mailboxList">
+                        <label for="towns1" class="label_cart ">Оберіть місто</label>
+    
+                        <select id="towns1" name="towns1"  onchange='get_mailboxes({{novapost}})' class=""><option value="---------">---------</option></select>
+    
+                        <label for="mailbox" class="label_cart "">Оберіть поштомат</label>
+        
+                        <select id="mailboxes" name="mailbox" class=""><option value="---------">---------</option></select> 
+                    </div>
+                </div>
+        
+                    
+                
+                `
+
+                details.innerHTML+=`
+
+                <div class="adress visible">
+
+                    <label for="adress" class="label_cart">Адреса для доставки</label>
+            
+                    <textarea id="adress" name="adress" rows="2" cols="33" class="input_comment" placeholder ="">  </textarea>
+                    
+                </div>
+
+                <label for="comment" class="label_cart">Коментар</label>
+        
+                <textarea id="comment" name="comment" rows="3" cols="33" class="input_comment" placeholder ="">  </textarea>
+                
+                <div style= "width:100%; height:150px"></div>`
+                console.log("end")
+
+
+
+                if(fill.length>0){
+                    console.log(fill[fill.lentth-1])
+                    if(fill[0]["fields"]["phone_number"][fill[fill.lentth-1]["fields"]["phone_number"].length-1] == ")"){
+                        document.getElementById('phone_number').value = fill[fill.lentth-1]["fields"]["phone_number"].replaceAll("Не телефонувати(", "").slice(0, -1);
+                    }
+                    else{
+                        document.getElementById('phone_number').value = fill[fill.lentth-1]["fields"]["phone_number"].replaceAll("Не телефонувати(", "");
+                    }
+
+                    document.getElementById('name').value = fill[fill.lentth-1]["fields"]["name"];
+                    document.getElementById('payment_method').value = fill[fill.lentth-1]["fields"]["payment_method"];
+                    document.getElementById('delivery_method').value = fill[fill.lentth-1]["fields"]["delivery_method"];
+                    document.getElementById('towns_warehouses').classList+=" visible"
+
+
+                    towns_warehouses.classList = "visible";
+                    if(document.getElementById('delivery_method').value == "У відділення"){
+                        document.querySelector('#post_office').classList = "visible";
+                        document.querySelector('#warehouseList').classList = "visible";
+                        document.querySelector('#mailboxList').classList = "invisible";
+                        document.querySelector('.adress').classList = "adress invisible";
+                        document.getElementById('cities').value = fill[fill.lentth-1]["fields"]["area"];
+                        get_cities(nvp, areas_and_costs);
+                        document.getElementById('towns').value = fill[fill.lentth-1]["fields"]["city"];
+                        document.getElementById('warehouses').value = fill[fill.lentth-1]["fields"]["warehouse"];
+                        console.log(document.getElementById('cities').value)
+                        console.log("start")
+                        get_warehouses(nvp);
+                        console.log("end")
+                    }
+                    else if(document.getElementById('delivery_method').value == "В поштомат"){
+
+                        document.querySelector('#post_office').classList = "visible";
+                        document.querySelector('#warehouseList').classList = "invisible";
+                        document.querySelector('#mailboxList').classList = "visible";
+                        document.querySelector('.adress').classList = "adress invisible"
+                        document.getElementById('cities').value = fill[fill.lentth-1]["fields"]["area"];
+                        get_cities(nvp, areas_and_costs);
+                        document.getElementById('towns1').value = fill[fill.lentth-1]["fields"]["city"];
+                        document.getElementById('mailboxes').value = fill[fill.lentth-1]["fields"]["warehouse"];
+                        console.log(document.getElementById('cities').value)
+
+                        get_mailboxes(nvp);
+                    }
+                    else{
+                        document.querySelector('.adress').classList = "adress visible"
+                        document.querySelector('#post_office').classList = "invisible";
+                        document.querySelector('#warehouseList').classList = "invisible";
+                        document.querySelector('#mailboxList').classList = "invisible";
+                        document.getElementById('adress').value = fill[fill.lentth-1]["fields"]["warehouse"];
+                    }
+                }
+                var element = document.getElementById('phone_number');
+                var maskOptions = {
+                    mask: '+38(0**)***-**-**',
+                    lazy: false,
+                    placeholderChar: '*'
+                } 
+                var mask = new IMask(element, maskOptions);
+                $('#cities').select2();
+                $('#warehouses').select2();
+                $('#mailboxes').select2();
+    }
+
+
+    function get_post_office(){
+        console.log('sdjf')
+        if(delivery_method.value === "У відділення"){
+        document.querySelector('#post_office').classList = "visible";
+        document.querySelector('#warehouseList').classList = "visible";
+        document.querySelector('#mailboxList').classList = "invisible";
+        document.querySelector('.adress').classList = "adress invisible"
+    }
+        else if(delivery_method.value === "В поштомат"){
+        document.querySelector('#post_office').classList = "visible";
+        document.querySelector('#warehouseList').classList = "invisible";
+        document.querySelector('#mailboxList').classList = "visible";
+        document.querySelector('.adress').classList = "adress invisible"
+    }
+        else{
+            document.querySelector('.adress').classList = "adress visible"
+            document.querySelector('#post_office').classList = "invisible";
+            document.querySelector('#warehouseList').classList = "invisible";
+            document.querySelector('#mailboxList').classList = "invisible";
+        }
+    }
+
+    function get_cities(nvp, areas){
+        const select = document.querySelector('#cities');
+        const town_select = document.querySelector('#towns')
+        const town_select1 = document.querySelector('#towns1')
+        const cities_label = document.querySelector('#cities_label');
+        const delivery_method = document.getElementById('delivery_method').value;
+        town_select.innerHTML=''
+        town_select1.innerHTML=''
+        let area = select.value;
+        $('#towns').select2();
+        $('#towns1').select2();
+        areas.forEach(a=>{
+            if (area.split(' ')[0] == a['fields']['area']){
+                if (delivery_method === "У відділення"){
+                    cities_label.innerHTML="Оберіть область(+"+a['fields']['cost_for_warehouse']+" грн за доставку)"
+               }
+               else if(delivery_method === "В поштомат"){
+                cities_label.innerHTML="Оберіть область(+"+a['fields']['cost_for_post']+" грн за доставку)"
+               }
+               else{
+                cities_label.innerHTML="Оберіть область(+"+a['fields']['cost_for_adress']+" грн за доставку)"
+               }
+                
+            }
+        })
+
+        for (i = 0; i < nvp.length; i++)
+        {
+            console.log("area = "+area)
+            if (nvp[i]['fields']['area'] == area){
+                const option = document.createElement('option');
+                option.textContent = nvp[i]['fields']['city'];
+                option.value = nvp[i]['fields']['city'];
+                const option1 = document.createElement('option');
+                option1.textContent = nvp[i]['fields']['city'];
+                option1.value = nvp[i]['fields']['city'];
+                town_select.appendChild(option);
+                town_select1.appendChild(option1);
+            }
+        }   
+
+        var e = document.getElementById("cities");
+        var value = e.value;
+        var towns_warehouses = document.getElementById('towns_warehouses')
+
+        if(value != "---------"){
+            towns_warehouses.classList = "visible";
+            
+        }
+        else{
+            towns_warehouses.classList = "invisible";
+            
+        }
+    }
+
+    function get_warehouses(nvp){
+        const town_select = document.querySelector('#towns')
+        const warehouses_select = document.querySelector('#warehouses')
+        //$('#warehouses').select2();
+        $('#warehouses').classList = 'visible'
+        warehouses_select.innerHTML=''
+        for (j = 0; j < nvp.length; j++){
+            console.log("townselectvalue = "+town_select.value)
+            if (nvp[j]['fields']['city'] == town_select.value){
+                warehouses = nvp[j]['fields']['warehouses'].split(';')
+                console.log(warehouses)
+                for (i = 0; i < warehouses.length-1; i++)
+                {
+                    const option = document.createElement('option');
+                    option.textContent = warehouses[i];
+                    option.value = warehouses[i];
+                    warehouses_select.appendChild(option);
+                }   
+                break;
+            }
+                
+        }
+        document.querySelectorAll('.select2 ');
+        console.log('suc')
+    }
+    function get_mailboxes(nvp){
+        const town_select = document.querySelector('#towns1')
+        const mailboxes_select = document.querySelector('#mailboxes')
+        //$('#mailboxes').select2();
+        mailboxes_select.innerHTML=''
+        for (j = 0; j < nvp.length; j++){
+            if (nvp[j]['fields']['city'] == town_select.value){
+                mailboxes = nvp[j]['fields']['mailboxes'].split(';')
+                console.log(mailboxes)
+                for (i = 0; i < mailboxes.length; i++)
+                {
+                    const option = document.createElement('option');
+                    option.textContent = mailboxes[i];
+                    option.value = mailboxes[i];
+                    mailboxes_select.appendChild(option);
+                }   
+                break;
+            }
+                
+        }
+    }
+</script>
+
+</html>

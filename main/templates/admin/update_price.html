@@ -1,0 +1,16 @@
+{% extends "admin/base.html" %}
+
+{% block content %}
+<div class="module">
+    <h2>Update product prices</h2>
+
+    <form method="POST" action="{% url 'update_price' %}">
+        {% csrf_token %}
+        {% for key, value in my_data.items %}
+        <input type="hidden" name="{{ key }}" value="{{ value }}">
+        {% endfor %}
+        {{ form.as_p }}
+        <input type="submit" value="Update">
+    </form>
+</div>
+{% endblock %}
