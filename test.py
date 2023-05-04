@@ -17,7 +17,7 @@ def to_sales_drive():
         print(product)
         if product.split(":")[0] != "":
             products.append(
-                {"id": product.split(":")[0], "name": product.split(":")[1], "costPerItem": product.split(":")[2], "amount" : product.split(":")[3], "discount": 133},
+                {"id": product.split(":")[0], "name": product.split(":")[1], "costPerItem": product.split(":")[2], "amount" : product.split(":")[3]},
                 )
     print(products)
     if len(offer.name.split(' '))>1:

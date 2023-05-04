@@ -15,6 +15,7 @@ URL = 'https://api.novaposhta.ua/v2.0/json/'
 API_KEY = '9fca35c6a673642fc96b4bbccc542ad3'
 
 def get_areas():
+   # Areas_and_costs.objects.all().delete()
    all_areas = []
    areas_centers=[]
    params = {

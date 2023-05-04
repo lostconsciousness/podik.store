@@ -4,7 +4,7 @@
 <div class="module">
     <h2>Update product prices</h2>
 
-    <form method="POST" action="{% url 'update_message' %}">
+    <form method="POST" action="{% url 'update_message' %}" enctype="multipart/form-data">
         {% csrf_token %}
         {% for key, value in my_data.items %}
         <input type="hidden" name="{{ key }}" value="{{ value }}">

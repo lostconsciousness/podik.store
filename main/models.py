@@ -29,7 +29,8 @@ class Podik(models.Model):
     puffs_number = models.CharField(null = True,max_length=255, verbose_name="Кількість затяжок")
     rechargeable = models.BooleanField(null = True, verbose_name="Перезаряджаються'")
     compatibility_selection = models.CharField(null = True,max_length=255, verbose_name="Вибір сумісності")
-
+    #subs = models.CharField(max_length=1000, default="", verbose_name="соси")
+    subscribers = models.TextField(null=True)
 
     def __str__(self):
         return self.name
@@ -71,6 +72,9 @@ class PaymentMethod(models.Model):
             MaxValueValidator(100),
             MinValueValidator(0)
         ], default=5)
+    class Meta:
+        verbose_name = "Спосіб оплати"
+        verbose_name_plural = "Способи оплати"
 
 class Offers(models.Model):
     username = models.CharField(max_length=255, verbose_name="Ім'я користувача")
@@ -89,6 +93,7 @@ class Offers(models.Model):
     offer_id = models.CharField(max_length=255,null=True, verbose_name="Id замовлення")
     tg_id = models.CharField(max_length=255, null=True)
     novapost_en = models.CharField(max_length=255, null=True,verbose_name="ТТН")
+    status = models.CharField(max_length=255, null=True)
     class Meta:
         verbose_name = "Замовлення"
         verbose_name_plural = "Замовлення"
@@ -120,7 +125,7 @@ class Users(models.Model):
 
 class Filters(models.Model):
     name = models.CharField(max_length=255, verbose_name="Назва фільтру")
-    visible = models.BooleanField(null = True, verbose_name="Доступність")
+    visible = models.BooleanField(null = True, default = True, verbose_name="Доступність")
     class Meta:
         verbose_name = "Фільтр"
         verbose_name_plural = "Фільтри"

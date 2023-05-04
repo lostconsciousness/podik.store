@@ -13,6 +13,16 @@ from django.db import transaction
 import time
 import requests
 import time
+from aiogram import Bot, Dispatcher, types
+from aiogram.utils import exceptions
+import asyncio
+
+bot = Bot(token="6075679825:AAGrgD6b9hybk9EoNue44k1ZPW8paFJCs5M")
+dp = Dispatcher(bot)
+
+
+async def send_message(chat_id, text):
+    await bot.send_message(chat_id=chat_id, text=text)
 
 def unloading():
     response = requests.get(
@@ -33,170 +43,170 @@ class DBManager:
         return s.lower() in ['true', '1', 't', 'y', 'yes']
     
 
-    def addToDB(self):
-        data = json.load(open("alldata.json", "r", encoding="UTF-8"))
-        Podik.objects.all().delete()
-        pods = data["yml_catalog"]["shop"][0]["offers"][0]["offer"]
+    # def addToDB(self):
+    #     data = json.load(open("alldata.json", "r", encoding="UTF-8"))
+    #     Podik.objects.all().delete()
+    #     pods = data["yml_catalog"]["shop"][0]["offers"][0]["offer"]
         
-        # print(pods[0]["$"])
-        # print(self.__str_to_bool("false"))
-        j = 0
-        print(len(pods))
-        for pod in pods:
-            j = j + 1
-            if j == 5383:
-                break
-            print(j)
-            picture = '-'
-            try:
-                picture=pod["picture"][0]
-            except:
-                picture="-"
-            par = ""
-            try:
-                for parametr in pod['param']:
-                    par =par + parametr["$"]["name"] + " = " + parametr["_"]+", "
-            except:
-                par = "-"
-            flavour = '-'
-            try:
-                for parametr in pod['param']:
-                    if parametr["$"]["name"] == "Выбор вкуса":
-                        flavour=parametr["_"]
-            except:
-                flavour="-"
-            nicotine_strength = '-'
-            try:
-                nicotine_strength = ''
-                for parametr in pod['param']:
-                    if parametr["$"]["name"] == "Крепость никотина" or parametr["$"]["name"] == "Выбор крепости":
-                        for i in parametr["_"]:
-                            if i.isdigit():
-                                nicotine_strength = nicotine_strength+i
-            except:
-                nicotine_strength="-"
-            nicotine_type = '-'
-            try:
-                for parametr in pod['param']:
-                    if parametr["$"]["name"] == "Вид никотина":
-                        nicotine_type = parametr["_"]
-            except:
-                nicotine_type="-"
-            fluid_volume = '-'
-            try:
-                for parametr in pod['param']:
-                    if parametr["$"]["name"] == "Объем жидкости":
-                        fluid_volume = parametr["_"]
-            except:
-                fluid_volume="-"
-            battery_capacity = '-'
-            try:
-                for parametr in pod['param']:
-                    if parametr["$"]["name"] == "Ёмкость аккумулятора":
-                        for i in parametr["_"].split(" "):
-                            if i.isdigit():
-                                battery_capacity = str(i) + " mAh"
-            except:
-                battery_capacity="-"
-            cartridge_capacity = "-"
-            try:
-                for parametr in pod['param']:
-                    if parametr["$"]["name"] == "Объём картриджа":
-                        cartridge_capacity = parametr["_"]
-            except:
-                cartridge_capacity="-"
+    #     # print(pods[0]["$"])
+    #     # print(self.__str_to_bool("false"))
+    #     j = 0
+    #     print(len(pods))
+    #     for pod in pods:
+    #         j = j + 1
+    #         if j == 5383:
+    #             break
+    #         print(j)
+    #         picture = '-'
+    #         try:
+    #             picture=pod["picture"][0]
+    #         except:
+    #             picture="-"
+    #         par = ""
+    #         try:
+    #             for parametr in pod['param']:
+    #                 par =par + parametr["$"]["name"] + " = " + parametr["_"]+", "
+    #         except:
+    #             par = "-"
+    #         flavour = '-'
+    #         try:
+    #             for parametr in pod['param']:
+    #                 if parametr["$"]["name"] == "Выбор вкуса":
+    #                     flavour=parametr["_"]
+    #         except:
+    #             flavour="-"
+    #         nicotine_strength = '-'
+    #         try:
+    #             nicotine_strength = ''
+    #             for parametr in pod['param']:
+    #                 if parametr["$"]["name"] == "Крепость никотина" or parametr["$"]["name"] == "Выбор крепости":
+    #                     for i in parametr["_"]:
+    #                         if i.isdigit():
+    #                             nicotine_strength = nicotine_strength+i
+    #         except:
+    #             nicotine_strength="-"
+    #         nicotine_type = '-'
+    #         try:
+    #             for parametr in pod['param']:
+    #                 if parametr["$"]["name"] == "Вид никотина":
+    #                     nicotine_type = parametr["_"]
+    #         except:
+    #             nicotine_type="-"
+    #         fluid_volume = '-'
+    #         try:
+    #             for parametr in pod['param']:
+    #                 if parametr["$"]["name"] == "Объем жидкости":
+    #                     fluid_volume = parametr["_"]
+    #         except:
+    #             fluid_volume="-"
+    #         battery_capacity = '-'
+    #         try:
+    #             for parametr in pod['param']:
+    #                 if parametr["$"]["name"] == "Ёмкость аккумулятора":
+    #                     for i in parametr["_"].split(" "):
+    #                         if i.isdigit():
+    #                             battery_capacity = str(i) + " mAh"
+    #         except:
+    #             battery_capacity="-"
+    #         cartridge_capacity = "-"
+    #         try:
+    #             for parametr in pod['param']:
+    #                 if parametr["$"]["name"] == "Объём картриджа":
+    #                     cartridge_capacity = parametr["_"]
+    #         except:
+    #             cartridge_capacity="-"
 
-            resistance = '-'
-            try:
-                for parametr in pod['param']:
-                    if parametr["$"]["name"] == "Выбор сопротивления":
-                        resistance = parametr["_"]
-            except:
-                resistance="-"
+    #         resistance = '-'
+    #         try:
+    #             for parametr in pod['param']:
+    #                 if parametr["$"]["name"] == "Выбор сопротивления":
+    #                     resistance = parametr["_"]
+    #         except:
+    #             resistance="-"
 
-            power = ""
-            try:
-                for parametr in pod['param']:
-                    if parametr["$"]["name"] == "Мощность":
-                        power = parametr["_"]
-            except:
-                power="-"
-            atomizer_volume = "-"
-            try:
-                for parametr in pod['param']:
-                    if parametr["$"]["name"] == "Объем атомайзера":
-                        if parametr["_"][-1] != ".":
-                            atomizer_volume = parametr["_"] + "."
-                        else:
-                            atomizer_volume = parametr["_"]
-            except:
-                atomizer_volume="-"
+    #         power = ""
+    #         try:
+    #             for parametr in pod['param']:
+    #                 if parametr["$"]["name"] == "Мощность":
+    #                     power = parametr["_"]
+    #         except:
+    #             power="-"
+    #         atomizer_volume = "-"
+    #         try:
+    #             for parametr in pod['param']:
+    #                 if parametr["$"]["name"] == "Объем атомайзера":
+    #                     if parametr["_"][-1] != ".":
+    #                         atomizer_volume = parametr["_"] + "."
+    #                     else:
+    #                         atomizer_volume = parametr["_"]
+    #         except:
+    #             atomizer_volume="-"
 
-            max_power = "-"
-            try:
-                for parametr in pod['param']:
-                    if parametr["$"]["name"] == "Максимальная мощность":
-                        for i in parametr["_"].split(" "):
-                            if i.isdigit():
-                                max_power = str(i) + " Вт"
-            except:
-                max_power="-"
+    #         max_power = "-"
+    #         try:
+    #             for parametr in pod['param']:
+    #                 if parametr["$"]["name"] == "Максимальная мощность":
+    #                     for i in parametr["_"].split(" "):
+    #                         if i.isdigit():
+    #                             max_power = str(i) + " Вт"
+    #         except:
+    #             max_power="-"
 
-            puffs_number = "-"
-            try:
-                for parametr in pod['param']:
-                    if parametr["$"]["name"] == "Количество затяжек" or parametr["$"]["name"] == "Выбор количества затяжек":
-                        puffs_number = parametr["_"]
-            except:
-                puffs_number="-"
+    #         puffs_number = "-"
+    #         try:
+    #             for parametr in pod['param']:
+    #                 if parametr["$"]["name"] == "Количество затяжек" or parametr["$"]["name"] == "Выбор количества затяжек":
+    #                     puffs_number = parametr["_"]
+    #         except:
+    #             puffs_number="-"
 
-            rechargeable = None
-            try:
-                for parametr in pod['param']:
-                    if parametr["$"]["name"] == "Перезаряжаемые":
-                        if parametr["_"] == "Так":
-                            rechargeable = True
-                        else:
-                            rechargeable = False
-            except:
-                rechargeable=None
+    #         rechargeable = None
+    #         try:
+    #             for parametr in pod['param']:
+    #                 if parametr["$"]["name"] == "Перезаряжаемые":
+    #                     if parametr["_"] == "Так":
+    #                         rechargeable = True
+    #                     else:
+    #                         rechargeable = False
+    #         except:
+    #             rechargeable=None
 
-            compatibility_selection = "-"
-            try:
-                for parametr in pod['param']:
-                    if parametr["$"]["name"] == "Выбор совместимости":
-                        compatibility_selection = parametr["_"]
-            except:
-                compatibility_selection="-"
-            print(pod["name"][0])
-            podik = Podik(
-                id = pod["$"]["id"],
-                available = self.__str_to_bool(pod["$"]["available"]),
-                price = int(pod["price"][0]),
-                currencyId =pod["currencyId"][0],
-                name=pod["name"][0],
-                categoryId=int(pod["categoryId"][0]),
-                vendorCode=int(pod["vendorCode"][0]),
-                # description=pod["description"][0],
-                quantity_in_stock=int(pod["quantity_in_stock"][0]),
-                url=pod["url"][0],
-                picture=picture,
-                param=par,
-                flavour = flavour,
-                nicotine_strength = nicotine_strength[:2],
-                fluid_volume = fluid_volume,
-                battery_capacity = battery_capacity,
-                cartridge_capacity = cartridge_capacity,
-                resistance = resistance,
-                power = power,
-                atomizer_volume = atomizer_volume,
-                max_power = max_power,
-                puffs_number = puffs_number,
-                rechargeable = rechargeable,
-                compatibility_selection = compatibility_selection,
-            )
-            podik.save()
-        exit()
+    #         compatibility_selection = "-"
+    #         try:
+    #             for parametr in pod['param']:
+    #                 if parametr["$"]["name"] == "Выбор совместимости":
+    #                     compatibility_selection = parametr["_"]
+    #         except:
+    #             compatibility_selection="-"
+    #         print(pod["name"][0])
+    #         podik = Podik(
+    #             id = pod["$"]["id"],
+    #             available = self.__str_to_bool(pod["$"]["available"]),
+    #             price = int(pod["price"][0]),
+    #             currencyId =pod["currencyId"][0],
+    #             name=pod["name"][0],
+    #             categoryId=int(pod["categoryId"][0]),
+    #             vendorCode=int(pod["vendorCode"][0]),
+    #             # description=pod["description"][0],
+    #             quantity_in_stock=int(pod["quantity_in_stock"][0]),
+    #             url=pod["url"][0],
+    #             picture=picture,
+    #             param=par,
+    #             flavour = flavour,
+    #             nicotine_strength = nicotine_strength[:2],
+    #             fluid_volume = fluid_volume,
+    #             battery_capacity = battery_capacity,
+    #             cartridge_capacity = cartridge_capacity,
+    #             resistance = resistance,
+    #             power = power,
+    #             atomizer_volume = atomizer_volume,
+    #             max_power = max_power,
+    #             puffs_number = puffs_number,
+    #             rechargeable = rechargeable,
+    #             compatibility_selection = compatibility_selection,
+    #         )
+    #         podik.save()
+    #     exit()
     def check(self):
         data = json.load(open("data.json", "r", encoding="UTF-8"))
         pods = data["yml_catalog"]["shop"]["offers"]["offer"]
@@ -233,20 +243,26 @@ class DBManager:
                 #params=pod["param"][0]["_"],
             )
             podik.save()
-        
+       
     def JsonToDB(self):
         data = json.load(open("data.json", "r", encoding="UTF-8"))
+
+        subscribed_users = {}
+        pods_unavailable = list(Podik.objects.filter(available=False))
+        for pod in pods_unavailable:
+            subscribed_users[pod.id] = pod.subscribers
+
         Podik.objects.all().delete()
         pods = data["yml_catalog"]["shop"]["offers"]["offer"]
         all_pods = []
         j = 0
         for pod in pods:
             j = j + 1
-            print(j)
+            # print(j)
             picture = '-'
             try:
                 picture=(pod["picture"] if len(pod["picture"][0])==1 else pod["picture"][0])
-                print(picture)
+                # print(picture)
             except:
                 picture="-"
             par = ""
@@ -365,7 +381,20 @@ class DBManager:
                         compatibility_selection = parametr["#text"]
             except:
                 compatibility_selection="-"
-            print(pod["price"])
+            # print(pod["price"])
+
+            subscribe = None
+            if pod['@id'] in list(subscribed_users.keys()) and self.__str_to_bool(pod["@available"]):
+                print('notification')
+                if subscribed_users[pod['@id']] != None:
+                    for user in subscribed_users[pod['@id']].split(';')[:-1]:
+                        print(user)
+                        asyncio.run(send_message(user, f"{pod['name']} з'явився у наявності"))
+                        
+            elif pod['@id'] in list(subscribed_users.keys()) and not self.__str_to_bool(pod["@available"]):
+                if subscribed_users[pod['@id']] != None:
+                    subscribe = subscribed_users[pod['@id']]
+
             podik = Podik(
                 id = pod["@id"],
                 available = self.__str_to_bool(pod["@available"]),
@@ -391,12 +420,13 @@ class DBManager:
                 puffs_number = puffs_number,
                 rechargeable = rechargeable,
                 compatibility_selection = compatibility_selection,
+                subscribers = subscribe
             )
-            print("hihi="+str(int(pod["categoryId"])))
+            # print("hihi="+str(int(pod["categoryId"])))
             all_pods.append(podik)
         Podik.objects.bulk_create(all_pods)
-        print(len(pods))
-        print('finish')
+        # print(len(pods))
+        # print('finish')
 
 
 def all_categories():
@@ -410,9 +440,9 @@ def all_categories():
         real_all_cats.append(tuple(all_cats))
     return tuple(real_all_cats)
 
-# print(all_categories())
+print(all_categories())
 dbm = DBManager()
-#dbm.JsonToDB()
+# dbm.JsonToDB()
 
 # dbm.check()
 

@@ -18,4 +18,5 @@ class UpdateVisibilityForm(forms.Form):
     visible = forms.ChoiceField(label="Доступність фільтру", widget=forms.RadioSelect, choices=choices)
 
 class UpdateMessageForm(forms.Form):
+    image = forms.ImageField(required=False)
     message = forms.CharField(widget=forms.Textarea)

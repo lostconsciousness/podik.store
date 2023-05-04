@@ -14,8 +14,8 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
-from main.views import heater, homepage, iqos, load_more, filter_data, novaPost, update_price, my_views, get_image, update_visibility, update_message
+from django.urls import include, path
+from main.views import heater, homepage, iqos, load_more, filter_data, novaPost, update_price, my_views, get_image, update_visibility, update_message, add_notification_to_user
 from . import settings
 from django.conf.urls.static import static
 
@@ -33,7 +33,12 @@ urlpatterns = [
     path('update-price/', update_price, name='update_price'),
     path('update_visibility/', update_visibility, name = 'update_visibility'),
     path('image/', get_image, name='image'),
-    path('update_message/', update_message, name = "update_message")
-]
+    path('update_message/', update_message, name = "update_message"),
+    path('add_notificate/', add_notification_to_user, name="add_notifications"),
+] 
 if settings.DEBUG:
+#     import debug_toolbar
+#     urlpatterns = [
+#         path('__debug__/', include(debug_toolbar.urls)),
+#         ] + urlpatterns
     urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

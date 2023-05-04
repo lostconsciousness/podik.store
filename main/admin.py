@@ -36,15 +36,19 @@ class CashbackAdmin(admin.ModelAdmin):
 
 class UsersAdmin(admin.ModelAdmin):
     @admin.action(description='Download')
-    def download_users_with_referral_count_gt_one(self, request, queryset):
-        users = Users.objects.filter(referral_count__gt=1)
+    def download_users_with_referral_count_gt_one(self, request, queryset=""):
+        users = Users.objects.all().filter(referral_count__gt=0)
         response = HttpResponse(content_type='text/csv')
         response['Content-Disposition'] = 'attachment; filename="users_with_referral_count_gt_one.csv"'
         writer = csv.writer(response)
-        writer.writerow(['username', 'email', 'referral_count'])
+        writer.writerow(['username', 'tg_id', 'referral_count'])
         for user in users:
-            writer.writerow([user.username, user.email, user.referral_count])
+            writer.writerow([user.username, user.tg_id, user.referral_count])
         return response
+    def get_urls(self):
+            urls = super().get_urls()
+            new_urls = [path('download_users_with_referral_count_gt_one/', self.download_users_with_referral_count_gt_one)]
+            return new_urls + urls
     @admin.action(description='Масово надіслати повідомлення')
     def send_message_to_telegram(self, request, queryset):
         loop = asyncio.new_event_loop()
@@ -55,7 +59,7 @@ class UsersAdmin(admin.ModelAdmin):
         loop.run_until_complete(future)
         loop.close()
         self.message_user(request, 'Messages were sent to Telegram.')
-    @admin.action(description='Масово надіслати повідомлення')
+    @admin.action(description='Масово надіслати повідомленн')
     def update_message(self, request, queryset: QuerySet):
         form = UpdateMessageForm()
         j=0
@@ -69,7 +73,7 @@ class UsersAdmin(admin.ModelAdmin):
     list_display_links = ('username','phone_number', 'name', 'referral_count', 'cashback_amount')
     readonly_fields = ('username','phone_number', 'name', 'referral_count', 'cashback_amount')
     exclude = ('message_text',)
-    actions = [update_message, download_users_with_referral_count_gt_one]
+    actions = [update_message]
 
 class XmlImportForm(forms.Form):
     xml_upload = forms.FileField()
@@ -112,7 +116,7 @@ class OffersAdmin(admin.ModelAdmin):
     list_display = ('id','username','phone_number', 'call','name','offer', 'amount', 'area', 'city', 'warehouse','payment_method', 'delivery_method', 'comment')
     list_display_links = ('id','username','phone_number', 'call', 'name','offer', 'amount', 'area', 'city', 'warehouse','payment_method', 'delivery_method', 'comment')
     readonly_fields = ('id','username','phone_number', 'call', 'name','offer', 'amount', 'area', 'city', 'warehouse', 'products', 'comment', 'payment_method', 'delivery_method')
-    search_fields = ('id', 'phone_number',)
+    search_fields = ('id', 'phone_number', 'name')
 
 
 

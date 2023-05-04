@@ -257,11 +257,10 @@ async def spec(message:types.Message):
             j = f.readline()
         Offers.objects.all()
         user_info = json.loads(message.web_app_data.data)
-        cost = Areas_and_costs.objects.all().filter(area = user_info['area'].split(' ')[0])[0].cost
         offer = Offers(
             username = message.from_user.username,
             offer = user_info['offer'],
-            amount = str(int(user_info['amount'].split(' ')[0])+cost),
+            amount = str(int(user_info['amount'].split(' ')[0])),
             name = user_info['name'],
             phone_number = user_info['phone_number'],
             call = user_info['call'],
@@ -281,7 +280,7 @@ async def spec(message:types.Message):
         print(offer.call)
 
         await message.answer(text ="Номер замовлення: "+str(offer.id)+"\n"+json.loads(message.web_app_data.data)['message'])
-        await message.answer(text =str(int(user_info['amount'].split(' ')[0])+cost))
+        await message.answer(text =str(int(user_info['amount'].split(' ')[0])))
         if user_info['payment_method'] == "Карткою онлайн":
             productName = []
             productName.append(user_info['products'].split('-')[0])

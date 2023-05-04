@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'main.apps.MainConfig',
     'django_filters',
     'searchableselect',
+    # 'debug_toolbar',
 ]
 
 MIDDLEWARE = [
@@ -53,6 +54,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     # 'middleware.CorsMiddleware',
+    # 'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'pods.urls'
@@ -76,6 +78,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'pods.wsgi.application'
 
+FILE_UPLOAD_HANDLERS = [    "django.core.files.uploadhandler.MemoryFileUploadHandler",    "django.core.files.uploadhandler.TemporaryFileUploadHandler",]
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
@@ -117,6 +120,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# INTERNAL_IPS = [    '127.0.0.1',]
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
