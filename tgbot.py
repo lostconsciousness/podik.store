@@ -128,7 +128,7 @@ async def my_orders(message: types.Message):
     reply_markup.row(
         types.InlineKeyboardButton(
             text="Найближчий магазин",
-            web_app=types.WebAppInfo(url="https://uvape.pro/contact-us#adrshop"),
+            web_app=types.WebAppInfo(url="https://uvape.pro/maps"),
         )
     )
     await bot.send_message(message.from_id,text="Найближчий магазин Ви можете знайти за посиланням:", reply_markup=reply_markup) 
@@ -281,7 +281,6 @@ async def spec(message:types.Message):
         print(offer.call)
 
         await message.answer(text ="Номер замовлення: "+str(offer.id)+"\n"+json.loads(message.web_app_data.data)['message'])
-        await message.answer(text =str(int(user_info['amount'].split(' ')[0])))
         if user_info['payment_method'] == "Карткою онлайн":
             productName = []
             productName.append(user_info['products'].split('-')[0])

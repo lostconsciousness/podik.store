@@ -2370,7 +2370,7 @@
                         
                         <input type="text" value="0" data-item-id=${item['pk']} id="in_cart_${item['pk']}" class ="count invisible">
                         <div class='img_container'>
-                            <img crossorigin = "anonymous" src = "/image/?url=${fields['picture']}" class='img_menu' alt=""/>
+                            <img crossorigin = "anonymous" src = "${fields['picture']}" class='img_menu' alt=""/>
                         </div>
                     
                         <div class='menutext' id="name_${item['pk']}">${fields['name']}</div>
@@ -3121,8 +3121,8 @@
                 }
                 let fee = 0;
                 payment_methods.forEach(payment_method =>{
-                    if(pm.includes(payment_method.name)){
-                        fee = payment_method.fee
+                    if(pm.includes(payment_method.fields.name)){
+                        fee = payment_method.fields.fee
                     }
                 })
 
@@ -3173,9 +3173,9 @@
                 })
                 products+="payment_fee_id:payment_fee:"+i*(fee/100)+":1;";
                 i = i*(fee/100)+i
+                i = Math.round(i)
                 let res = s + "\n На суму "+ i + cid + "\nНомер телефону: "+phone_number+"\nТелефонувати: "+call+"\nПІБ: "+ name + "\nОбласть: "+ areasSelect + "\nМісто "+ citiesSelect + "\nСпосіб доставки: "+delivery_method+"\nСпосіб оплати: "+pm+"\nПункт видачі: "+ warehousesSelect+"\nКоментар: "+ comment;
                 let offer = s;
-                
                 let price = i + " UAH";
                 let cashback_amount = if_cashback ? users[0]["fields"]["cashback_amount"] : 0;
                 products= products + "cashback_id:cashback:-"+cashback_amount+":1;";
@@ -3465,12 +3465,14 @@
                         }
                     })
                     itemsNamesCountInCart.forEach(item=>{
+                        if(item.count != 0){
                             cost = cost + parseInt(item.price)*parseInt(item.count);
-                
+                        }
                     })
                     let costs = areas_and_costs.map(area => {
                         return area["fields"]
                     });
+                    console.log("before delivery method  = " + cost)
                     let areasSelect = document.getElementById('cities').value;
                     costs.forEach(cos=>{
                         if(cos["area"].includes(areasSelect)){
@@ -3485,8 +3487,11 @@
                             }
                         }
                     })
+                    console.log("without cash back  = " + cost)
                     let cashback_amount = if_cashback ? users[0]["fields"]["cashback_amount"] : 0;
+                    console.log("with cash back  = " + cost)
                     cost = cost*(fee/100)+cost;
+
                     cost = cost - cashback_amount;
                     console.log(cost)
                     cost = Math.round(cost)

@@ -44,10 +44,10 @@ def add_notification_to_user(request):
 async def send_photo(chat_id,photo, text):
     # await bot.send_message(chat_id=chat_id, text=text)
     with open("image.png", 'rb') as f:
-        await bot.send_photo(chat_id=chat_id,photo=f, caption=text)
+        await bot.send_photo(chat_id=chat_id,photo=f, caption=text, parse_mode="HTML")
 
 async def send_message(chat_id, text):
-    await bot.send_message(chat_id=chat_id, text=text)
+    await bot.send_message(chat_id=chat_id, text=text, parse_mode="HTML")
 def update_message(request):
     if request.method == 'POST':
         form = UpdateMessageForm(request.POST, request.FILES)
