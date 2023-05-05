@@ -74,9 +74,9 @@
             font-weight: bold;
             font-size: 100%;
             color: rgb(0, 0, 0);
-            width: 100%;
+            width: 80%;
             text-align: center;
-            padding-bottom: 1vh;
+            margin: auto;
         }
         
         #menu {
@@ -139,8 +139,10 @@
         .div_btn{
             justify-content: center;
             display: flex;
-            height: 6vh;
+            height: 7vh;
             width: 40vw;
+            padding: 1vh;
+
         }
         
         .back_to_menu{
@@ -238,6 +240,7 @@
             text-align: center;
             margin-left: 85%;
             border: none;
+            pointer-events: none;
         }
         .cart{
             width: 4vh;
@@ -633,7 +636,6 @@
             border: 0px solid #edbe4e;
             color: black;
             background: #d5a255;
-            height: 5vh;
             border-radius: 10px;
             font-size: 100%;
             cursor: pointer;
@@ -641,7 +643,22 @@
           }
           .select2-container {
             width: 100px;
-          }
+          }	
+
+          .notification{
+            width: 55vw;
+            height: 6vh;
+            background-color: #99dd80;
+            position: fixed;
+            top: 0.5vh;
+            right: 0.5vh;
+            border: 0.5px solid #005c0b;
+            z-index: 100;
+            border-radius: 10px;
+            font-size: 2vh;
+            font-weight: 600;
+            padding: 1.5vh;
+        }
 
     </style>
 </head>
@@ -2131,7 +2148,7 @@
                     generalCart++;
         
                     item = this.parentElement.parentElement.querySelector('.count').dataset.itemId;
-                    let img_src =  this.parentElement.parentElement.querySelector('.img_menu').src
+                    let img_src =  this.parentElement.parentElement.querySelector('.img_menu').src.split("=")[1]
                     let price = this.parentElement.parentElement.querySelector('.button_card').innerHTML;
                     let price_number = price.split(' ')[0];
                     let currencyId = price.split(' ')[1];
@@ -2143,6 +2160,7 @@
                     let replacement = itemsNamesCountInCart.find(obj => obj.name === choose_div.innerHTML)
                     if (replacement){
                         replacement.count = count;
+                        console.log(img_src)
                     }
                     else{
                         itemsNamesCountInCart.push({name: choose_div.innerHTML, picture: img_src, price: price_number, currencyId: currencyId, id: item,count: count})
@@ -2157,7 +2175,7 @@
                     generalCart++;
                     item = this.parentElement.parentElement.querySelector('.count').dataset.itemId;
         
-                    let img_src =  this.parentElement.parentElement.querySelector('.img_menu').src
+                    let img_src =  this.parentElement.parentElement.querySelector('.img_menu').src.split("=")[1]
                     let price = this.parentElement.parentElement.querySelector('.button_card').innerHTML;
                     let price_number = price.split(' ')[0];
                     let currencyId = price.split(' ')[1];
@@ -2244,7 +2262,7 @@
                     generalCart++;
                     item = this.parentElement.parentElement.querySelector('.count').dataset.itemId;
         
-                    let img_src =  this.parentElement.parentElement.querySelector('.img_menu').src
+                    let img_src =  this.parentElement.parentElement.querySelector('.img_menu').src.split("=")[1]
                     let price = this.parentElement.parentElement.querySelector('.button_card').innerHTML;
                     let price_number = price.split(' ')[0];
                     let currencyId = price.split(' ')[1];
@@ -2267,7 +2285,7 @@
                     generalCart++;
                     item = this.parentElement.parentElement.querySelector('.count').dataset.itemId;
         
-                    let img_src =  this.parentElement.parentElement.querySelector('.img_menu').src
+                    let img_src =  this.parentElement.parentElement.querySelector('.img_menu').src.split("=")[1]
                     let price = this.parentElement.parentElement.querySelector('.button_card').innerHTML;
                     let price_number = price.split(' ')[0];
                     let currencyId = price.split(' ')[1];
@@ -2802,7 +2820,7 @@
     
     }
 
-    function cart_add(button, count){
+    function cart_add(button, count, payment_methods, areas_and_costs){
 
         let generalCart = parseInt(localStorage.getItem('generalCartCount')) || 0;
         generalCart++;
@@ -2816,12 +2834,59 @@
         let item = itemsNamesCountInCart.find(obj => obj.name == name)
         if(item){console.log('found')}
         item.count++;
+
+        try{
+            let cost = 0;
+                    const if_cashback = document.getElementById('cashback-cart').checked;
+                    let tg = window.Telegram.WebApp;
+                    let pm = document.getElementById('payment_method').value;
+                    let fee = 0;
+                    let delivery_method = document.getElementById('delivery_method').value;
+                    payment_methods.forEach(payment_method =>{
+                        if(pm.includes(payment_method.fields.name)){
+                            fee = payment_method.fields.fee
+                        }
+                    })
+                    itemsNamesCountInCart.forEach(item=>{
+                        if(item.count!=0){
+                        cost += parseInt(parseInt(item.price)*parseInt(item.count));
+                        console.log(cost + " == cost")
+                        }
+                
+                    })
+                    let costs = areas_and_costs.map(area => {
+                        return area["fields"]
+                    });
+                    let areasSelect = document.getElementById('cities').value;
+                    costs.forEach(cos=>{
+                        if(cos["area"].includes(areasSelect)){
+                            if(delivery_method == "У відділення"){
+                                cost = cost + cos["cost_for_warehouse"];
+                            }
+                            else if(delivery_method == "В поштомат"){
+                                cost = cost + cos["cost_for_post"];
+                            }
+                            else{
+                                cost = cost + cos["cost_for_adress"];
+                            }
+                        }
+                    })
+                    let cashback_amount = if_cashback ? users[0]["fields"]["cashback_amount"] : 0;
+                    cost = cost*(fee/100)+cost;
+                    cost = cost - cashback_amount;
+                    console.log(cost)
+                    cost = Math.round(cost)
+                    tg.MainButton.setText("Підтвердити замовлення("+cost+" грн)");
+                }
+                catch(e){console.log(e)}
         inCart.setAttribute('value', item.count);
         itemsNamesCountInCartJson = JSON.stringify(itemsNamesCountInCart)
         localStorage.setItem('itemsNamesCountInCart', itemsNamesCountInCartJson);
+       
     }
 
-    function cart_subtract(button,count){
+    function cart_subtract(button,count, payment_methods, areas_and_costs){
+        
         let generalCart = parseInt(localStorage.getItem('generalCartCount')) || 0;
         generalCart--;
 
@@ -2846,14 +2911,62 @@
             button.parentElement.parentElement.parentElement.classList = 'invisible';
         }
         inCart.setAttribute('value', item.count);
+        try{
+            let cost = 0;
+                    const if_cashback = document.getElementById('cashback-cart').checked;
+                    let tg = window.Telegram.WebApp;
+                    let pm = document.getElementById('payment_method').value;
+                    let fee = 0;
+                    let delivery_method = document.getElementById('delivery_method').value;
+                    payment_methods.forEach(payment_method =>{
+                        if(pm.includes(payment_method.fields.name)){
+                            fee = payment_method.fields.fee
+                        }
+                    })
+                    itemsNamesCountInCart.forEach(item=>{
+                        if(item.count!=0){
+                            cost += parseInt(parseInt(item.price)*parseInt(item.count));
+                            console.log(cost + " == cost")
+                            }
+                
+                    })
+                    let costs = areas_and_costs.map(area => {
+                        return area["fields"]
+                    });
+                    let areasSelect = document.getElementById('cities').value;
+                    costs.forEach(cos=>{
+                        if(cos["area"].includes(areasSelect)){
+                            if(delivery_method == "У відділення"){
+                                cost = cost + cos["cost_for_warehouse"];
+                            }
+                            else if(delivery_method == "В поштомат"){
+                                cost = cost + cos["cost_for_post"];
+                            }
+                            else{
+                                cost = cost + cos["cost_for_adress"];
+                            }
+                        }
+                    })
+                    let cashback_amount = if_cashback ? users[0]["fields"]["cashback_amount"] : 0;
+                    cost = cost*(fee/100)+cost;
+                    cost = cost - cashback_amount;
+                    console.log(cost)
+                    cost = Math.round(cost)
+                    tg.MainButton.setText("Підтвердити замовлення("+cost+" грн)");
+                }
+        catch(e)
+        {
+            console.log(e)
+        }
         itemsNamesCountInCartJson = JSON.stringify(itemsNamesCountInCart)
         localStorage.setItem('itemsNamesCountInCart', itemsNamesCountInCartJson);
         if(generalCart == 0){
             to_menu()
         }
+    
     }
 
-    function disappear(button){
+    function disappear(button, payment_methods, areas_and_costs){
         let itemsNamesCountInCartJson = localStorage.getItem('itemsNamesCountInCart')
         let itemsNamesCountInCart = JSON.parse(itemsNamesCountInCartJson);
 
@@ -2872,6 +2985,50 @@
         if(generalCart == 0){
             to_menu()
         }
+        try{
+            let cost = 0
+            const if_cashback = document.getElementById('cashback-cart').checked;
+            let tg = window.Telegram.WebApp;
+            let pm = document.getElementById('payment_method').value;
+            let fee = 0;
+            let delivery_method = document.getElementById('delivery_method').value;
+            payment_methods.forEach(payment_method =>{
+                if(pm.includes(payment_method.fields.name)){
+                    fee = payment_method.fields.fee
+                }
+            })
+            itemsNamesCountInCart.forEach(item=>{
+                if(item.count!=0){
+                    cost += parseInt(parseInt(item.price)*parseInt(item.count));
+                    console.log(cost + " == cost")
+                    }
+        
+            })
+            let costs = areas_and_costs.map(area => {
+                return area["fields"]
+            });
+            let areasSelect = document.getElementById('cities').value;
+            costs.forEach(cos=>{
+                if(cos["area"].includes(areasSelect)){
+                    if(delivery_method == "У відділення"){
+                        cost = cost + cos["cost_for_warehouse"];
+                    }
+                    else if(delivery_method == "В поштомат"){
+                        cost = cost + cos["cost_for_post"];
+                    }
+                    else{
+                        cost = cost + cos["cost_for_adress"];
+                    }
+                }
+            })
+            let cashback_amount = if_cashback ? users[0]["fields"]["cashback_amount"] : 0;
+            cost = cost*(fee/100)+cost;
+            cost = cost - cashback_amount;
+            console.log(cost)
+            cost = Math.round(cost)
+            tg.MainButton.setText("Підтвердити замовлення("+cost+" грн)");
+        }
+        catch(e){console.log(e)}
     }
 
     function notificate_user(id){
@@ -2925,13 +3082,14 @@
 
             cost = cost*(fee/100)+cost
             console.log(cost)
+            cost = Math.round(cost)
             tg.MainButton.setText("Підтвердити замовлення("+cost+" грн)")
             let main_button = document.querySelector('.btn_to_cart')
             main_button.classList = "btn_to_cart invisible"
             tg.expand()
             tg.MainButton.textColor = "#FFFFFF";
             tg.MainButton.color = "#2cab37";
-            tg.MainButton.setText("Підтвердити замовлення")
+            //tg.MainButton.setText("Підтвердити замовлення")
             tg.MainButton.show()
 
             
@@ -3001,21 +3159,26 @@
                     if(cos["area"].includes(areasSelect)){
                         if(delivery_method == "У відділення"){
                             i = i + cos["cost_for_warehouse"];
+                            products+="delivery_fee_id:delivery_fee:"+cos["cost_for_warehouse"]+":1;";
                         }
                         else if(delivery_method == "В поштомат"){
                             i = i + cos["cost_for_post"];
+                            products+="delivery_fee_id:delivery_fee:"+cos["cost_for_post"]+":1;"
                         }
                         else{
                             i = i + cos["cost_for_adress"];
+                            products+="delivery_fee_id:delivery_fee:"+cos["cost_for_adress"]+":1;"
                         }
                     }
                 })
+                products+="payment_fee_id:payment_fee:"+i*(fee/100)+":1;";
                 i = i*(fee/100)+i
                 let res = s + "\n На суму "+ i + cid + "\nНомер телефону: "+phone_number+"\nТелефонувати: "+call+"\nПІБ: "+ name + "\nОбласть: "+ areasSelect + "\nМісто "+ citiesSelect + "\nСпосіб доставки: "+delivery_method+"\nСпосіб оплати: "+pm+"\nПункт видачі: "+ warehousesSelect+"\nКоментар: "+ comment;
                 let offer = s;
                 
                 let price = i + " UAH";
                 let cashback_amount = if_cashback ? users[0]["fields"]["cashback_amount"] : 0;
+                products= products + "cashback_id:cashback:-"+cashback_amount+":1;";
                 let result = {'message': res, 'offer': offer, 'amount': price, 'phone_number': phone_number, 'call':call, 'name': name, 'area': areasSelect, 'city': citiesSelect, 'warehouse': warehousesSelect, 'products' : products, 'delivery_method': delivery_method, 'payment_method': pm, 'comment': comment, 'cashback': cashback_amount}
                 const resultJSON = JSON.stringify(result);
                 tg.sendData(resultJSON);
@@ -3030,7 +3193,6 @@
         
         let itemsNamesCountInCartJson = localStorage.getItem('itemsNamesCountInCart')
         let itemsNamesCountInCart = JSON.parse(itemsNamesCountInCartJson);
-
         const AddedToCart = document.querySelector('.AddedToCart')
         const content = document.querySelector('.grid')
         const header = document.querySelector('.header') 
@@ -3068,7 +3230,7 @@
                 
                 <div class = "sum_cart_card">
                 
-                    <button class="close__button" onclick="disappear(this)">
+                    <button class="close__button" onclick="disappear(this, {{payment_methods}}, {{areas_and_costs}})">
 
                         <svg width="10" height="10" viewBox="0 0 10 10" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
@@ -3093,11 +3255,11 @@
                         
                     <div class="cart__counter" style="display: flex">
 
-                        <button class="counter__button" onclick = "cart_subtract(this, '${item.count}')">-</button>
+                        <button class="counter__button" onclick = "cart_subtract(this, '${item.count}', {{payment_methods}}, {{areas_and_costs}})">-</button>
 
                         <input type="text" value="${item.count}" class="counter__value">
 
-                        <button class="counter__button" onclick = "cart_add(this, '${item.count}')">+</button>
+                        <button class="counter__button" onclick = "cart_add(this, '${item.count}', {{payment_methods}}, {{areas_and_costs}})">+</button>
 
                     </div>
                 </div>
@@ -3208,7 +3370,7 @@
                 console.log("end")
 
 
-
+                document.getElementById('phone_number').value = users[0]["fields"]["phone_number"]
                 if(fill.length>0){
                     console.log(fill[fill.length-1])
                     if(fill[0]["fields"]["phone_number"][fill[fill.length-1]["fields"]["phone_number"].length-1] == ")"){
@@ -3286,10 +3448,14 @@
                   });
 
 
+                
+
                 $(document).on('change', function() {
                     let cost = 0;
+                    const if_cashback = document.getElementById('cashback-cart').checked;
                     let tg = window.Telegram.WebApp;
                     let itemsNamesCountInCartJson = localStorage.getItem('itemsNamesCountInCart')
+                    let itemsNamesCountInCart = JSON.parse(itemsNamesCountInCartJson);
                     let pm = document.getElementById('payment_method').value;
                     let fee = 0;
                     let delivery_method = document.getElementById('delivery_method').value;
@@ -3299,9 +3465,7 @@
                         }
                     })
                     itemsNamesCountInCart.forEach(item=>{
-                        if(item.count != 0){
                             cost = cost + parseInt(item.price)*parseInt(item.count);
-                        }
                 
                     })
                     let costs = areas_and_costs.map(area => {
@@ -3321,10 +3485,12 @@
                             }
                         }
                     })
-    
-                    cost = cost*(fee/100)+cost
+                    let cashback_amount = if_cashback ? users[0]["fields"]["cashback_amount"] : 0;
+                    cost = cost*(fee/100)+cost;
+                    cost = cost - cashback_amount;
                     console.log(cost)
-                    tg.MainButton.setText("Підтвердити замовлення("+cost+" грн)")
+                    cost = Math.round(cost)
+                    tg.MainButton.setText("Підтвердити замовлення("+cost+" грн)");
                 });
     }
 
@@ -3488,6 +3654,47 @@
             }
                 
         }
+    }
+
+    async function notificate_user(id){
+        const user_id = window.location.href.split('/')[3]
+        data = 'id=' + id + '&user_id=' + user_id
+
+        fetch('{% url "add_notifications" %}' + '?' + new URLSearchParams(data))
+        .then(response => response.json())
+        .then(response => {
+            console.log('succsess')
+        })
+        .catch(err => console.log(err))
+
+        body = document.body
+        body.innerHTML += `
+        <div class = "notification" id = "subscribe" style="opacity: 1">
+            Вам прийде повідомлення про наявність
+        </div>
+        `;
+
+        let time = 1500;
+        let remove_time = 1000;
+        await sleep(time);
+        for(let i = 0; i < remove_time / 10; i++)
+        {
+            await sleep(remove_time / (remove_time/10));
+            if(document.getElementById('subscribe')){
+                document.getElementById('subscribe').style.opacity -= 1/ (remove_time/10);
+                continue;
+            }
+            return;
+            
+        }
+        if(document.getElementById('subscribe')){
+            document.getElementById('subscribe').remove();
+        }
+        
+    }
+
+    async function sleep(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
     }
 </script>
 

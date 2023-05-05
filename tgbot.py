@@ -257,12 +257,13 @@ async def spec(message:types.Message):
             j = f.readline()
         Offers.objects.all()
         user_info = json.loads(message.web_app_data.data)
+        
         offer = Offers(
             username = message.from_user.username,
             offer = user_info['offer'],
             amount = str(int(user_info['amount'].split(' ')[0])),
             name = user_info['name'],
-            phone_number = user_info['phone_number'],
+            phone_number = user_info['phone_number'].replace("(","").replace(")","").replace("-","").replace("+",""),
             call = user_info['call'],
             area = user_info['area'],
             city = user_info['city'],
