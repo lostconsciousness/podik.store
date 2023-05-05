@@ -759,6 +759,31 @@
                     {{filter.param}}
                 </div>
 
+                <div class = "hqd_flavour invisible">
+                    <p>Оберіть смак</p>
+                    {{filter.hqd_flavour}}
+                </div>
+
+                <div class = " disposable_flavour invisible">
+                    <p>Оберіть смак</p>
+                    {{filter.disposable_flavour}}
+                </div>
+
+                <div class = "elf_bar_flavour invisible">
+                    <p>Оберіть смак</p>
+                    {{filter.elf_bar_flavour}}
+                </div>
+
+                <div class = "liquids_flavour invisible">
+                    <p>Оберіть смак</p>
+                    {{filter.liquids_flavour}}
+                </div>
+
+                <div class = "ukrainian_flavour invisible">
+                    <p>Оберіть смак</p>
+                    {{filter.ukrainian_flavour}}
+                </div>
+
                 <details class = "nicotine_strength invisible">
                     <summary>Оберіть міцність нікотину</summary>
                     {{filter.nicotine_strength}}
@@ -819,7 +844,7 @@
           });
             tg.MainButton.hide();
         $(document).ready(function() {
-
+           
             
             main_button.classList = "btn_to_cart invisible"
                 var categoryId_input = $('.catId_input');
@@ -836,9 +861,37 @@
                   let max_power = $('.max_power')
                   let puffs_number = $('.puffs_number')
                   let rechargeable = $('.rechargeable')
+                  let hqd_flavour = $('.hqd_flavour')
+                  let disposable_flavour = $('.disposable_flavour')
+                  let elfs_flavour = $('.elfs_flavour')
+                  let liquids_flavour = $('.liquids_flavour')
+                  let ukrainian_flavour = $('.ukrainian_flavour')
+                  $('.param_input').select2({
+                    width: '80%'
+                  })
+                  $('#hqd_flavour').select2({
+                    width: '80%'
+                  })
+                  $('#disposable_flavour').select2({
+                    width: '80%'
+                  })
+                  $('#elfs_flavour').select2({
+                    width: '80%'
+                  })
+                  $('#liquids_flavour').select2({
+                    width: '80%'
+                  })
+                  $('#ukrainian_flavour').select2({
+                    width: '80%'
+                  })
                   categoryId_value = categoryId_input.val()
                   console.log(categoryId_value)
                   if (categoryId_value == '220') {
+                    liquids_flavour.attr('class', 'liquids_flavour invisible')
+                        disposable_flavour.attr('class', 'disposable_flavour invisible')
+                        elfs_flavour.attr('class', 'elfs_flavour invisible')
+                        hqd_flavour.attr('class', 'hqd_flavour invisible')
+                        ukrainian_flavour.attr('class', 'ukrainian_flavour invisible')
                     param_input.attr('class', 'invisible')
                     price_input.attr('class', 'price_input visible');
                     nicotine_strength_input.attr('class', 'nicotine_strength invisible')
@@ -852,7 +905,13 @@
                     rechargeable.attr('class', 'rechargeable invisible')
                     }
                     else if(categoryId_value == '208'){
-                    param_input.attr('class', 'visible')
+                        
+                        disposable_flavour.attr('class', 'disposable_flavour invisible')
+                        elfs_flavour.attr('class', 'elfs_flavour invisible')
+                        hqd_flavour.attr('class', 'hqd_flavour invisible')
+                        ukrainian_flavour.attr('class', 'ukrainian_flavour invisible')
+                        liquids_flavour.attr('class', 'liquids_flavour visible')
+                    param_input.attr('class', ' invisible')
                     nicotine_strength_input.attr('class', 'nicotine_strength visible')
                     fluid_volume.attr('class', 'fluid_volume visible')
                     battery_capacity.attr('class', 'battery_capacity visible')
@@ -864,7 +923,12 @@
                     rechargeable.attr('class', 'rechargeable invisible')
                     }
                     else if(categoryId_value == '222'){
-                    param_input.attr('class', 'invisible')
+                        liquids_flavour.attr('class', 'liquids_flavour invisible')
+                        disposable_flavour.attr('class', 'disposable_flavour invisible')
+                        elfs_flavour.attr('class', 'elfs_flavour invisible')
+                        hqd_flavour.attr('class', 'hqd_flavour invisible')
+                        ukrainian_flavour.attr('class', 'ukrainian_flavour invisible')
+                    param_input.attr('class', ' invisible')
                     nicotine_strength_input.attr('class', 'nicotine_strength visible')
                     fluid_volume.attr('class', 'fluid_volume visible')
                     battery_capacity.attr('class', 'battery_capacity visible')
@@ -876,8 +940,13 @@
                     rechargeable.attr('class', 'rechargeable invisible')
                     }
                     else if(categoryId_value == '239'){
+                        elfs_flavour.attr('class', 'elfs_flavour invisible')
+                        hqd_flavour.attr('class', 'hqd_flavour invisible')
+                        ukrainian_flavour.attr('class', 'ukrainian_flavour invisible')
+                        liquids_flavour.attr('class', 'liquids_flavour invisible')
+                        disposable_flavour.attr('class', 'disposable_flavour visible')
                     nicotine_strength_input.attr('class', 'nicotine_strength visible')
-                    param_input.attr('class', 'visible')
+                    param_input.attr('class', ' invisible')
                     fluid_volume.attr('class', 'fluid_volume visible')
                     battery_capacity.attr('class', 'battery_capacity visible')
                     resistance.attr('class', 'resistance invisible')
@@ -888,8 +957,13 @@
                     rechargeable.attr('class', 'rechargeable visible')
                     }
                     else if(categoryId_value == '236'){
+                        elfs_flavour.attr('class', 'elfs_flavour invisible')
+                        hqd_flavour.attr('class', 'hqd_flavour invisible')
+                        liquids_flavour.attr('class', 'liquids_flavour invisible')
+                        disposable_flavour.attr('class', 'disposable_flavour invisible')
+                        ukrainian_flavour.attr('class', 'ukrainian_flavour visible')
                     nicotine_strength_input.attr('class', 'nicotine_strength visible')
-                    param_input.attr('class', 'visible')
+                    param_input.attr('class', ' invisible')
                     fluid_volume.attr('class', 'fluid_volume visible')
                     battery_capacity.attr('class', 'battery_capacity invisible')
                     resistance.attr('class', 'resistance invisible')
@@ -900,8 +974,13 @@
                     rechargeable.attr('class', 'rechargeable invisible')
                     }
                     else if(categoryId_value == '288'){
+                        liquids_flavour.attr('class', 'liquids_flavour invisible')
+                        disposable_flavour.attr('class', 'disposable_flavour invisible')
+                        hqd_flavour.attr('class', 'hqd_flavour visible')
+                        elfs_flavour.attr('class', 'elfs_flavour invisible')
+                        ukrainian_flavour.attr('class', 'ukrainian_flavour invisible')
                     nicotine_strength_input.attr('class', 'nicotine_strength visible')
-                    param_input.attr('class', 'visible')
+                    param_input.attr('class', ' invisible')
                     fluid_volume.attr('class', 'fluid_volume invisible')
                     battery_capacity.attr('class', 'battery_capacity visible')
                     resistance.attr('class', 'resistance invisible')
@@ -912,8 +991,13 @@
                     rechargeable.attr('class', 'rechargeable invisible')
                     }
                     else if(categoryId_value == '287'){
+                        liquids_flavour.attr('class', 'liquids_flavour invisible')
+                        disposable_flavour.attr('class', 'disposable_flavour invisible')
+                        elfs_flavour.attr('class', 'elfs_flavour visible')
+                        hqd_flavour.attr('class', 'hqd_flavour invisible')
+                        ukrainian_flavour.attr('class', 'ukrainian_flavour invisible')
                     nicotine_strength_input.attr('class', 'nicotine_strength visible')
-                    param_input.attr('class', 'visible')
+                    param_input.attr('class', ' invisible')
                     fluid_volume.attr('class', 'fluid_volume invisible')
                     battery_capacity.attr('class', 'battery_capacity visible')
                     resistance.attr('class', 'resistance invisible')
@@ -924,8 +1008,13 @@
                     rechargeable.attr('class', 'rechargeable invisible')
                     }
                     else if(categoryId_value == '221'){
+                        liquids_flavour.attr('class', 'liquids_flavour invisible')
+                        disposable_flavour.attr('class', 'disposable_flavour invisible')
+                        elfs_flavour.attr('class', 'elfs_flavour invisible')
+                        hqd_flavour.attr('class', 'hqd_flavour invisible')
+                        ukrainian_flavour.attr('class', 'ukrainian_flavour invisible')
                     nicotine_strength_input.attr('class', 'nicotine_strength invisible')
-                    param_input.attr('class', 'invisible')
+                    param_input.attr('class', ' invisible')
                     fluid_volume.attr('class', 'fluid_volume invisible')
                     battery_capacity.attr('class', 'battery_capacity visible')
                     resistance.attr('class', 'resistance invisible')
@@ -936,8 +1025,13 @@
                     rechargeable.attr('class', 'rechargeable invisible')
                     }
                     else if(categoryId_value == '237'){
+                        liquids_flavour.attr('class', 'liquids_flavour invisible')
+                        disposable_flavour.attr('class', 'disposable_flavour invisible')
+                        elfs_flavour.attr('class', 'elfs_flavour invisible')
+                        hqd_flavour.attr('class', 'hqd_flavour invisible')
+                        ukrainian_flavour.attr('class', 'ukrainian_flavour invisible')
                     nicotine_strength_input.attr('class', 'nicotine_strength visible')
-                    param_input.attr('class', 'invisible');
+                    param_input.attr('class', ' invisible');
                     fluid_volume.attr('class', 'fluid_volume visible')
                     battery_capacity.attr('class', 'battery_capacity invisible')
                     resistance.attr('class', 'resistance invisible')
@@ -948,8 +1042,13 @@
                     rechargeable.attr('class', 'rechargeable invisible')
                     }
                     else if(categoryId_value == '293'){
+                        liquids_flavour.attr('class', 'liquids_flavour invisible')
+                        disposable_flavour.attr('class', 'disposable_flavour invisible')
+                        elfs_flavour.attr('class', 'elfs_flavour invisible')
+                        hqd_flavour.attr('class', 'hqd_flavour invisible')
+                        ukrainian_flavour.attr('class', 'ukrainian_flavour invisible')
                     nicotine_strength_input.attr('class', 'nicotine_strength visible')
-                    param_input.attr('class', 'invisible');
+                    param_input.attr('class', ' invisible');
                     fluid_volume.attr('class', 'fluid_volume invisible')
                     battery_capacity.attr('class', 'battery_capacity invisible')
                     resistance.attr('class', 'resistance invisible')
@@ -960,8 +1059,13 @@
                     rechargeable.attr('class', 'rechargeable invisible')
                     }
                     else if(categoryId_value == '294'){
+                        liquids_flavour.attr('class', 'liquids_flavour invisible')
+                        disposable_flavour.attr('class', 'disposable_flavour invisible')
+                        elfs_flavour.attr('class', 'elfs_flavour invisible')
+                        hqd_flavour.attr('class', 'hqd_flavour invisible')
+                        ukrainian_flavour.attr('class', 'ukrainian_flavour invisible')
                     nicotine_strength_input.attr('class', 'nicotine_strength visible')
-                    param_input.attr('class', 'invisible');
+                    param_input.attr('class', ' invisible');
                     fluid_volume.attr('class', 'fluid_volume invisible')
                     battery_capacity.attr('class', 'battery_capacity invisible')
                     resistance.attr('class', 'resistance invisible')
@@ -972,8 +1076,13 @@
                     rechargeable.attr('class', 'rechargeable invisible')
                     }
                     else if(categoryId_value == '170'){
+                        liquids_flavour.attr('class', 'liquids_flavour invisible')
+                        disposable_flavour.attr('class', 'disposable_flavour invisible')
+                        elfs_flavour.attr('class', 'elfs_flavour invisible')
+                        hqd_flavour.attr('class', 'hqd_flavour invisible')
+                        ukrainian_flavour.attr('class', 'ukrainian_flavour invisible')
                     nicotine_strength_input.attr('class', 'nicotine_strength invisible')
-                    param_input.attr('class', 'invisible');
+                    param_input.attr('class', ' invisible');
                     fluid_volume.attr('class', 'fluid_volume invisible')
                     battery_capacity.attr('class', 'battery_capacity visible')
                     resistance.attr('class', 'resistance invisible')
@@ -985,8 +1094,13 @@
                     
                     }
                     else if(categoryId_value == '283'){
+                        liquids_flavour.attr('class', 'liquids_flavour invisible')
+                        disposable_flavour.attr('class', 'disposable_flavour invisible')
+                        elfs_flavour.attr('class', 'elfs_flavour invisible')
+                        hqd_flavour.attr('class', 'hqd_flavour invisible')
+                        ukrainian_flavour.attr('class', 'ukrainian_flavour invisible')
                         nicotine_strength_input.attr('class', 'nicotine_strength invisible')
-                        param_input.attr('class', 'invisible');
+                        param_input.attr('class', ' invisible');
                         fluid_volume.attr('class', 'fluid_volume visible')
                         battery_capacity.attr('class', 'battery_capacity visible')
                         resistance.attr('class', 'resistance invisible')
@@ -998,8 +1112,13 @@
                         
                     }
                     else if(categoryId_value == '187'){
+                        liquids_flavour.attr('class', 'liquids_flavour invisible')
+                        disposable_flavour.attr('class', 'disposable_flavour invisible')
+                        elfs_flavour.attr('class', 'elfs_flavour invisible')
+                        hqd_flavour.attr('class', 'hqd_flavour invisible')
+                        ukrainian_flavour.attr('class', 'ukrainian_flavour invisible')
                     nicotine_strength_input.attr('class', 'nicotine_strength visible')
-                    param_input.attr('class', 'invisible');
+                    param_input.attr('class', ' invisible');
                     fluid_volume.attr('class', 'fluid_volume visible')
                     battery_capacity.attr('class', 'battery_capacity visible')
                     resistance.attr('class', 'resistance invisible')
@@ -1011,8 +1130,13 @@
                     
                     }
                     else if(categoryId_value == '286'){
+                        liquids_flavour.attr('class', 'liquids_flavour invisible')
+                        disposable_flavour.attr('class', 'disposable_flavour invisible')
+                        elfs_flavour.attr('class', 'elfs_flavour invisible')
+                        hqd_flavour.attr('class', 'hqd_flavour invisible')
+                        ukrainian_flavour.attr('class', 'ukrainian_flavour invisible')
                         nicotine_strength_input.attr('class', 'nicotine_strength visible')
-                        param_input.attr('class', 'invisible');
+                        param_input.attr('class', ' invisible');
                         fluid_volume.attr('class', 'fluid_volume visible')
                         battery_capacity.attr('class', 'battery_capacity invisible')
                         resistance.attr('class', 'resistance invisible')
@@ -1024,8 +1148,13 @@
                       
                     }
                     else if(categoryId_value == '205'){
+                        liquids_flavour.attr('class', 'liquids_flavour invisible')
+                        disposable_flavour.attr('class', 'disposable_flavour invisible')
+                        elfs_flavour.attr('class', 'elfs_flavour invisible')
+                        hqd_flavour.attr('class', 'hqd_flavour invisible')
+                        ukrainian_flavour.attr('class', 'ukrainian_flavour invisible')
                         nicotine_strength_input.attr('class', 'nicotine_strength visible')
-                        param_input.attr('class', 'invisible');
+                        param_input.attr('class', ' invisible');
                         fluid_volume.attr('class', 'fluid_volume visible')
                         battery_capacity.attr('class', 'battery_capacity invisible')
                         resistance.attr('class', 'resistance invisible')
@@ -1037,8 +1166,13 @@
                       
                     }
                     else if(categoryId_value == '232'){
+                        liquids_flavour.attr('class', 'liquids_flavour invisible')
+                        disposable_flavour.attr('class', 'disposable_flavour invisible')
+                        elfs_flavour.attr('class', 'elfs_flavour invisible')
+                        hqd_flavour.attr('class', 'hqd_flavour invisible')
+                        ukrainian_flavour.attr('class', 'ukrainian_flavour invisible')
                         nicotine_strength_input.attr('class', 'nicotine_strength invisible')
-                        param_input.attr('class', 'invisible');
+                        param_input.attr('class', ' invisible');
                         fluid_volume.attr('class', 'fluid_volume visible')
                         battery_capacity.attr('class', 'battery_capacity visible')
                         resistance.attr('class', 'resistance invisible')
@@ -1050,8 +1184,13 @@
                       
                     }
                     else if(categoryId_value == '173'){
+                        liquids_flavour.attr('class', 'liquids_flavour invisible')
+                        disposable_flavour.attr('class', 'disposable_flavour invisible')
+                        elfs_flavour.attr('class', 'elfs_flavour invisible')
+                        hqd_flavour.attr('class', 'hqd_flavour invisible')
+                        ukrainian_flavour.attr('class', 'ukrainian_flavour invisible')
                         nicotine_strength_input.attr('class', 'nicotine_strength invisible')
-                        param_input.attr('class', 'invisible');
+                        param_input.attr('class', ' invisible');
                         fluid_volume.attr('class', 'fluid_volume invisible')
                         battery_capacity.attr('class', 'battery_capacity invisible')
                         resistance.attr('class', 'resistance visible')
@@ -1063,8 +1202,13 @@
                       
                     }
                     else if(categoryId_value == '199'){
+                        liquids_flavour.attr('class', 'liquids_flavour invisible')
+                        disposable_flavour.attr('class', 'disposable_flavour invisible')
+                        elfs_flavour.attr('class', 'elfs_flavour invisible')
+                        hqd_flavour.attr('class', 'hqd_flavour invisible')
+                        ukrainian_flavour.attr('class', 'ukrainian_flavour invisible')
                         nicotine_strength_input.attr('class', 'nicotine_strength visible')
-                        param_input.attr('class', 'invisible');
+                        param_input.attr('class', ' invisible');
                         fluid_volume.attr('class', 'fluid_volume visible')
                         battery_capacity.attr('class', 'battery_capacity invisible')
                         resistance.attr('class', 'resistance invisible')
@@ -1076,8 +1220,13 @@
                       
                     }
                     else if(categoryId_value == '176'){
+                        liquids_flavour.attr('class', 'liquids_flavour invisible')
+                        disposable_flavour.attr('class', 'disposable_flavour invisible')
+                        elfs_flavour.attr('class', 'elfs_flavour invisible')
+                        hqd_flavour.attr('class', 'hqd_flavour invisible')
+                        ukrainian_flavour.attr('class', 'ukrainian_flavour invisible')
                         nicotine_strength_input.attr('class', 'nicotine_strength invisible')
-                        param_input.attr('class', 'invisible');
+                        param_input.attr('class', ' invisible');
                         fluid_volume.attr('class', 'fluid_volume visible')
                         battery_capacity.attr('class', 'battery_capacity visible')
                         resistance.attr('class', 'resistance invisible')
@@ -1089,8 +1238,13 @@
                       
                     }
                     else if(categoryId_value == '240'){
+                        liquids_flavour.attr('class', 'liquids_flavour invisible')
+                        disposable_flavour.attr('class', 'disposable_flavour invisible')
+                        elfs_flavour.attr('class', 'elfs_flavour invisible')
+                        hqd_flavour.attr('class', 'hqd_flavour invisible')
+                        ukrainian_flavour.attr('class', 'ukrainian_flavour invisible')
                         nicotine_strength_input.attr('class', 'nicotine_strength visible')
-                        param_input.attr('class', 'invisible');
+                        param_input.attr('class', ' invisible');
                         fluid_volume.attr('class', 'fluid_volume invisible')
                         battery_capacity.attr('class', 'battery_capacity invisible')
                         resistance.attr('class', 'resistance invisible')
@@ -1102,8 +1256,13 @@
                       
                     }
                     else if(categoryId_value == '172'){
+                        liquids_flavour.attr('class', 'liquids_flavour invisible')
+                        disposable_flavour.attr('class', 'disposable_flavour invisible')
+                        elfs_flavour.attr('class', 'elfs_flavour invisible')
+                        hqd_flavour.attr('class', 'hqd_flavour invisible')
+                        ukrainian_flavour.attr('class', 'ukrainian_flavour invisible')
                         nicotine_strength_input.attr('class', 'nicotine_strength invisible')
-                        param_input.attr('class', 'invisible');
+                        param_input.attr('class', ' invisible');
                         fluid_volume.attr('class', 'fluid_volume invisible')
                         battery_capacity.attr('class', 'battery_capacity invisible')
                         resistance.attr('class', 'resistance invisible')
@@ -1115,8 +1274,13 @@
                       
                     }
                     else if(categoryId_value == '241'){
+                        liquids_flavour.attr('class', 'liquids_flavour invisible')
+                        disposable_flavour.attr('class', 'disposable_flavour invisible')
+                        elfs_flavour.attr('class', 'elfs_flavour invisible')
+                        hqd_flavour.attr('class', 'hqd_flavour invisible')
+                        ukrainian_flavour.attr('class', 'ukrainian_flavour invisible')
                         nicotine_strength_input.attr('class', 'nicotine_strength invisible')
-                        param_input.attr('class', 'invisible');
+                        param_input.attr('class', ' invisible');
                         fluid_volume.attr('class', 'fluid_volume invisible')
                         battery_capacity.attr('class', 'battery_capacity invisible')
                         resistance.attr('class', 'resistance invisible')
@@ -1128,8 +1292,13 @@
                       
                     }
                     else if(categoryId_value == '218'){
+                        liquids_flavour.attr('class', 'liquids_flavour invisible')
+                        disposable_flavour.attr('class', 'disposable_flavour invisible')
+                        elfs_flavour.attr('class', 'elfs_flavour invisible')
+                        hqd_flavour.attr('class', 'hqd_flavour invisible')
+                        ukrainian_flavour.attr('class', 'ukrainian_flavour invisible')
                         nicotine_strength_input.attr('class', 'nicotine_strength visible')
-                        param_input.attr('class', 'invisible');
+                        param_input.attr('class', ' invisible');
                         fluid_volume.attr('class', 'fluid_volume visible')
                         battery_capacity.attr('class', 'battery_capacity visible')
                         resistance.attr('class', 'resistance invisible')
@@ -1141,8 +1310,13 @@
                       
                     }
                     else if(categoryId_value == '235'){
+                        liquids_flavour.attr('class', 'liquids_flavour invisible')
+                        disposable_flavour.attr('class', 'disposable_flavour invisible')
+                        elfs_flavour.attr('class', 'elfs_flavour invisible')
+                        hqd_flavour.attr('class', 'hqd_flavour invisible')
+                        ukrainian_flavour.attr('class', 'ukrainian_flavour invisible')
                         nicotine_strength_input.attr('class', 'nicotine_strength invisible')
-                        param_input.attr('class', 'invisible');
+                        param_input.attr('class', ' invisible');
                         fluid_volume.attr('class', 'fluid_volume invisible')
                         battery_capacity.attr('class', 'battery_capacity visible')
                         resistance.attr('class', 'resistance invisible')
@@ -1154,8 +1328,13 @@
                       
                     }
                     else if(categoryId_value == '217'){
+                        liquids_flavour.attr('class', 'liquids_flavour invisible')
+                        disposable_flavour.attr('class', 'disposable_flavour invisible')
+                        elfs_flavour.attr('class', 'elfs_flavour invisible')
+                        hqd_flavour.attr('class', 'hqd_flavour invisible')
+                        ukrainian_flavour.attr('class', 'ukrainian_flavour invisible')
                         nicotine_strength_input.attr('class', 'nicotine_strength invisible')
-                        param_input.attr('class', 'invisible');
+                        param_input.attr('class', ' invisible');
                         fluid_volume.attr('class', 'fluid_volume invisible')
                         battery_capacity.attr('class', 'battery_capacity visible')
                         resistance.attr('class', 'resistance invisible')
@@ -1167,8 +1346,13 @@
                       
                     }
                     else if(categoryId_value == '187'){
+                        liquids_flavour.attr('class', 'liquids_flavour invisible')
+                        disposable_flavour.attr('class', 'disposable_flavour invisible')
+                        elfs_flavour.attr('class', 'elfs_flavour invisible')
+                        hqd_flavour.attr('class', 'hqd_flavour invisible')
+                        ukrainian_flavour.attr('class', 'ukrainian_flavour invisible')
                         nicotine_strength_input.attr('class', 'nicotine_strength invisible')
-                        param_input.attr('class', 'invisible');
+                        param_input.attr('class', ' invisible');
                         fluid_volume.attr('class', 'fluid_volume invisible')
                         battery_capacity.attr('class', 'battery_capacity visible')
                         resistance.attr('class', 'resistance invisible')
@@ -1180,8 +1364,13 @@
                       
                     }
                     else if(categoryId_value == '279'){
+                        liquids_flavour.attr('class', 'liquids_flavour invisible')
+                        disposable_flavour.attr('class', 'disposable_flavour invisible')
+                        elfs_flavour.attr('class', 'elfs_flavour invisible')
+                        hqd_flavour.attr('class', 'hqd_flavour invisible')
+                        ukrainian_flavour.attr('class', 'ukrainian_flavour invisible')
                         nicotine_strength_input.attr('class', 'nicotine_strength invisible')
-                        param_input.attr('class', 'invisible');
+                        param_input.attr('class', ' invisible');
                         fluid_volume.attr('class', 'fluid_volume invisible')
                         battery_capacity.attr('class', 'battery_capacity visible')
                         resistance.attr('class', 'resistance invisible')
@@ -1193,8 +1382,13 @@
                       
                     }
                     else{
+                        liquids_flavour.attr('class', 'liquids_flavour invisible')
+                        disposable_flavour.attr('class', 'disposable_flavour invisible')
+                        elfs_flavour.attr('class', 'elfs_flavour invisible')
+                        hqd_flavour.attr('class', 'hqd_flavour invisible')
+                        ukrainian_flavour.attr('class', 'ukrainian_flavour invisible')
                         nicotine_strength_input.attr('class', 'nicotine_strength visible')
-                        param_input.attr('class', 'visible');
+                        param_input.attr('class', ' visible');
                         fluid_volume.attr('class', 'fluid_volume visible')
                         battery_capacity.attr('class', 'battery_capacity visible')
                         resistance.attr('class', 'resistance visible')
@@ -1237,7 +1431,12 @@
                             nicotine_strength_input.attr('class', 'nicotine_strength invisible')
                         }
                         else if(filter["fields"]["name"] == 'Вибір смаку'){
-                            param_input.attr('class', 'invisible')
+                            liquids_flavour.attr('class', 'liquids_flavour invisible')
+                            disposable_flavour.attr('class', 'disposable_flavour invisible')
+                            elfs_flavour.attr('class', 'elfs_flavour invisible')
+                            hqd_flavour.attr('class', 'hqd_flavour invisible')
+                            ukrainian_flavour.attr('class', 'ukrainian_flavour invisible')
+                            param_input.attr('class', ' invisible')
                         }
                     }
 
@@ -1258,12 +1457,37 @@
                   let max_power = $('.max_power')
                   let puffs_number = $('.puffs_number')
                   let rechargeable = $('.rechargeable')
+                  let hqd_flavour = $('.hqd_flavour')
+                  let disposable_flavour = $('.disposable_flavour')
+                  let elfs_flavour = $('.elfs_flavour')
+                  let liquids_flavour = $('.liquids_flavour')
+                  let ukrainian_flavour = $('.ukrainian_flavour')
+                  categoryId_value = categoryId_input.val()
+                  console.log(categoryId_value)
                   $('.param_input').select2({
-                    width: '100%'
-                  });
-
-                  // If filter2Value is 'some_value', update the attributes of filter1
+                    width: '80%'
+                  })
+                  $('#hqd_flavour').select2({
+                    width: '80%'
+                  })
+                  $('#disposable_flavour').select2({
+                    width: '80%'
+                  })
+                  $('#elfs_flavour').select2({
+                    width: '80%'
+                  })
+                  $('#liquids_flavour').select2({
+                    width: '80%'
+                  })
+                  $('#ukrainian_flavour').select2({
+                    width: '80%'
+                  })
                   if (categoryId_value == '220') {
+                    liquids_flavour.attr('class', 'liquids_flavour invisible')
+                        disposable_flavour.attr('class', 'disposable_flavour invisible')
+                        elfs_flavour.attr('class', 'elfs_flavour invisible')
+                        hqd_flavour.attr('class', 'hqd_flavour invisible')
+                        ukrainian_flavour.attr('class', 'ukrainian_flavour invisible')
                     param_input.attr('class', 'invisible')
                     price_input.attr('class', 'price_input visible');
                     nicotine_strength_input.attr('class', 'nicotine_strength invisible')
@@ -1277,7 +1501,13 @@
                     rechargeable.attr('class', 'rechargeable invisible')
                     }
                     else if(categoryId_value == '208'){
-                    param_input.attr('class', 'visible')
+                        
+                        disposable_flavour.attr('class', 'disposable_flavour invisible')
+                        elfs_flavour.attr('class', 'elfs_flavour invisible')
+                        hqd_flavour.attr('class', 'hqd_flavour invisible')
+                        ukrainian_flavour.attr('class', 'ukrainian_flavour invisible')
+                        liquids_flavour.attr('class', 'liquids_flavour visible')
+                    param_input.attr('class', ' invisible')
                     nicotine_strength_input.attr('class', 'nicotine_strength visible')
                     fluid_volume.attr('class', 'fluid_volume visible')
                     battery_capacity.attr('class', 'battery_capacity visible')
@@ -1289,7 +1519,12 @@
                     rechargeable.attr('class', 'rechargeable invisible')
                     }
                     else if(categoryId_value == '222'){
-                    param_input.attr('class', 'invisible')
+                        liquids_flavour.attr('class', 'liquids_flavour invisible')
+                        disposable_flavour.attr('class', 'disposable_flavour invisible')
+                        elfs_flavour.attr('class', 'elfs_flavour invisible')
+                        hqd_flavour.attr('class', 'hqd_flavour invisible')
+                        ukrainian_flavour.attr('class', 'ukrainian_flavour invisible')
+                    param_input.attr('class', ' invisible')
                     nicotine_strength_input.attr('class', 'nicotine_strength visible')
                     fluid_volume.attr('class', 'fluid_volume visible')
                     battery_capacity.attr('class', 'battery_capacity visible')
@@ -1301,8 +1536,13 @@
                     rechargeable.attr('class', 'rechargeable invisible')
                     }
                     else if(categoryId_value == '239'){
+                        elfs_flavour.attr('class', 'elfs_flavour invisible')
+                        hqd_flavour.attr('class', 'hqd_flavour invisible')
+                        ukrainian_flavour.attr('class', 'ukrainian_flavour invisible')
+                        liquids_flavour.attr('class', 'liquids_flavour invisible')
+                        disposable_flavour.attr('class', 'disposable_flavour visible')
                     nicotine_strength_input.attr('class', 'nicotine_strength visible')
-                    param_input.attr('class', 'visible')
+                    param_input.attr('class', ' invisible')
                     fluid_volume.attr('class', 'fluid_volume visible')
                     battery_capacity.attr('class', 'battery_capacity visible')
                     resistance.attr('class', 'resistance invisible')
@@ -1313,8 +1553,13 @@
                     rechargeable.attr('class', 'rechargeable visible')
                     }
                     else if(categoryId_value == '236'){
+                        elfs_flavour.attr('class', 'elfs_flavour invisible')
+                        hqd_flavour.attr('class', 'hqd_flavour invisible')
+                        liquids_flavour.attr('class', 'liquids_flavour invisible')
+                        disposable_flavour.attr('class', 'disposable_flavour invisible')
+                        ukrainian_flavour.attr('class', 'ukrainian_flavour visible')
                     nicotine_strength_input.attr('class', 'nicotine_strength visible')
-                    param_input.attr('class', 'visible')
+                    param_input.attr('class', ' invisible')
                     fluid_volume.attr('class', 'fluid_volume visible')
                     battery_capacity.attr('class', 'battery_capacity invisible')
                     resistance.attr('class', 'resistance invisible')
@@ -1325,8 +1570,13 @@
                     rechargeable.attr('class', 'rechargeable invisible')
                     }
                     else if(categoryId_value == '288'){
+                        liquids_flavour.attr('class', 'liquids_flavour invisible')
+                        disposable_flavour.attr('class', 'disposable_flavour invisible')
+                        hqd_flavour.attr('class', 'hqd_flavour visible')
+                        elfs_flavour.attr('class', 'elfs_flavour invisible')
+                        ukrainian_flavour.attr('class', 'ukrainian_flavour invisible')
                     nicotine_strength_input.attr('class', 'nicotine_strength visible')
-                    param_input.attr('class', 'visible')
+                    param_input.attr('class', ' invisible')
                     fluid_volume.attr('class', 'fluid_volume invisible')
                     battery_capacity.attr('class', 'battery_capacity visible')
                     resistance.attr('class', 'resistance invisible')
@@ -1337,8 +1587,13 @@
                     rechargeable.attr('class', 'rechargeable invisible')
                     }
                     else if(categoryId_value == '287'){
+                        liquids_flavour.attr('class', 'liquids_flavour invisible')
+                        disposable_flavour.attr('class', 'disposable_flavour invisible')
+                        elfs_flavour.attr('class', 'elfs_flavour visible')
+                        hqd_flavour.attr('class', 'hqd_flavour invisible')
+                        ukrainian_flavour.attr('class', 'ukrainian_flavour invisible')
                     nicotine_strength_input.attr('class', 'nicotine_strength visible')
-                    param_input.attr('class', 'visible')
+                    param_input.attr('class', ' invisible')
                     fluid_volume.attr('class', 'fluid_volume invisible')
                     battery_capacity.attr('class', 'battery_capacity visible')
                     resistance.attr('class', 'resistance invisible')
@@ -1349,8 +1604,13 @@
                     rechargeable.attr('class', 'rechargeable invisible')
                     }
                     else if(categoryId_value == '221'){
+                        liquids_flavour.attr('class', 'liquids_flavour invisible')
+                        disposable_flavour.attr('class', 'disposable_flavour invisible')
+                        elfs_flavour.attr('class', 'elfs_flavour invisible')
+                        hqd_flavour.attr('class', 'hqd_flavour invisible')
+                        ukrainian_flavour.attr('class', 'ukrainian_flavour invisible')
                     nicotine_strength_input.attr('class', 'nicotine_strength invisible')
-                    param_input.attr('class', 'invisible')
+                    param_input.attr('class', ' invisible')
                     fluid_volume.attr('class', 'fluid_volume invisible')
                     battery_capacity.attr('class', 'battery_capacity visible')
                     resistance.attr('class', 'resistance invisible')
@@ -1361,8 +1621,13 @@
                     rechargeable.attr('class', 'rechargeable invisible')
                     }
                     else if(categoryId_value == '237'){
+                        liquids_flavour.attr('class', 'liquids_flavour invisible')
+                        disposable_flavour.attr('class', 'disposable_flavour invisible')
+                        elfs_flavour.attr('class', 'elfs_flavour invisible')
+                        hqd_flavour.attr('class', 'hqd_flavour invisible')
+                        ukrainian_flavour.attr('class', 'ukrainian_flavour invisible')
                     nicotine_strength_input.attr('class', 'nicotine_strength visible')
-                    param_input.attr('class', 'invisible');
+                    param_input.attr('class', ' invisible');
                     fluid_volume.attr('class', 'fluid_volume visible')
                     battery_capacity.attr('class', 'battery_capacity invisible')
                     resistance.attr('class', 'resistance invisible')
@@ -1373,8 +1638,13 @@
                     rechargeable.attr('class', 'rechargeable invisible')
                     }
                     else if(categoryId_value == '293'){
+                        liquids_flavour.attr('class', 'liquids_flavour invisible')
+                        disposable_flavour.attr('class', 'disposable_flavour invisible')
+                        elfs_flavour.attr('class', 'elfs_flavour invisible')
+                        hqd_flavour.attr('class', 'hqd_flavour invisible')
+                        ukrainian_flavour.attr('class', 'ukrainian_flavour invisible')
                     nicotine_strength_input.attr('class', 'nicotine_strength visible')
-                    param_input.attr('class', 'invisible');
+                    param_input.attr('class', ' invisible');
                     fluid_volume.attr('class', 'fluid_volume invisible')
                     battery_capacity.attr('class', 'battery_capacity invisible')
                     resistance.attr('class', 'resistance invisible')
@@ -1385,8 +1655,13 @@
                     rechargeable.attr('class', 'rechargeable invisible')
                     }
                     else if(categoryId_value == '294'){
+                        liquids_flavour.attr('class', 'liquids_flavour invisible')
+                        disposable_flavour.attr('class', 'disposable_flavour invisible')
+                        elfs_flavour.attr('class', 'elfs_flavour invisible')
+                        hqd_flavour.attr('class', 'hqd_flavour invisible')
+                        ukrainian_flavour.attr('class', 'ukrainian_flavour invisible')
                     nicotine_strength_input.attr('class', 'nicotine_strength visible')
-                    param_input.attr('class', 'invisible');
+                    param_input.attr('class', ' invisible');
                     fluid_volume.attr('class', 'fluid_volume invisible')
                     battery_capacity.attr('class', 'battery_capacity invisible')
                     resistance.attr('class', 'resistance invisible')
@@ -1397,8 +1672,13 @@
                     rechargeable.attr('class', 'rechargeable invisible')
                     }
                     else if(categoryId_value == '170'){
+                        liquids_flavour.attr('class', 'liquids_flavour invisible')
+                        disposable_flavour.attr('class', 'disposable_flavour invisible')
+                        elfs_flavour.attr('class', 'elfs_flavour invisible')
+                        hqd_flavour.attr('class', 'hqd_flavour invisible')
+                        ukrainian_flavour.attr('class', 'ukrainian_flavour invisible')
                     nicotine_strength_input.attr('class', 'nicotine_strength invisible')
-                    param_input.attr('class', 'invisible');
+                    param_input.attr('class', ' invisible');
                     fluid_volume.attr('class', 'fluid_volume invisible')
                     battery_capacity.attr('class', 'battery_capacity visible')
                     resistance.attr('class', 'resistance invisible')
@@ -1410,8 +1690,13 @@
                     
                     }
                     else if(categoryId_value == '283'){
+                        liquids_flavour.attr('class', 'liquids_flavour invisible')
+                        disposable_flavour.attr('class', 'disposable_flavour invisible')
+                        elfs_flavour.attr('class', 'elfs_flavour invisible')
+                        hqd_flavour.attr('class', 'hqd_flavour invisible')
+                        ukrainian_flavour.attr('class', 'ukrainian_flavour invisible')
                         nicotine_strength_input.attr('class', 'nicotine_strength invisible')
-                        param_input.attr('class', 'invisible');
+                        param_input.attr('class', ' invisible');
                         fluid_volume.attr('class', 'fluid_volume visible')
                         battery_capacity.attr('class', 'battery_capacity visible')
                         resistance.attr('class', 'resistance invisible')
@@ -1423,8 +1708,13 @@
                         
                     }
                     else if(categoryId_value == '187'){
+                        liquids_flavour.attr('class', 'liquids_flavour invisible')
+                        disposable_flavour.attr('class', 'disposable_flavour invisible')
+                        elfs_flavour.attr('class', 'elfs_flavour invisible')
+                        hqd_flavour.attr('class', 'hqd_flavour invisible')
+                        ukrainian_flavour.attr('class', 'ukrainian_flavour invisible')
                     nicotine_strength_input.attr('class', 'nicotine_strength visible')
-                    param_input.attr('class', 'invisible');
+                    param_input.attr('class', ' invisible');
                     fluid_volume.attr('class', 'fluid_volume visible')
                     battery_capacity.attr('class', 'battery_capacity visible')
                     resistance.attr('class', 'resistance invisible')
@@ -1436,8 +1726,13 @@
                     
                     }
                     else if(categoryId_value == '286'){
+                        liquids_flavour.attr('class', 'liquids_flavour invisible')
+                        disposable_flavour.attr('class', 'disposable_flavour invisible')
+                        elfs_flavour.attr('class', 'elfs_flavour invisible')
+                        hqd_flavour.attr('class', 'hqd_flavour invisible')
+                        ukrainian_flavour.attr('class', 'ukrainian_flavour invisible')
                         nicotine_strength_input.attr('class', 'nicotine_strength visible')
-                        param_input.attr('class', 'invisible');
+                        param_input.attr('class', ' invisible');
                         fluid_volume.attr('class', 'fluid_volume visible')
                         battery_capacity.attr('class', 'battery_capacity invisible')
                         resistance.attr('class', 'resistance invisible')
@@ -1449,8 +1744,13 @@
                       
                     }
                     else if(categoryId_value == '205'){
+                        liquids_flavour.attr('class', 'liquids_flavour invisible')
+                        disposable_flavour.attr('class', 'disposable_flavour invisible')
+                        elfs_flavour.attr('class', 'elfs_flavour invisible')
+                        hqd_flavour.attr('class', 'hqd_flavour invisible')
+                        ukrainian_flavour.attr('class', 'ukrainian_flavour invisible')
                         nicotine_strength_input.attr('class', 'nicotine_strength visible')
-                        param_input.attr('class', 'invisible');
+                        param_input.attr('class', ' invisible');
                         fluid_volume.attr('class', 'fluid_volume visible')
                         battery_capacity.attr('class', 'battery_capacity invisible')
                         resistance.attr('class', 'resistance invisible')
@@ -1462,8 +1762,13 @@
                       
                     }
                     else if(categoryId_value == '232'){
+                        liquids_flavour.attr('class', 'liquids_flavour invisible')
+                        disposable_flavour.attr('class', 'disposable_flavour invisible')
+                        elfs_flavour.attr('class', 'elfs_flavour invisible')
+                        hqd_flavour.attr('class', 'hqd_flavour invisible')
+                        ukrainian_flavour.attr('class', 'ukrainian_flavour invisible')
                         nicotine_strength_input.attr('class', 'nicotine_strength invisible')
-                        param_input.attr('class', 'invisible');
+                        param_input.attr('class', ' invisible');
                         fluid_volume.attr('class', 'fluid_volume visible')
                         battery_capacity.attr('class', 'battery_capacity visible')
                         resistance.attr('class', 'resistance invisible')
@@ -1475,8 +1780,13 @@
                       
                     }
                     else if(categoryId_value == '173'){
+                        liquids_flavour.attr('class', 'liquids_flavour invisible')
+                        disposable_flavour.attr('class', 'disposable_flavour invisible')
+                        elfs_flavour.attr('class', 'elfs_flavour invisible')
+                        hqd_flavour.attr('class', 'hqd_flavour invisible')
+                        ukrainian_flavour.attr('class', 'ukrainian_flavour invisible')
                         nicotine_strength_input.attr('class', 'nicotine_strength invisible')
-                        param_input.attr('class', 'invisible');
+                        param_input.attr('class', ' invisible');
                         fluid_volume.attr('class', 'fluid_volume invisible')
                         battery_capacity.attr('class', 'battery_capacity invisible')
                         resistance.attr('class', 'resistance visible')
@@ -1488,8 +1798,13 @@
                       
                     }
                     else if(categoryId_value == '199'){
+                        liquids_flavour.attr('class', 'liquids_flavour invisible')
+                        disposable_flavour.attr('class', 'disposable_flavour invisible')
+                        elfs_flavour.attr('class', 'elfs_flavour invisible')
+                        hqd_flavour.attr('class', 'hqd_flavour invisible')
+                        ukrainian_flavour.attr('class', 'ukrainian_flavour invisible')
                         nicotine_strength_input.attr('class', 'nicotine_strength visible')
-                        param_input.attr('class', 'invisible');
+                        param_input.attr('class', ' invisible');
                         fluid_volume.attr('class', 'fluid_volume visible')
                         battery_capacity.attr('class', 'battery_capacity invisible')
                         resistance.attr('class', 'resistance invisible')
@@ -1501,8 +1816,13 @@
                       
                     }
                     else if(categoryId_value == '176'){
+                        liquids_flavour.attr('class', 'liquids_flavour invisible')
+                        disposable_flavour.attr('class', 'disposable_flavour invisible')
+                        elfs_flavour.attr('class', 'elfs_flavour invisible')
+                        hqd_flavour.attr('class', 'hqd_flavour invisible')
+                        ukrainian_flavour.attr('class', 'ukrainian_flavour invisible')
                         nicotine_strength_input.attr('class', 'nicotine_strength invisible')
-                        param_input.attr('class', 'invisible');
+                        param_input.attr('class', ' invisible');
                         fluid_volume.attr('class', 'fluid_volume visible')
                         battery_capacity.attr('class', 'battery_capacity visible')
                         resistance.attr('class', 'resistance invisible')
@@ -1514,8 +1834,13 @@
                       
                     }
                     else if(categoryId_value == '240'){
+                        liquids_flavour.attr('class', 'liquids_flavour invisible')
+                        disposable_flavour.attr('class', 'disposable_flavour invisible')
+                        elfs_flavour.attr('class', 'elfs_flavour invisible')
+                        hqd_flavour.attr('class', 'hqd_flavour invisible')
+                        ukrainian_flavour.attr('class', 'ukrainian_flavour invisible')
                         nicotine_strength_input.attr('class', 'nicotine_strength visible')
-                        param_input.attr('class', 'invisible');
+                        param_input.attr('class', ' invisible');
                         fluid_volume.attr('class', 'fluid_volume invisible')
                         battery_capacity.attr('class', 'battery_capacity invisible')
                         resistance.attr('class', 'resistance invisible')
@@ -1527,8 +1852,13 @@
                       
                     }
                     else if(categoryId_value == '172'){
+                        liquids_flavour.attr('class', 'liquids_flavour invisible')
+                        disposable_flavour.attr('class', 'disposable_flavour invisible')
+                        elfs_flavour.attr('class', 'elfs_flavour invisible')
+                        hqd_flavour.attr('class', 'hqd_flavour invisible')
+                        ukrainian_flavour.attr('class', 'ukrainian_flavour invisible')
                         nicotine_strength_input.attr('class', 'nicotine_strength invisible')
-                        param_input.attr('class', 'invisible');
+                        param_input.attr('class', ' invisible');
                         fluid_volume.attr('class', 'fluid_volume invisible')
                         battery_capacity.attr('class', 'battery_capacity invisible')
                         resistance.attr('class', 'resistance invisible')
@@ -1540,8 +1870,13 @@
                       
                     }
                     else if(categoryId_value == '241'){
+                        liquids_flavour.attr('class', 'liquids_flavour invisible')
+                        disposable_flavour.attr('class', 'disposable_flavour invisible')
+                        elfs_flavour.attr('class', 'elfs_flavour invisible')
+                        hqd_flavour.attr('class', 'hqd_flavour invisible')
+                        ukrainian_flavour.attr('class', 'ukrainian_flavour invisible')
                         nicotine_strength_input.attr('class', 'nicotine_strength invisible')
-                        param_input.attr('class', 'invisible');
+                        param_input.attr('class', ' invisible');
                         fluid_volume.attr('class', 'fluid_volume invisible')
                         battery_capacity.attr('class', 'battery_capacity invisible')
                         resistance.attr('class', 'resistance invisible')
@@ -1553,8 +1888,13 @@
                       
                     }
                     else if(categoryId_value == '218'){
+                        liquids_flavour.attr('class', 'liquids_flavour invisible')
+                        disposable_flavour.attr('class', 'disposable_flavour invisible')
+                        elfs_flavour.attr('class', 'elfs_flavour invisible')
+                        hqd_flavour.attr('class', 'hqd_flavour invisible')
+                        ukrainian_flavour.attr('class', 'ukrainian_flavour invisible')
                         nicotine_strength_input.attr('class', 'nicotine_strength visible')
-                        param_input.attr('class', 'invisible');
+                        param_input.attr('class', ' invisible');
                         fluid_volume.attr('class', 'fluid_volume visible')
                         battery_capacity.attr('class', 'battery_capacity visible')
                         resistance.attr('class', 'resistance invisible')
@@ -1566,8 +1906,13 @@
                       
                     }
                     else if(categoryId_value == '235'){
+                        liquids_flavour.attr('class', 'liquids_flavour invisible')
+                        disposable_flavour.attr('class', 'disposable_flavour invisible')
+                        elfs_flavour.attr('class', 'elfs_flavour invisible')
+                        hqd_flavour.attr('class', 'hqd_flavour invisible')
+                        ukrainian_flavour.attr('class', 'ukrainian_flavour invisible')
                         nicotine_strength_input.attr('class', 'nicotine_strength invisible')
-                        param_input.attr('class', 'invisible');
+                        param_input.attr('class', ' invisible');
                         fluid_volume.attr('class', 'fluid_volume invisible')
                         battery_capacity.attr('class', 'battery_capacity visible')
                         resistance.attr('class', 'resistance invisible')
@@ -1579,8 +1924,13 @@
                       
                     }
                     else if(categoryId_value == '217'){
+                        liquids_flavour.attr('class', 'liquids_flavour invisible')
+                        disposable_flavour.attr('class', 'disposable_flavour invisible')
+                        elfs_flavour.attr('class', 'elfs_flavour invisible')
+                        hqd_flavour.attr('class', 'hqd_flavour invisible')
+                        ukrainian_flavour.attr('class', 'ukrainian_flavour invisible')
                         nicotine_strength_input.attr('class', 'nicotine_strength invisible')
-                        param_input.attr('class', 'invisible');
+                        param_input.attr('class', ' invisible');
                         fluid_volume.attr('class', 'fluid_volume invisible')
                         battery_capacity.attr('class', 'battery_capacity visible')
                         resistance.attr('class', 'resistance invisible')
@@ -1592,8 +1942,13 @@
                       
                     }
                     else if(categoryId_value == '187'){
+                        liquids_flavour.attr('class', 'liquids_flavour invisible')
+                        disposable_flavour.attr('class', 'disposable_flavour invisible')
+                        elfs_flavour.attr('class', 'elfs_flavour invisible')
+                        hqd_flavour.attr('class', 'hqd_flavour invisible')
+                        ukrainian_flavour.attr('class', 'ukrainian_flavour invisible')
                         nicotine_strength_input.attr('class', 'nicotine_strength invisible')
-                        param_input.attr('class', 'invisible');
+                        param_input.attr('class', ' invisible');
                         fluid_volume.attr('class', 'fluid_volume invisible')
                         battery_capacity.attr('class', 'battery_capacity visible')
                         resistance.attr('class', 'resistance invisible')
@@ -1605,8 +1960,13 @@
                       
                     }
                     else if(categoryId_value == '279'){
+                        liquids_flavour.attr('class', 'liquids_flavour invisible')
+                        disposable_flavour.attr('class', 'disposable_flavour invisible')
+                        elfs_flavour.attr('class', 'elfs_flavour invisible')
+                        hqd_flavour.attr('class', 'hqd_flavour invisible')
+                        ukrainian_flavour.attr('class', 'ukrainian_flavour invisible')
                         nicotine_strength_input.attr('class', 'nicotine_strength invisible')
-                        param_input.attr('class', 'invisible');
+                        param_input.attr('class', ' invisible');
                         fluid_volume.attr('class', 'fluid_volume invisible')
                         battery_capacity.attr('class', 'battery_capacity visible')
                         resistance.attr('class', 'resistance invisible')
@@ -1618,8 +1978,13 @@
                       
                     }
                     else{
+                        liquids_flavour.attr('class', 'liquids_flavour invisible')
+                        disposable_flavour.attr('class', 'disposable_flavour invisible')
+                        elfs_flavour.attr('class', 'elfs_flavour invisible')
+                        hqd_flavour.attr('class', 'hqd_flavour invisible')
+                        ukrainian_flavour.attr('class', 'ukrainian_flavour invisible')
                         nicotine_strength_input.attr('class', 'nicotine_strength visible')
-                        param_input.attr('class', 'visible');
+                        param_input.attr('class', ' visible');
                         fluid_volume.attr('class', 'fluid_volume visible')
                         battery_capacity.attr('class', 'battery_capacity visible')
                         resistance.attr('class', 'resistance visible')
@@ -1629,7 +1994,7 @@
                         puffs_number.attr('class', 'puffs_number visible')
                         rechargeable.attr('class', 'rechargeable visible')
                     }
-                  filter_visibility.forEach(filter=>{
+                filter_visibility.forEach(filter=>{
                     if(filter["fields"]["visible"] != true){
                         if(filter["fields"]["name"] == "Перезаряджаються"){
                             rechargeable.attr('class', 'rechargeable invisible')
@@ -1662,7 +2027,12 @@
                             nicotine_strength_input.attr('class', 'nicotine_strength invisible')
                         }
                         else if(filter["fields"]["name"] == 'Вибір смаку'){
-                            param_input.attr('class', 'invisible')
+                            liquids_flavour.attr('class', 'liquids_flavour invisible')
+                            disposable_flavour.attr('class', 'disposable_flavour invisible')
+                            elfs_flavour.attr('class', 'elfs_flavour invisible')
+                            hqd_flavour.attr('class', 'hqd_flavour invisible')
+                            ukrainian_flavour.attr('class', 'ukrainian_flavour invisible')
+                            param_input.attr('class', ' invisible')
                         }
                     }
 
@@ -1974,7 +2344,9 @@
         let itemsNamesInCart = JSON.parse(itemsNamesInCartJson);
         data.forEach(item => {
                 //src = "/image/?url=${fields['picture']}"
+
                 let fields = item['fields'];
+                console.log(fields['available'])
                     content.innerHTML+=`
                     <div class='catalog' id = "cart_number_${item['pk']}">
                         
@@ -2279,10 +2651,12 @@
     .then(response => response.json())
     .then(response => {
         const data = response.offer;
+
         let itemsNamesInCartJson = localStorage.getItem('itemsNamesInCart');
         let itemsNamesInCart = JSON.parse(itemsNamesInCartJson);
         for (let j = 0; j < data.length; j++) {
-            if (!document.getElementById(`cart_number_${data[j].id}`)) {
+
+                console.log(data[j].available)
                 let i = j + _current_item;
                 container.innerHTML += `
                     <div class='catalog' id="cart_number_${data[j].id}">
@@ -2315,9 +2689,7 @@
                         `;
                     });
                 }
-                console.log("stop");
             }
-        }
         btn_container.innerHTML = `
             <button class ="btn_loadmore" onclick = "load_more('${name}')">load more</button>
         `;
@@ -2516,9 +2888,46 @@
 
     function to_cart(nvp, fill, areas_and_costs, users, payment_methods){
         $(document).ready(function(){
+            let cost = 0;
+            let tg = window.Telegram.WebApp;
+            let itemsNamesCountInCartJson = localStorage.getItem('itemsNamesCountInCart')
+            let pm = document.getElementById('payment_method').value;
+            let fee = 0;
+            let delivery_method = document.getElementById('delivery_method').value;
+            payment_methods.forEach(payment_method =>{
+                if(pm.includes(payment_method.fields.name)){
+                    fee = payment_method.fields.fee
+                }
+            })
+            itemsNamesCountInCart.forEach(item=>{
+                if(item.count != 0){
+                    cost = cost + parseInt(item.price)*parseInt(item.count);
+                }
+        
+            })
+            let costs = areas_and_costs.map(area => {
+                return area["fields"]
+            });
+            let areasSelect = document.getElementById('cities').value;
+            costs.forEach(cos=>{
+                if(cos["area"].includes(areasSelect)){
+                    if(delivery_method == "У відділення"){
+                        cost = cost + cos["cost_for_warehouse"];
+                    }
+                    else if(delivery_method == "В поштомат"){
+                        cost = cost + cos["cost_for_post"];
+                    }
+                    else{
+                        cost = cost + cos["cost_for_adress"];
+                    }
+                }
+            })
+
+            cost = cost*(fee/100)+cost
+            console.log(cost)
+            tg.MainButton.setText("Підтвердити замовлення("+cost+" грн)")
             let main_button = document.querySelector('.btn_to_cart')
             main_button.classList = "btn_to_cart invisible"
-            let tg = window.Telegram.WebApp;
             tg.expand()
             tg.MainButton.textColor = "#FFFFFF";
             tg.MainButton.color = "#2cab37";
@@ -2538,7 +2947,7 @@
                 let phone_number = document.getElementById('phone_number').value
                 let nameInput = document.getElementById('name')
                 let name = nameInput.value;
-                
+                const if_cashback = document.getElementById('cashback-cart').checked;
                 const areasSelect = document.getElementById('cities').value;
                 const citiesSelect = document.getElementById('towns').value;
                 const delivery_method = document.getElementById('delivery_method').value;
@@ -2606,8 +3015,8 @@
                 let offer = s;
                 
                 let price = i + " UAH";
-
-                let result = {'message': res, 'offer': offer, 'amount': price, 'phone_number': phone_number, 'call':call, 'name': name, 'area': areasSelect, 'city': citiesSelect, 'warehouse': warehousesSelect, 'products' : products, 'delivery_method': delivery_method, 'payment_method': pm, 'comment': comment }
+                let cashback_amount = if_cashback ? users[0]["fields"]["cashback_amount"] : 0;
+                let result = {'message': res, 'offer': offer, 'amount': price, 'phone_number': phone_number, 'call':call, 'name': name, 'area': areasSelect, 'city': citiesSelect, 'warehouse': warehousesSelect, 'products' : products, 'delivery_method': delivery_method, 'payment_method': pm, 'comment': comment, 'cashback': cashback_amount}
                 const resultJSON = JSON.stringify(result);
                 tg.sendData(resultJSON);
                 localStorage.clear();

@@ -395,6 +395,46 @@ class DBManager:
                 if subscribed_users[pod['@id']] != None:
                     subscribe = subscribed_users[pod['@id']]
 
+            disposable_flavour = "-"
+            try:
+                for parametr in pod['param']:
+                    if parametr["@name"] == "Выбор вкуса" and pod['categoryId'] == "239":
+                        disposable_flavour=parametr["#text"]
+            except:
+                disposable_flavour="-"
+
+            elf_bar_flavour = "-"
+            try:
+                for parametr in pod['param']:
+                    if parametr["@name"] == "Выбор вкуса" and pod['categoryId'] == "287":
+                        elf_bar_flavour=parametr["#text"]
+            except:
+                elf_bar_flavour="-"
+
+            ukrainian_flavour = "-"
+            try:
+                for parametr in pod['param']:
+                    if parametr["@name"] == "Выбор вкуса" and pod['categoryId'] == "236":
+                        ukrainian_flavour=parametr["#text"]
+            except:
+                ukrainian_flavour="-"
+
+            liquids_flavour = "-"
+            try:
+                for parametr in pod['param']:
+                    if parametr["@name"] == "Выбор вкуса" and pod['categoryId'] == "208":
+                        liquids_flavour=parametr["#text"]
+            except:
+                liquids_flavour="-"
+
+            hqd_flavour = "-"
+            try:
+                for parametr in pod['param']:
+                    if parametr["@name"] == "Выбор вкуса" and pod['categoryId'] == "288":
+                        hqd_flavour=parametr["#text"]
+            except:
+                hqd_flavour="-"
+
             podik = Podik(
                 id = pod["@id"],
                 available = self.__str_to_bool(pod["@available"]),
@@ -420,7 +460,12 @@ class DBManager:
                 puffs_number = puffs_number,
                 rechargeable = rechargeable,
                 compatibility_selection = compatibility_selection,
-                subscribers = subscribe
+                subscribers = subscribe,
+                disposable_flavour = disposable_flavour,
+                elf_bar_flavour = elf_bar_flavour,
+                hqd_flavour = hqd_flavour,
+                liquids_flavour = liquids_flavour,
+                ukrainian_flavour = ukrainian_flavour,
             )
             # print("hihi="+str(int(pod["categoryId"])))
             all_pods.append(podik)
@@ -440,7 +485,7 @@ def all_categories():
         real_all_cats.append(tuple(all_cats))
     return tuple(real_all_cats)
 
-print(all_categories())
+# print(all_categories())
 dbm = DBManager()
 # dbm.JsonToDB()
 

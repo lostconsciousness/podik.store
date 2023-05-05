@@ -18,6 +18,8 @@ from aiogram import Bot, Dispatcher, types
 from aiogram.utils import exceptions
 from django.core.paginator import Paginator
 from django.core.files.storage import FileSystemStorage
+from django.db.models import F, IntegerField
+from django.db.models.functions import Cast
 
 bot = Bot(token="6075679825:AAGrgD6b9hybk9EoNue44k1ZPW8paFJCs5M")
 dp = Dispatcher(bot)
@@ -43,29 +45,22 @@ async def send_photo(chat_id,photo, text):
     # await bot.send_message(chat_id=chat_id, text=text)
     with open("image.png", 'rb') as f:
         await bot.send_photo(chat_id=chat_id,photo=f, caption=text)
-    print(chat_id)
 
 async def send_message(chat_id, text):
     await bot.send_message(chat_id=chat_id, text=text)
 def update_message(request):
     if request.method == 'POST':
-        print(request.POST)
         form = UpdateMessageForm(request.POST, request.FILES)
         if form.is_valid():
             data = {}
             for key in request.POST.keys():
                 if key.startswith('id'):
                     data[key[2:]] = request.POST[key]
-                    print("sosat"+str(data[key[2:]]))
-                    print("sosat"+str(key))
-            print(data.values())
             temp = []
             for i in data.values():
-                print(i)
                 temp.append(i)
             new_visibility = request.POST.get('message')
             messages.success(request, f'Successfully updated {len(temp)} products')
-            print(f"new_visibility = {new_visibility}")
             loop = asyncio.new_event_loop()
             asyncio.set_event_loop(loop)
             # Generate a unique file name
@@ -105,14 +100,12 @@ def my_views(request):
 
     if  request.method == 'POST':
         data = request.POST.get('price')
-        print(f"data = {data}")
         # items = localStorage.getItem("ids")
         # for pod in Podik.objects.all():
         #     if pod.id in items:
         #         pod.price = data
         response_data = {'result': 'success'}
         #localStorage.clear()
-        print(response_data)
         return JsonResponse(response_data)
     else:
         response_data = {'error': 'Invalid request'}
@@ -129,16 +122,13 @@ def update_price(request):
             for key in request.POST.keys():
                 if key.startswith('id'):
                     data[key[2:]] = request.POST[key]
-            print(data.values())
             temp = []
             for i in data.values():
-                print(i)
                 temp.append(i)
             new_price = request.POST.get('price')
             new_quantity = request.POST.get('quantity_in_stock')
             new_available = request.POST.get('available')
             messages.success(request, f'Successfully updated {len(temp)} products')
-            print(f"new_price = {new_price}")
             res = Podik.objects.filter(id__in=temp)
             if(new_price != ""):
                 res.update(price=new_price)
@@ -147,7 +137,6 @@ def update_price(request):
             res.update(available = new_available)
             return redirect(reverse('admin:index'))
     else:
-        print("321")
         selected_ids = request.GET.getlist('selected_ids')
         products = Podik.objects.filter(id__in=selected_ids)
         initial_price = products.first().price if products.exists() else 0
@@ -163,16 +152,11 @@ def update_visibility(request):
             for key in request.POST.keys():
                 if key.startswith('id'):
                     data[key[2:]] = request.POST[key]
-                    print("sosat"+str(data[key[2:]]))
-                    print("sosat"+str(key))
-            print(data.values())
             temp = []
             for i in data.values():
-                print(i)
                 temp.append(i)
             new_visibility = request.POST.get('visible')
             messages.success(request, f'Successfully updated {len(temp)} products')
-            print(f"new_visibility = {new_visibility}")
             res = Filters.objects.filter(name__in=temp)
             res.update(visible = new_visibility)
             return redirect(reverse('admin:index'))
@@ -199,8 +183,6 @@ def filter_data(request):
 #или попросить код егора
 # class MyFilterView(FilterView):
 #   model = Podik
-#   filterset_class = PodFilter
-#   print("23232")
 #   template_name = "homepage.html"
 
 #   def get(self, request, *args, **kwargs):
@@ -261,10 +243,8 @@ def load_more(request):
     podfilter = PodFilter(request.GET, queryset=Podik.objects.all())
     name = request.GET.get('name')
     total_item_str = request.GET.get('total_item')
-    print(total_item_str)
     total_item = int(total_item_str)
-    print(name, total_item)
-    sorted_all = Podik.objects.all().order_by("-available")
+    sorted_all = Podik.objects.all().annotate(int_available = Cast("available", IntegerField())).order_by(F('int_available').desc(), F('id').asc() )
     offers = {
         # 'pod':list((podfilter.qs.values())[total_item:total_item+50]),
         # 'pods':list((allObjects.filter(categoryId=220).values())[total_item:total_item+50]),
@@ -288,7 +268,7 @@ def load_more(request):
         # 'ukrainian_salt':list(allObjects.filter(categoryId=236).values().order_by("-available")[total_item:total_item+50]),
         # 'premium_salt':list(allObjects.filter(categoryId=237).values().order_by("-available")[total_item:total_item+50]),
 
-        'pod':list(podfilter.qs.order_by("-available").values()[total_item:total_item+50]),
+        'pod':list(podfilter.qs.annotate(int_available = Cast("available", IntegerField())).order_by(F('int_available').desc(), F('id').asc()).values()[total_item:total_item+50]),
         'pods':list(sorted_all.filter(categoryId=220).values()[total_item:total_item+50]),
         'devices':list(sorted_all.filter(categoryId=221).values()[total_item:total_item+50]),
         'cartridges':list(sorted_all.filter(categoryId=222).values()[total_item:total_item+50]),
@@ -312,7 +292,6 @@ def homepage(request, tg_id):
     except:
         fill = serializers.serialize('json', Offers.objects.all().filter(tg_id = tg_id))
     podfilter = PodFilter(request.GET, queryset=Podik.objects.all())
-    print('aaaaaaaaaaaa')
     users = serializers.serialize('json', Users.objects.all().filter(tg_id=tg_id))
     areas_and_costs = serializers.serialize('json', Areas_and_costs.objects.all())
     filter_visibility = serializers.serialize('json', Filters.objects.all())
@@ -330,7 +309,7 @@ def homepage(request, tg_id):
     # premium_salt = serializers.serialize('json', allObjects.filter(categoryId = 237).order_by("-available")[:50])
     payment_methods = serializers.serialize('json', PaymentMethod.objects.all())
     # sorted_all = sorted(Podik.objects.all(), key= lambda x: not x.available)
-    sorted_all = Podik.objects.all().order_by("-available")
+    sorted_all = Podik.objects.all().annotate(int_available = Cast("available", IntegerField())).order_by(F('int_available').desc(), F('id').asc() )
     pods = serializers.serialize('json', sorted_all[:50])
     pod_system = serializers.serialize('json', sorted_all.filter(categoryId = 220)[:50])
     devices = serializers.serialize('json', sorted_all.filter(categoryId = 221)[:50])
