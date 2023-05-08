@@ -34,7 +34,7 @@ class Podik(models.Model):
     rechargeable = models.BooleanField(null = True, verbose_name="Перезаряджаються'")
     compatibility_selection = models.CharField(null = True,max_length=255, verbose_name="Вибір сумісності")
     subscribers = models.TextField(null=True)
-
+    image = models.FileField(upload_to = "main/static/images/",null=True)
     def __str__(self):
         return self.name
     class Meta:

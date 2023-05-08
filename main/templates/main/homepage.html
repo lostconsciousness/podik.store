@@ -728,11 +728,12 @@
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
-    console.log(window.location.href.substring(window.location.href.lastIndexOf('/') + 1))
-    let generalCart = 1;
     window.addEventListener("beforeunload", function() {
         localStorage.clear();
     });
+    let generalCart = 0;
+    localStorage.setItem('generalCartCount', generalCart);
+
     let itemsNamesInCart = [];
     let itemsNamesInCartJson = JSON.stringify(itemsNamesInCart)
     localStorage.setItem('itemsNamesInCart', itemsNamesInCartJson);
@@ -3281,12 +3282,15 @@
 
                 <label for="payment_method" class="label_cart">Оберіть спосіб оплати</label>
                 <select id="payment_method" name="payment_method" class = "payment_method" > 
-                </select>
-                <label for="cashback-cart" id = "cashback" class="label_cart"></label>
+                </select>`
+                if(users[0]["fields"]["cashback_amount"]>0){
+                    details.innerHTML += `<label for="cashback-cart" id = "cashback" class="label_cart">Ваш кешбек становить: ${users[0]["fields"]["cashback_amount"]}</label>
                 <div class="cash">
                     Використати кешбек<input type="checkbox" id="cashback-cart">
-                </div>
-                <label for="delivery_method" class="label_cart">Оберіть спосіб доставки</label>
+                </div>`
+                }
+                
+            details.innerHTML += `<label for="delivery_method" class="label_cart">Оберіть спосіб доставки</label>
                 <select id="delivery_method" name="delivery_method" class = "delivery_method" onchange = "get_post_office({{areas_and_costs}})"> 
                     <option value="Курʼєром Нової пошти">Курʼєром Нової пошти</option>
                     <option value="У відділення">У відділення</option>
@@ -3298,7 +3302,8 @@
             pm.innerHTML+= `<option value="${method.fields.name}">${method.fields.name}(+${method.fields.fee}% комісії)</option>`
         })
          console.log("start")
-                document.getElementById("cashback").innerHTML = "Ваш кешбек становить: "+ users[0]["fields"]["cashback_amount"]
+           
+
                 details.innerHTML+=`
                 <div class = 'visible' id = "post_office">
                     <label for="cities" class="label_cart" id = "cities_label">Оберіть область</label>

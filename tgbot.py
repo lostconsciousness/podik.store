@@ -139,13 +139,16 @@ async def my_orders(message: types.Message):
     offers = Offers.objects.all().filter(tg_id = message.from_id)
     order_str=""
     i = 1
-    for order in offers:
-        try:
-            order_str+=f"\n{i})Заказ {order.id}"+"\n"+order.offer+f"Сумма заказа: {order.amount}\nСтатус заказа:\nТТН: "+order.novapost_en
-        except:
-            order_str+=f"\n{i})Заказ {order.id}"+"\n"+order.offer+f"Сумма заказа: {order.amount}\nСтатус заказа:"
-        i = i + 1
-    await bot.send_message(message.from_user.id, "Мои заказы:"+order_str)
+    if len(offers) == 0:
+        await bot.send_message(message.from_user.id, "Ви ще не робили замовлень")
+    else:
+        for order in offers:
+            try:
+                order_str+=f"\n{i})Заказ {order.id}"+"\n"+order.offer+f"Сумма заказа: {order.amount}\nСтатус заказа:\nТТН: "+order.novapost_en
+            except:
+                order_str+=f"\n{i})Заказ {order.id}"+"\n"+order.offer+f"Сумма заказа: {order.amount}\nСтатус заказа:"
+            i = i + 1
+        await bot.send_message(message.from_user.id, "Мои заказы:"+order_str)
 
 @dp.message_handler(lambda message: message.text == "Картка користувача")
 async def client_card(message: types.Message):
