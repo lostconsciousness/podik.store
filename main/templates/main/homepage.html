@@ -10,7 +10,6 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     
     {% load static %}
-    {% comment %} <link rel="stylesheet" href="{% static 'css/main.css' %}"> {% endcomment %}
     <style>
         body {
             margin: 0;
@@ -77,6 +76,8 @@
             width: 80%;
             text-align: center;
             margin: auto;
+            padding: 1vh;
+
         }
         
         #menu {
@@ -643,8 +644,7 @@
           }
           .select2-container {
             width: 100px;
-          }	
-
+          }
           .notification{
             width: 55vw;
             height: 6vh;
@@ -660,7 +660,7 @@
             padding: 1.5vh;
         }
 
-    </style>
+    </style> 
 </head>
 
 <body> 
@@ -678,7 +678,14 @@
             <div class="ctg">Категорії товарів</div>
 
             
-            <div class='menu' id = "button_card_0" style="grid-column: span 2;margin: auto; width: 83vw" onclick="to_catalog({{pod_system}}, 'pods', 'pod_system')">
+            <div class='menu' id = "button_card_0" style="grid-column: span 2;margin: auto; width: 84vw" onclick="to_ESigs()">
+                <div class='img_container'>
+                    <img src="{% static 'images/podik.png' %}" class='img_menu' alt="" />
+                </div>
+                <div class='menutext'>Електронні сигарети</div>
+            </div>
+
+            <div class='menu' id = "button_card_1" style="grid-column: span 2;margin: auto; width: 84vw" onclick="to_POD()">
                 <div class='img_container'>
                     <img src="{% static 'images/pod.png' %}" class='img_menu' alt="" />
                 </div>
@@ -686,34 +693,7 @@
             </div>
 
             
-            <div class='menu' id = "button_card_1" onclick="to_catalog({{devices}}, 'devices', 'devices')">
-                <div class='img_container'>
-                    <img src="{% static 'images/vaping.png' %}" class='img_menu' alt="" />
-                </div>
-                <div class='menutext'>Пристрої</div>
-            </div>
-
             
-            <div class='menu' onclick = "to_disposable()">
-                <div class='img_container'>
-                    <img src="{% static 'images/podik.png' %}" class='img_menu' alt="" />
-                </div>
-                <div class='menutext'>Одноразові</div>
-            </div>
-
-            <div class='menu' onclick="to_catalog({{cartridges}}, 'cartridges', 'cartridges')">
-                <div class='img_container'>
-                    <img src="{% static 'images/cartrid.png' %}" class='img_menu' alt="" />
-                </div>
-                <div class='menutext'>Картриджи</div>
-            </div>
-
-            <div class='menu' onclick="to_liquds()"> 
-                <div class='img_container'>
-                    <img src="{% static 'images/liquid.png' %}" class='img_menu' alt="" />
-                </div>
-                <div class='menutext'>Рідини для POD систем</div>
-            </div>
             <div class="tovar_button" onclick = "to_filters({{pod}}, 'pod', '', {{filter_visibility}})"> Підібрати товар</div>
         </div>
         <div id="btn_container">
@@ -742,6 +722,452 @@
     let itemsNamesCountInCartJson = JSON.stringify(itemsNamesCountInCart)
     localStorage.setItem('itemsNamesCountInCart', itemsNamesCountInCartJson);
 
+    
+    function to_ESigs(){
+
+        let details = document.querySelector('#details');
+        details.innerHTML = '';
+
+        let generalCart = parseInt(localStorage.getItem('generalCartCount')) || 0;
+        let tg = window.Telegram.WebApp
+        tg.expand()
+        tg.MainButton.hide()
+        tg.MainButton.color = "#2cab37";
+        const btn_container = document.querySelector('#btn_container')
+        const main_button = document.querySelector('.btn_to_cart')
+        if(generalCart==0){
+            main_button.classList = 'btn_to_cart invisible'
+            main_button.innerHTML =`Переглянути замовлення (${generalCart})`
+        }
+        else{
+            main_button.classList = 'btn_to_cart visible'
+            main_button.innerHTML =`Переглянути замовлення (${generalCart})`
+        }
+        const content = document.querySelector('.grid')
+        const header = document.querySelector('.header') 
+        const filter = document.querySelector('.filter') 
+        const AddedToCart = document.querySelector('.AddedToCart')
+        AddedToCart.innerHTML ='';
+        filter.innerHTML = '';
+        btn_container.innerHTML = '';
+        header.innerHTML = `
+        <div class="back_to_menu" onclick = "to_menu()"> 
+            <img src="{% static "images/left-arrow.png" %}" class ="arrow"; alt="" />  До каталогу</div>
+          `;
+        content.innerHTML=`
+        <div class="grid" >
+
+            <div class="ctg">Категорії товарів</div>
+
+            <div class='menu' id = "button_card_0" onclick="to_liquds()">
+                
+                <div class="img_container_catalog">
+                    <img src="{% static 'images/liquid.png' %}" class='img_menu_catalog' alt="" />
+                </div>
+                
+                <div class='menutext_catalog'>Рідини</div>
+            </div>
+
+            <div class='menu' id = "button_card_0" onclick="to_catalog({{box_mode}}, 'box_mode', 'box_mode')">
+                
+                <div class="img_container_catalog">
+                    <img src="{% static 'images/boksmode.png' %}" class='img_menu_catalog' alt="" />
+                </div>
+                
+                <div class='menutext_catalog'>Боксмоди</div>
+            </div>
+
+            <div class='menu' id = "button_card_0" onclick="to_catalog({{meh_mode}}, 'meh_mode', 'meh_mode')">
+                
+                <div class="img_container_catalog"> 
+                    <img src="{% static 'images/pod.png' %}" class='img_menu_catalog' alt="" />
+                </div>
+                
+                <div class='menutext_catalog'>Мех-моди</div>
+            </div>
+
+            <div class='menu' id = "button_card_0" onclick="to_catalog({{start_nabor_esigs}}, 'start_nabor_esigs', 'start_nabor_esigs')">
+                
+                <div class="img_container_catalog">
+                    <img src="{% static 'images/tools.png' %}" class='img_menu_catalog' alt="" />
+                </div>
+                
+                <div class='menutext_catalog'>Стартові набори</div>
+            </div>
+
+            <div class='menu' id = "button_card_0" onclick="to_avtomayzer()">
+                
+                <div class="img_container_catalog">
+                    <img src="{% static 'images/cleaner.png' %}" class='img_menu_catalog' alt="" />
+                </div>
+                
+                <div class='menutext_catalog'>Автомайзери</div>
+            </div>
+
+            <div class='menu' id = "button_card_0" onclick="to_complect()">
+                
+                <div class="img_container_catalog">
+                    <img src="{% static 'images/complect.png' %}" class='img_menu_catalog' alt="" />
+                </div>
+                
+                <div class='menutext_catalog'>Комплектуючі</div>
+            </div>
+
+            <div class="tovar_button" onclick = "to_filters({{pod}}, 'pod', '', {{filter_visibility}})"> Підібрати товар</div>
+        </div>
+        `
+    }
+
+    function to_juul(){
+
+        let details = document.querySelector('#details');
+        details.innerHTML = '';
+
+        let generalCart = parseInt(localStorage.getItem('generalCartCount')) || 0;
+        let tg = window.Telegram.WebApp
+        tg.expand()
+        tg.MainButton.hide()
+        tg.MainButton.color = "#2cab37";
+        const btn_container = document.querySelector('#btn_container')
+        const main_button = document.querySelector('.btn_to_cart')
+        if(generalCart==0){
+            main_button.classList = 'btn_to_cart invisible'
+            main_button.innerHTML =`Переглянути замовлення (${generalCart})`
+        }
+        else{
+            main_button.classList = 'btn_to_cart visible'
+            main_button.innerHTML =`Переглянути замовлення (${generalCart})`
+        }
+        const content = document.querySelector('.grid')
+        const header = document.querySelector('.header') 
+        const filter = document.querySelector('.filter') 
+        const AddedToCart = document.querySelector('.AddedToCart')
+        AddedToCart.innerHTML ='';
+        filter.innerHTML = '';
+        btn_container.innerHTML = '';
+        header.innerHTML = `
+        <div class="back_to_menu" onclick = "to_POD()"> 
+            <img src="{% static "images/left-arrow.png" %}" class ="arrow"; alt="" />  Назад</div>
+          `;
+        content.innerHTML=`
+        <div class="grid" >
+
+            <div class="ctg">Категорії товарів</div>
+
+            <div class='menu centred_grid' id = "button_card_0" onclick="to_catalog({{juul}}, 'juul', 'juul')">
+                <div class='menutext_catalog'>JUUL</div>
+            </div>
+
+            <div class='menu centred_grid' id = "button_card_0" onclick="to_catalog({{juul_nabor}}, 'juul_nabor', 'juul_nabor')">
+                <div class='menutext_catalog'>Стартові набори</div>
+            </div>
+
+            <div class='menu centred_grid' id = "button_card_0" onclick="to_catalog({{juul_cartridge}}, 'juul_cartridge', 'juul_cartridge')">
+                <div class='menutext_catalog'>Картриджи</div>
+            </div>
+
+            <div class='menu centred_grid' id = "button_card_0" style="grid-column: span 2; margin:auto" onclick="to_catalog({{juul_aksesuar}}, 'juul_aksesuar', 'juul_aksesuar')">
+                <div class='menutext_catalog'>Аксесуари</div>
+            </div>
+
+            <div class="tovar_button" onclick = "to_filters({{pod}}, 'pod', '', {{filter_visibility}})"> Підібрати товар</div>
+
+        </div>
+        `
+    }
+    
+    function to_avtomayzer(){
+        let details = document.querySelector('#details');
+        details.innerHTML = '';
+
+        let generalCart = parseInt(localStorage.getItem('generalCartCount')) || 0;
+        let tg = window.Telegram.WebApp
+        tg.expand()
+        tg.MainButton.hide()
+        tg.MainButton.color = "#2cab37";
+        const btn_container = document.querySelector('#btn_container')
+        const main_button = document.querySelector('.btn_to_cart')
+        if(generalCart==0){
+            main_button.classList = 'btn_to_cart invisible'
+            main_button.innerHTML =`Переглянути замовлення (${generalCart})`
+        }
+        else{
+            main_button.classList = 'btn_to_cart visible'
+            main_button.innerHTML =`Переглянути замовлення (${generalCart})`
+        }
+        const content = document.querySelector('.grid')
+        const header = document.querySelector('.header') 
+        const filter = document.querySelector('.filter') 
+        const AddedToCart = document.querySelector('.AddedToCart')
+        AddedToCart.innerHTML ='';
+        filter.innerHTML = '';
+        btn_container.innerHTML = '';
+        header.innerHTML = `
+        <div class="back_to_menu" onclick = "to_ESigs()"> 
+            <img src="{% static "images/left-arrow.png" %}" class ="arrow"; alt="" />  Назад</div>
+          `;
+        content.innerHTML=`
+        <div class="grid" >
+
+            <div class="ctg">Категорії товарів</div>
+
+            <div class='menu centred_grid' id = "button_card_0" onclick="to_catalog({{avtomaizer}}, 'avtomaizer', 'avtomaizer')">
+                <div class='menutext_catalog'>Автомайзери</div>
+            </div>
+
+            <div class='menu centred_grid' id = "button_card_0" onclick="to_catalog({{bak}}, 'bak', 'bak')">
+                <div class='menutext_catalog'>Баки (RTA) </div>
+            </div>
+
+            <div class='menu centred_grid' id = "button_card_0" onclick="to_catalog({{dripki}}, 'dripki', 'dripki')">
+                <div class='menutext_catalog'>Дрипки</div>
+            </div>
+
+            <div class="tovar_button" onclick = "to_filters({{pod}}, 'pod', '', {{filter_visibility}})"> Підібрати товар</div>
+
+        </div>
+        `
+    }
+
+    function to_complect(){
+        let details = document.querySelector('#details');
+        details.innerHTML = '';
+
+        let generalCart = parseInt(localStorage.getItem('generalCartCount')) || 0;
+        let tg = window.Telegram.WebApp
+        tg.expand()
+        tg.MainButton.hide()
+        tg.MainButton.color = "#2cab37";
+        const btn_container = document.querySelector('#btn_container')
+        const main_button = document.querySelector('.btn_to_cart')
+        if(generalCart==0){
+            main_button.classList = 'btn_to_cart invisible'
+            main_button.innerHTML =`Переглянути замовлення (${generalCart})`
+        }
+        else{
+            main_button.classList = 'btn_to_cart visible'
+            main_button.innerHTML =`Переглянути замовлення (${generalCart})`
+        }
+        const content = document.querySelector('.grid')
+        const header = document.querySelector('.header') 
+        const filter = document.querySelector('.filter') 
+        const AddedToCart = document.querySelector('.AddedToCart')
+        AddedToCart.innerHTML ='';
+        filter.innerHTML = '';
+        btn_container.innerHTML = '';
+        header.innerHTML = `
+        <div class="back_to_menu" onclick = "to_ESigs()"> 
+            <img src="{% static "images/left-arrow.png" %}" class ="arrow"; alt="" />  Назад</div>
+          `;
+        content.innerHTML=`
+        <div class="grid" >
+
+            <div class="ctg ">Категорії товарів</div>
+
+            <div class='menu centred_grid' id = "button_card_0" onclick="to_catalog({{complect}}, 'complect', 'complect')">
+                <div class='menutext_catalog_complect'>Комлектуючі</div>
+            </div>
+
+            <div class='menu centred_grid' id = "button_card_0" onclick="to_catalog({{isparik}}, 'isparik', 'isparik')">
+                <div class='menutext_catalog_complect'>Випарювачі</div>
+            </div>
+
+            <div class='menu centred_grid' id = "button_card_0" onclick="to_catalog({{battery}}, 'battery', 'battery')">
+                <div class='menutext_catalog_complect'>Аккумулятори</div>
+            </div>
+
+            <div class='menu centred_grid' id = "button_card_0" onclick="to_catalog({{spiral}}, 'spiral', 'spiral')">
+                <div class='menutext_catalog_complect'>Спіралі</div>
+            </div>
+
+            <div class='menu centred_grid' id = "button_card_0" onclick="to_catalog({{charge}}, 'charge', 'charge')">
+                <div class='menutext_catalog_complect'>Зарядні пристрої</div>
+            </div>
+
+            <div class='menu centred_grid' id = "button_card_0" onclick="to_catalog({{case}}, 'case', 'case')">
+                <div class='menutext_catalog_complect'>Чохли</div>
+            </div>
+
+            <div class='menu centred_grid' id = "button_card_0" onclick="to_catalog({{vata}}, 'vata', 'vata')">
+                <div class='menutext_catalog_complect'>Вата/Бавовна</div>
+            </div>
+
+            <div class='menu centred_grid' id = "button_card_0" onclick="to_catalog({{glass}}, 'glass', 'glass')">
+                <div class='menutext_catalog_complect'>Колби / скло</div>
+            </div>
+
+            <div class='menu centred_grid' id = "button_card_0" onclick="to_catalog({{drip_tip}}, 'drip_tip', 'drip_tip')">
+                <div class='menutext_catalog_complect'>Дріп-тіпи</div>
+            </div>
+
+            <div class='menu centred_grid' id = "button_card_0" style = "grid-column: span 2; margin: auto;" onclick="to_catalog({{namotka}}, 'namotka', 'namotka')">
+                <div class='menutext_catalog_complect'>Інстременти для намотування</div>
+            </div>
+
+            <div class="tovar_button" onclick = "to_filters({{pod}}, 'pod', '', {{filter_visibility}})"> Підібрати товар</div>
+
+        </div>
+        `
+
+    }
+
+    function to_POD(){
+        let details = document.querySelector('#details');
+        details.innerHTML = '';
+
+        let generalCart = parseInt(localStorage.getItem('generalCartCount')) || 0;
+        let tg = window.Telegram.WebApp
+        tg.expand()
+        tg.MainButton.hide()
+        tg.MainButton.color = "#2cab37";
+        const btn_container = document.querySelector('#btn_container')
+        const main_button = document.querySelector('.btn_to_cart')
+        if(generalCart==0){
+            main_button.classList = 'btn_to_cart invisible'
+            main_button.innerHTML =`Переглянути замовлення (${generalCart})`
+        }
+        else{
+            main_button.classList = 'btn_to_cart visible'
+            main_button.innerHTML =`Переглянути замовлення (${generalCart})`
+        }
+        const content = document.querySelector('.grid')
+        const header = document.querySelector('.header') 
+        const filter = document.querySelector('.filter') 
+        const AddedToCart = document.querySelector('.AddedToCart')
+        AddedToCart.innerHTML ='';
+        filter.innerHTML = '';
+        btn_container.innerHTML = '';
+        header.innerHTML = `
+        <div class="back_to_menu" onclick = "to_menu()"> 
+            <img src="{% static "images/left-arrow.png" %}" class ="arrow"; alt="" />  Назад</div>
+          `;
+        content.innerHTML=`
+        <div class="grid" >
+
+            <div class="ctg">Категорії товарів</div>
+
+            <div class='menu' id = "button_card_0" onclick="to_catalog({{voopoo}}, 'voopoo', 'voopoo')">
+  
+                <div class='menutext_catalog_complect'>Voopoo Drag</div>
+            </div>
+
+            <div class='menu' id = "button_card_0" onclick="to_catalog({{devices_pod}}, 'devices_pod', 'devices_pod')">
+  
+                <div class='menutext_catalog_complect'>Пристрої</div>
+            </div>
+
+            <div class='menu' id = "button_card_0" onclick="to_catalog({{cartridge_pod}}, 'cartridge_pod', 'cartridge_pod')">
+  
+                <div class='menutext_catalog_complect'>Картриджи</div>
+            </div>
+
+            <div class='menu' id = "button_card_0" onclick="to_liquds_pod()">
+
+                <div class='menutext_catalog_complect'>Рідини для POD</div>
+            </div>
+
+            <div class='menu' id = "button_card_0" onclick="to_juul()">
+ 
+                <div class='menutext_catalog_complect'>JUUL</div>
+            </div>
+
+            <div class='menu' id = "button_card_0" onclick="to_catalog({{logic}}, 'logic', 'logic')">
+   
+                <div class='menutext_catalog_complect'>Logic</div>
+            </div>
+
+            <div class='menu' id = "button_card_0" onclick="to_catalog({{fich}}, 'fich', 'fich')">
+    
+                <div class='menutext_catalog_complect'>Fich</div>
+            </div>
+
+            <div class='menu' id = "button_card_0" onclick="to_catalog({{joint}}, 'joint', 'joint')">
+ 
+                <div class='menutext_catalog_complect'>Joint</div>
+            </div>
+
+            <div class='menu' id = "button_card_0" onclick="to_catalog({{relx}}, 'relx', 'relx')">
+ 
+                <div class='menutext_catalog_complect'>Relx</div>
+            </div>
+
+            <div class='menu' id = "button_card_0" onclick="to_catalog({{vype}}, 'vype', 'vype')">
+ 
+                <div class='menutext_catalog_complect'>Vype</div>
+            </div>
+
+            <div class='menu' id = "button_card_0" onclick="to_disposable()">
+ 
+                <div class='menutext_catalog_complect'>Одноразові</div>
+            </div>
+
+            <div class='menu' id = "button_card_0" onclick="to_catalog({{pod}}, 'pod', 'pod')">
+ 
+                <div class='menutext_catalog_complect'>Pod системи</div>
+            </div>
+
+            <div class="tovar_button" onclick = "to_filters({{pod}}, 'pod', '', {{filter_visibility}})"> Підібрати товар</div>
+
+        </div>
+        `
+
+    }
+
+    function to_liquds_pod(){
+        let details = document.querySelector('#details');
+        details.innerHTML = '';
+
+        let generalCart = parseInt(localStorage.getItem('generalCartCount')) || 0;
+        let tg = window.Telegram.WebApp
+        tg.expand()
+        tg.MainButton.hide()
+        tg.MainButton.color = "#2cab37";
+        const btn_container = document.querySelector('#btn_container')
+        const main_button = document.querySelector('.btn_to_cart')
+        if(generalCart==0){
+            main_button.classList = 'btn_to_cart invisible'
+            main_button.innerHTML =`Переглянути замовлення (${generalCart})`
+        }
+        else{
+            main_button.classList = 'btn_to_cart visible'
+            main_button.innerHTML =`Переглянути замовлення (${generalCart})`
+        }
+        const content = document.querySelector('.grid')
+        const header = document.querySelector('.header') 
+        const filter = document.querySelector('.filter') 
+        const AddedToCart = document.querySelector('.AddedToCart')
+        AddedToCart.innerHTML ='';
+        filter.innerHTML = '';
+        btn_container.innerHTML = '';
+        header.innerHTML = `
+        <div class="back_to_menu" onclick = "to_POD()" > 
+            <img src="{% static "images/left-arrow.png" %}" class ="arrow"; alt="" />   Назад</div>
+          `;
+        content.innerHTML=`
+        <div id="page" class="page">
+       
+            <div class="grid" >
+                <div class="ctg">Категорії товарів</div>
+
+                <div class='menu centred_grid' onclick="to_catalog({{ukrainian_salt}}, 'ukrainian_salt', 'ukrainian_salt')" >
+                    <div class='menutext_catalog'>Усі рідини</div>
+                </div>
+
+                <div class='menu centred_grid' onclick="to_catalog({{ukrainian_salt}}, 'ukrainian_salt', 'ukrainian_salt')">
+                    <div class='menutext_catalog'>Українські сольові</div>
+                </div>
+    
+                
+                <div class='menu centred_grid' onclick = "to_catalog({{premium_salt}}, 'premium_salt', 'premium_salt')">
+                    <div class='menutext_catalog'>Сольові преміум</div>
+                </div>
+
+                <div class="tovar_button" onclick = "to_filters({{pod}}, 'pod', '', {{filter_visibility}})"> Підібрати товар</div>
+            </div>
+        </div>`
+    
+    }
+    
     function to_filters(data,name, categId, filter_visibility){
         let details = document.querySelector('#details');
         details.innerHTML = '';
@@ -2064,7 +2490,7 @@
                 data: $(this).serialize(),
                 dataType: 'json',
                 success: function(data) {
-                    main_button.classList = "btn_to_cart invisible"
+                    main_button.classList = "btn_to_cart invisible" 
                   // обновление таблицы с результатами
                     var my_div = $('#my-div');
                     my_div.empty();
@@ -2073,10 +2499,11 @@
                     let itemsNamesInCart = JSON.parse(itemsNamesInCartJson);
                     try{
                     for (var i = 0; i < 50; i++) {
+                        image_source = "/static/images/"+data.data[i].id+".jpg";
                             content.innerHTML += `<div class='catalog' id = "cart_number_${data.data[i].id}">
                                 <input type="text" value="0" data-item-id=${data.data[i].id} id="in_cart_${data.data[i].id}" class ="count invisible">
                                 <div class='img_container'>
-                                    <img src = ${data.data[i].picture} class='img_menu' alt=""/>
+                                    <img src = ${image_source} class='img_menu' alt=""/>
                                 </div>
                             
                                 <div class='menutext' id = "name_${data.data[i].id}">${data.data[i].name}</div>
@@ -2361,17 +2788,19 @@
         content.innerHTML = '';
         let itemsNamesInCartJson = localStorage.getItem('itemsNamesInCart');
         let itemsNamesInCart = JSON.parse(itemsNamesInCartJson);
+        console.log(data)
         data.forEach(item => {
                 //src = "/image/?url=${fields['picture']}"
 
                 let fields = item['fields'];
                 console.log(fields['available'])
+                image_source = "/static/images/"+item['pk']+".jpg";
                     content.innerHTML+=`
                     <div class='catalog' id = "cart_number_${item['pk']}">
                         
                         <input type="text" value="0" data-item-id=${item['pk']} id="in_cart_${item['pk']}" class ="count invisible">
                         <div class='img_container'>
-                            <img crossorigin = "anonymous" src = "${fields['picture']}" class='img_menu' alt=""/>
+                            <img src = "${image_source}" class='img_menu' alt=""/>
                         </div>
                     
                         <div class='menutext' id="name_${item['pk']}">${fields['name']}</div>
@@ -2539,7 +2968,14 @@
             <div class="ctg">Категорії товарів</div>
 
             
-            <div class='menu' style="grid-column: span 2;margin: auto; width: 83vw" onclick="to_catalog({{pod_system}}, 'pods', 'pod_system')">
+            <div class='menu centred_grid' id = "button_card_0"  onclick="to_ESigs()">
+                <div class='img_container'>
+                    <img src="{% static 'images/podik.png' %}" class='img_menu' alt="" />
+                </div>
+                <div class='menutext'>Електронні сигарети</div>
+            </div>
+
+            <div class='menu centred_grid' id = "button_card_1"  onclick="to_POD()">
                 <div class='img_container'>
                     <img src="{% static 'images/pod.png' %}" class='img_menu' alt="" />
                 </div>
@@ -2547,34 +2983,7 @@
             </div>
 
             
-            <div class='menu' onclick="to_catalog({{devices}}, 'devices', 'devices')">
-                <div class='img_container'>
-                    <img src="{% static 'images/vaping.png' %}" class='img_menu' alt="" />
-                </div>
-                <div class='menutext'>Пристрої</div>
-            </div>
-
             
-            <div class='menu' onclick = "to_disposable()">
-                <div class='img_container'>
-                    <img src="{% static 'images/podik.png' %}" class='img_menu' alt="" />
-                </div>
-                <div class='menutext'>Одноразові</div>
-            </div>
-
-            <div class='menu' onclick="to_catalog({{cartridges}}, 'cartridges', 'cartridges')">
-                <div class='img_container'>
-                    <img src="{% static 'images/cartrid.png' %}" class='img_menu' alt="" />
-                </div>
-                <div class='menutext'>Картриджи</div>
-            </div>
-
-            <div class='menu' onclick="to_liquds()"> 
-                <div class='img_container'>
-                    <img src="{% static 'images/liquid.png' %}" class='img_menu' alt="" />
-                </div>
-                <div class='menutext'>Рідини для POD систем</div>
-            </div>
             <div class="tovar_button" onclick = "to_filters({{pod}}, 'pod', '', {{filter_visibility}})"> Підібрати товар</div>
         </div>
         `
@@ -2600,16 +3009,16 @@
             const data = response.offer;
             let itemsNamesInCartJson = localStorage.getItem('itemsNamesInCart');
             let itemsNamesInCart = JSON.parse(itemsNamesInCartJson);
-            console.log(data)
+            console.log(response)
             for (let j = 0; j < data.length; j++) {
-                
-                let i = j + _current_item
 
+                let i = j + _current_item
+                image_source = "/static/images/"+data[j].id+".jpg";
                 container.innerHTML += `
                 <div class='catalog' id = "cart_number_${data[j].id}" >
                     <input type="text" value="0" data-item-id=${data[j].id} id="in_cart_${data[j].id}" class ="count invisible">
                     <div class='img_container'>
-                        <img src = ${data[j].picture} class='img_menu' alt=""/>
+                        <img src = ${image_source} class='img_menu' alt=""/>
                     </div>
 
                     <div class='menutext' id = "name_${data[j].id}">${data[j].name}</div>
@@ -2667,21 +3076,22 @@
         ` 
 
         fetch('{%url "load_more"%}' + '?' + new URLSearchParams(data))
-    .then(response => response.json())
-    .then(response => {
+     .then(response => response.json())
+     .then(response => {
         const data = response.offer;
-
+        console.log(response)
         let itemsNamesInCartJson = localStorage.getItem('itemsNamesInCart');
         let itemsNamesInCart = JSON.parse(itemsNamesInCartJson);
         for (let j = 0; j < data.length; j++) {
 
                 console.log(data[j].available)
                 let i = j + _current_item;
+                image_source = "/static/images/"+data[j].id+".jpg";
                 container.innerHTML += `
                     <div class='catalog' id="cart_number_${data[j].id}">
                         <input type="text" value="0" data-item-id=${data[j].id} id="in_cart_${data[j].id}" class="count invisible">
                         <div class='img_container'>
-                            <img src="${data[j].picture}" class='img_menu' alt=""/>
+                            <img src="${image_source}" class='img_menu' alt=""/>
                         </div>
                         <div class='menutext' id="name_${data[j].id}">${data[j].name}</div>
                         <div class="div_btn" id="btn_${data[j].id}">
@@ -2712,8 +3122,8 @@
         btn_container.innerHTML = `
             <button class ="btn_loadmore" onclick = "load_more('${name}')">load more</button>
         `;
-    })
-    .catch(err => console.log(err));
+        })
+        .catch(err => console.log(err));
             
     }
 
@@ -2763,7 +3173,7 @@
                     <div class='menutext'>HQD</div>
                 </div>
 
-                <div class="tovar_button" onclick = "to_filters({{pod}}, 'pod', {{filter_visibility}})"> Підібрати товар</div>
+                <div class="tovar_button" onclick = "to_filters({{pod}}, 'pod', '', {{filter_visibility}})"> Підібрати товар</div>
             </div>
         </div>`
     
@@ -2815,7 +3225,7 @@
                     <div class='menutext'>Сольові преміум</div>
                 </div>
 
-                <div class="tovar_button" onclick = "to_filters({{pod}}, 'pod', {{filter_visibility}})"> Підібрати товар</div>
+                <div class="tovar_button" onclick = "to_filters({{pod}}, 'pod', '', {{filter_visibility}})"> Підібрати товар</div>
             </div>
         </div>`
     
@@ -3032,17 +3442,6 @@
         catch(e){console.log(e)}
     }
 
-    function notificate_user(id){
-        const user_id = window.location.href.split('/')[3]
-        data = 'id=' + id + '&user_id=' + user_id
-
-        fetch('{% url "add_notifications" %}' + '?' + new URLSearchParams(data))
-        .then(response => response.json())
-        .then(response => {
-            console.log('succsess')
-        })
-        .catch(err => console.log(err))
-    }
 
     function to_cart(nvp, fill, areas_and_costs, users, payment_methods){
         $(document).ready(function(){
@@ -3212,7 +3611,7 @@
 
         itemsNamesCountInCart.forEach(item => {
             if(item.count != 0){
-
+                image_source = "/static/images/"+item.id+".jpg";
             console.log(item)
             AddedToCart.innerHTML+=`
             <div class= "cart_card">
@@ -3220,7 +3619,7 @@
                 
 
                 <div class = "img_cart_card">
-                    <img src=${item.picture} class="img_menu" alt>
+                    <img src=${image_source} class="img_menu" alt>
                 </div>
 
                 
@@ -3505,7 +3904,7 @@
     }
 
 
-    function get_post_office(areas){
+function get_post_office(areas){
         console.log('sdjf')
         const select = document.querySelector('#cities');
         let area = select.value;
@@ -3617,7 +4016,7 @@
                 
             }
         })
-    }
+}
 
     function get_warehouses(nvp){
         const town_select = document.querySelector('#towns')

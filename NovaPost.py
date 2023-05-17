@@ -33,14 +33,14 @@ def get_areas():
       areas = result['data']
       for area in areas:
          areas_centers.append(area['AreasCenter'])
-         # area_and_cost = Areas_and_costs(
-         #    area = area['Description'],
-         # )
-         # all_areas.append(area_and_cost)
+         area_and_cost = Areas_and_costs(
+            area = area['Description'],
+         )
+         all_areas.append(area_and_cost)
          i = i + 1
    else:
       print(result['errors'])
-   # Areas_and_costs.objects.bulk_create(all_areas)
+   Areas_and_costs.objects.bulk_create(all_areas)
    return areas_centers
 
 def get_areas_centers():
@@ -71,7 +71,7 @@ def get_areas_centers():
    return areas_centers_names
 
 def get_cities_and_add_to_db():
-   NovaPost.objects.all().delete()
+   # NovaPost.objects.all().delete()
    all_nova_post = []
    area_centers = get_areas_centers()
    print(area_centers)

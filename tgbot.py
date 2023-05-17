@@ -75,11 +75,17 @@ async def start_fun(message: types.Message):
 async def qq(message:types.Message):
     Users.objects.all()
     existing_user = Users.objects.filter(username=message.from_user.username).first()
+    
+    try:
+        name=message.from_user.first_name,
+        print(message.from_user.first_name)
+    except:
+        name = "name not found"
     if not existing_user:
         user = Users(
             username=message.from_user.username,
             phone_number=message.contact.phone_number,
-            name=message.from_user.first_name,
+            name=name[0],
             tg_id = message.from_id,
             referral_count = 0,
         )
@@ -342,7 +348,7 @@ async def spec(message:types.Message):
             with open('txt.txt', 'w') as f:
                 f.write(str(j))
     except:
-        print("sosunok")
+        print("unluck")
         print(message.from_user.username+": "+ message.text)
 
 if __name__ == '__main__':

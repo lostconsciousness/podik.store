@@ -278,6 +278,38 @@ def load_more(request):
         'liquids':list(sorted_all.filter(categoryId=208).values()[total_item:total_item+50]),
         'ukrainian_salt':list(sorted_all.filter(categoryId=236).values()[total_item:total_item+50]),
         'premium_salt':list(sorted_all.filter(categoryId=237).values()[total_item:total_item+50]),
+        'all_liquids': list(sorted_all.filter(categoryId=187).values()[total_item:total_item + 50]),
+        'liquid_ukraine': list(sorted_all.filter(categoryId=200).values()[total_item:total_item + 50]),
+        'liquid_import': list(sorted_all.filter(categoryId=199).values()[total_item:total_item + 50]),
+        'liquid_base': list(sorted_all.filter(categoryId=284).values()[total_item:total_item + 50]),
+        'liquid_aromat': list(sorted_all.filter(categoryId=191).values()[total_item:total_item + 50]),
+        'liquid_nabor': list(sorted_all.filter(categoryId=286).values()[total_item:total_item + 50]),
+        'box_mode': list(sorted_all.filter(categoryId=176).values()[total_item:total_item + 50]),
+        'meh_mode': list(sorted_all.filter(categoryId=206).values()[total_item:total_item + 50]),
+        'start_nabor_esigs': list(sorted_all.filter(categoryId=283).values()[total_item:total_item + 50]),
+        'complect': list(sorted_all.filter(categoryId=173).values()[total_item:total_item + 50]),
+        'bak': list(sorted_all.filter(categoryId=182).values()[total_item:total_item + 50]),
+        'avtomaizer': list(sorted_all.filter(categoryId=172).values()[total_item:total_item + 50]),
+        'dripki': list(sorted_all.filter(categoryId=183).values()[total_item:total_item + 50]),
+        'isparik': list(sorted_all.filter(categoryId=178).values()[total_item:total_item + 50]),
+        'battery': list(sorted_all.filter(categoryId=217).values()[total_item:total_item + 50]),
+        'spiral': list(sorted_all.filter(categoryId=179).values()[total_item:total_item + 50]),
+        'charge': list(sorted_all.filter(categoryId=185).values()[total_item:total_item + 50]),
+        'case': list(sorted_all.filter(categoryId=215).values()[total_item:total_item + 50]),
+        'vata': list(sorted_all.filter(categoryId=180).values()[total_item:total_item + 50]),
+        'glass': list(sorted_all.filter(categoryId=181).values()[total_item:total_item + 50]),
+        'drip_tip': list(sorted_all.filter(categoryId=204).values()[total_item:total_item + 50]),
+        'namotka': list(sorted_all.filter(categoryId=214).values()[total_item:total_item + 50]),
+        'voopoo': list(sorted_all.filter(categoryId=289).values()[total_item:total_item + 50]),
+        'juul': list(sorted_all.filter(categoryId=205).values()[total_item:total_item + 50]),
+        'juul_nabor': list(sorted_all.filter(categoryId=218).values()[total_item:total_item + 50]),
+        'juul_cartridge': list(sorted_all.filter(categoryId=207).values()[total_item:total_item + 50]),
+        'juul_aksesuar': list(sorted_all.filter(categoryId=223).values()[total_item:total_item + 50]),
+        'logic': list(sorted_all.filter(categoryId=232).values()[total_item:total_item + 50]),
+        'fich': list(sorted_all.filter(categoryId=279).values()[total_item:total_item + 50]),
+        'joint': list(sorted_all.filter(categoryId=235).values()[total_item:total_item + 50]),
+        'relx': list(sorted_all.filter(categoryId=241).values()[total_item:total_item + 50]),
+        'vype': list(sorted_all.filter(categoryId=240).values()[total_item:total_item + 50]),
     }
 
     data = {
@@ -285,7 +317,7 @@ def load_more(request):
     }
     return JsonResponse(data=data)
 
-
+#сделать по-нормальному, тоесть засовывать в ссылку айди категории и из нее брать
 def homepage(request, tg_id):
     try:
         fill = serializers.serialize('json', Offers.objects.all().filter(tg_id = tg_id)[0])
@@ -311,15 +343,49 @@ def homepage(request, tg_id):
     # sorted_all = sorted(Podik.objects.all(), key= lambda x: not x.available)
     sorted_all = Podik.objects.all().annotate(int_available = Cast("available", IntegerField())).order_by(F('int_available').desc(), F('id').asc() )
     pods = serializers.serialize('json', sorted_all[:50])
-    pod_system = serializers.serialize('json', sorted_all.filter(categoryId = 220)[:50])
-    devices = serializers.serialize('json', sorted_all.filter(categoryId = 221)[:50])
-    disposable = serializers.serialize('json', sorted_all.filter(categoryId = 239)[:50])
-    cartridges = serializers.serialize('json', sorted_all.filter(categoryId = 222)[:50])
-    liquids = serializers.serialize('json', sorted_all.filter(categoryId = 208)[:50])
-    elf_bar = serializers.serialize('json', sorted_all.filter(categoryId = 287)[:50])
-    hqd = serializers.serialize('json', sorted_all.filter(categoryId = 288)[:50])
-    ukrainian_salt = serializers.serialize('json', sorted_all.filter(categoryId = 236)[:50])
-    premium_salt = serializers.serialize('json', sorted_all.filter(categoryId = 237)[:50])
+    pod_system = serializers.serialize('json', sorted_all.filter(categoryId=220)[:50])
+    devices = serializers.serialize('json', sorted_all.filter(categoryId=221)[:50])
+    disposable = serializers.serialize('json', sorted_all.filter(categoryId=239)[:50])
+    cartridges = serializers.serialize('json', sorted_all.filter(categoryId=222)[:50])
+    liquids = serializers.serialize('json', sorted_all.filter(categoryId=208)[:50])
+    elf_bar = serializers.serialize('json', sorted_all.filter(categoryId=287)[:50])
+    hqd = serializers.serialize('json', sorted_all.filter(categoryId=288)[:50])
+    ukrainian_salt = serializers.serialize('json', sorted_all.filter(categoryId=236)[:50])
+    premium_salt = serializers.serialize('json', sorted_all.filter(categoryId=237)[:50])
+    all_liquds = serializers.serialize('json', sorted_all.filter(categoryId=187)[:50])
+    liquid_ukraine = serializers.serialize('json', sorted_all.filter(categoryId=200)[:50])
+    liquid_import = serializers.serialize('json', sorted_all.filter(categoryId=199)[:50])
+    liquid_base = serializers.serialize('json', sorted_all.filter(categoryId=284)[:50])
+    liquid_aromat = serializers.serialize('json', sorted_all.filter(categoryId=191)[:50])
+    liquid_nabor = serializers.serialize('json', sorted_all.filter(categoryId=286)[:50])
+    box_mode = serializers.serialize('json', sorted_all.filter(categoryId=176)[:50])
+    meh_mode = serializers.serialize('json', sorted_all.filter(categoryId=206)[:50])
+    start_nabor_esigs = serializers.serialize('json', sorted_all.filter(categoryId=283)[:50])
+    complect = serializers.serialize('json', sorted_all.filter(categoryId=173)[:50])
+    bak = serializers.serialize('json', sorted_all.filter(categoryId=182)[:50])
+    avtomaizer = serializers.serialize('json', sorted_all.filter(categoryId=172)[:50])
+    dripki = serializers.serialize('json', sorted_all.filter(categoryId=183)[:50])
+    isparik = serializers.serialize('json', sorted_all.filter(categoryId=178)[:50])
+    battery = serializers.serialize('json', sorted_all.filter(categoryId=217)[:50])
+    spiral = serializers.serialize('json', sorted_all.filter(categoryId=179)[:50])
+    charge = serializers.serialize('json', sorted_all.filter(categoryId=185)[:50])
+    case = serializers.serialize('json', sorted_all.filter(categoryId=215)[:50])
+    vata = serializers.serialize('json', sorted_all.filter(categoryId=180)[:50])
+    glass = serializers.serialize('json', sorted_all.filter(categoryId=181)[:50])
+    drip_tip = serializers.serialize('json', sorted_all.filter(categoryId=204)[:50])
+    namotka = serializers.serialize('json', sorted_all.filter(categoryId=214)[:50])
+
+    voopoo = serializers.serialize('json', sorted_all.filter(categoryId=289)[:50])
+    juul = serializers.serialize('json', sorted_all.filter(categoryId=205)[:50])
+    juul_nabor = serializers.serialize('json', sorted_all.filter(categoryId=218)[:50])
+    juul_cartridge = serializers.serialize('json', sorted_all.filter(categoryId=207)[:50])
+
+    juul_aksesuar = serializers.serialize('json', sorted_all.filter(categoryId = 223)[:50])
+    logic = serializers.serialize('json', sorted_all.filter(categoryId = 232)[:50])
+    fich = serializers.serialize('json', sorted_all.filter(categoryId = 279)[:50])
+    joint = serializers.serialize('json', sorted_all.filter(categoryId = 235)[:50])
+    relx = serializers.serialize('json', sorted_all.filter(categoryId = 241)[:50])
+    vype = serializers.serialize('json', sorted_all.filter(categoryId = 240)[:50])
     
     context = {
         "users": users,
@@ -339,6 +405,40 @@ def homepage(request, tg_id):
         "novapost":novaPost,
         "areas_and_costs": areas_and_costs,
         "payment_methods": payment_methods,
+        "all_liquds":all_liquds,
+        "liquid_ukraine":liquid_ukraine,
+        "liquid_import":liquid_import,
+        "liquid_base":liquid_base,
+        "avtomaizer":avtomaizer,
+        "liquid_aromat":liquid_aromat,
+        "liquid_nabor":liquid_nabor,
+        "box_mode":box_mode,
+        "complect":complect,
+        "meh_mode":meh_mode,
+        "start_nabor_esigs":start_nabor_esigs,
+        "bak":bak,
+        "dripki":dripki,
+        "isparik":isparik,
+        "battery":battery,
+        "spiral":spiral,
+        "charge":charge,
+        "case":case,
+        "vata":vata,
+        "glass":glass,
+        "drip_tip":drip_tip,
+        "namotka":namotka,
+        "voopoo":voopoo,
+        "devices_pod":devices,
+        "cartridge_pod":cartridges,
+        "juul_nabor":juul_nabor,
+        "juul_cartridge":juul_cartridge,
+        "juul_aksesuar":juul_aksesuar,
+        "logic":logic,
+        "fich":fich,
+        "joint":joint,
+        "relx":relx,
+        "vype":vype,
+        "juul":juul,
     }
     return render(request, 'main/homepage.html', context)
 

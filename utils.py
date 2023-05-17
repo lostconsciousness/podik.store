@@ -5,7 +5,7 @@ import django
 os.environ.setdefault("DJANGO_SETTINGS_MODULE","pods.settings")
 django.setup()
 
-from main.models import Podik
+from main.models import Podik, Filters
 import xmltodict
 import json
 from bs4 import BeautifulSoup
@@ -434,7 +434,6 @@ class DBManager:
                         hqd_flavour=parametr["#text"]
             except:
                 hqd_flavour="-"
-
             podik = Podik(
                 id = pod["@id"],
                 available = self.__str_to_bool(pod["@available"]),
@@ -475,6 +474,18 @@ class DBManager:
 
 
 def all_categories():
+    # Filters.objects.all().delete()
+    # Filters(name = "Перезаряджаються", visible = 1).save()
+    # Filters(name = "Кількість затяжок", visible = 1).save()
+    # Filters(name = "Максимальна потужність", visible = 1).save()
+    # Filters(name = "Обсяг атомайзера", visible = 1).save()
+    # Filters(name = "Потужність", visible = 1).save()
+    # Filters(name = "Вибір опору", visible = 1).save()
+    # Filters(name = "Об'єм картриджа", visible = 1).save()
+    # Filters(name = "Ємність акумулятора", visible = 1).save()
+    # Filters(name = "Обсяг рідини", visible = 1).save()
+    # Filters(name = "Міцність нікотину", visible = 1).save()
+
     data = json.load(open("data.json", "r", encoding="UTF-8"))
     categories = data["yml_catalog"]["shop"]["categories"]['category']
     real_all_cats = []
@@ -491,8 +502,8 @@ dbm = DBManager()
 
 # dbm.check()
 
-# unloading()
-# dbm.JsonToDB()
+unloading()
+dbm.JsonToDB()
 
 # while(True):
 #     unloading()

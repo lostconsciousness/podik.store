@@ -84,15 +84,26 @@ FILE_UPLOAD_HANDLERS = [    "django.core.files.uploadhandler.MemoryFileUploadHan
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'OPTIONS': {'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"},
-        'NAME': 'db',
-        "USER": "admin",
-        "PASSWORD": "Trnn06771588990",
-        "HOST": "database-2.ctng339lkkzz.eu-north-1.rds.amazonaws.com",
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.mysql',
+    #     'OPTIONS': {'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"},
+    #     'NAME': 'db',
+    #     "USER": "admin",
+    #     "PASSWORD": "Trnn06771588990",
+    #     "HOST": "database-2.ctng339lkkzz.eu-north-1.rds.amazonaws.com",
+    #     "PORT": "3306",
+    # }
+
+    "default": {
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": "ubotu_db",
+        'OPTIONS': {'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+                    'charset': 'utf8mb4',},
+        "USER": "ubotu_db",
+        "PASSWORD": "uShFZL2a",
+        "HOST": "ubotu.mysql.tools",
         "PORT": "3306",
-    }
+        }
 
     # "default": {
     # "ENGINE": "django.db.backends.sqlite3",
